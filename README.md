@@ -1,7 +1,5 @@
 # WEBSITE HIMASTI
 
-===============================================
-
 ## PEMBAGIAN TASK PEMBUATAN WEB HIMASTI
 
 - Beranda : zar & ibna
