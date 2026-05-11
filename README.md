@@ -13,3 +13,10 @@
 - Warna Font :
 - Warna Base : 
 - Font : Plus Jakarta Sans & Inter
+
+## REFERENSI
+
+- https://himtiunas.or.id/
+- https://himasi.unja.ac.id/
+- https://www.hmifunsri.com/
+- https://archaea.sith.itb.ac.id/
