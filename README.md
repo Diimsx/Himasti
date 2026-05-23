@@ -9,9 +9,9 @@
 
 ## UI/UX
 
-- Warna Navbar & Footer : #1C2331
-- Warna Font : #1C2331
-- Warna Base : #FFFFFF
+- Warna Navbar & Footer : 
+- Warna Font : 
+- Warna Base : 
 - Font : Plus Jakarta Sans & Inter
 
 ## REFERENSI
