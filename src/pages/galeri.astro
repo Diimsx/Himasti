@@ -1,0 +1,361 @@
+---
+/**
+ * Galeri & Dokumentasi — Halaman dokumentasi kegiatan HIMASTI Cyber University.
+ * Menampilkan grid foto dengan filter kategori dan modal lightbox interaktif.
+ */
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+
+const galeriEntries = await getCollection('galeri');
+
+// Extract unique categories for filter
+const uniqueCategories = Array.from(
+  new Set(
+    galeriEntries
+      .map((e) => e.data.kategori)
+      .filter((k): k is string => Boolean(k))
+  )
+);
+
+const filterOptions = [
+  { label: 'Semua', value: 'all' },
+  ...uniqueCategories.map((k) => ({
+    label: k.charAt(0).toUpperCase() + k.slice(1),
+    value: k,
+  })),
+];
+---
+
+<BaseLayout
+  title="Galeri & Dokumentasi"
+  description="Dokumentasi visual rangkaian kegiatan, program kerja, dan kebersamaan keluarga besar HIMASTI Cyber University."
+>
+  <!-- Hero-like Header -->
+  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+    <Container>
+      <div class="max-w-3xl">
+        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
+          // galeri
+        </p>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+          Galeri &amp; Dokumentasi
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+          Dokumentasi visual rangkaian kegiatan, program kerja, dan kebersamaan keluarga besar HIMASTI Cyber University.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Section Galeri (white) -->
+  <Section bg="white">
+    <Container>
+      {galeriEntries.length > 0 ? (
+        <>
+          {/* Filter Buttons */}
+          {filterOptions.length > 1 && (
+            <div
+              class="flex flex-wrap items-center gap-2 mb-8"
+              role="group"
+              aria-label="Filter kategori galeri"
+            >
+              {filterOptions.map((opt, idx) => (
+                <button
+                  type="button"
+                  data-gallery-filter={opt.value}
+                  aria-pressed={idx === 0 ? 'true' : 'false'}
+                  class:list={[
+                    'gallery-filter-btn inline-flex items-center justify-center min-h-[44px] px-5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-light cursor-pointer',
+                    idx === 0
+                      ? 'bg-navy-900 text-white font-semibold'
+                      : 'bg-mist-100 text-slate-700 hover:bg-gray-300/60',
+                  ]}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Responsive Photo Grid: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
+          <div
+            id="gallery-grid"
+            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+          >
+            {galeriEntries.map((item, index) => (
+              <button
+                type="button"
+                class="gallery-item group relative aspect-square rounded-xl overflow-hidden cursor-pointer bg-mist-100 border border-gray-300 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-light transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
+                data-kategori={item.data.kategori || ''}
+                data-img-src={item.data.gambar.src}
+                data-caption={item.data.keterangan}
+                data-index={index}
+                aria-label={`Lihat foto: ${item.data.keterangan}`}
+              >
+                <Image
+                  src={item.data.gambar}
+                  alt={item.data.keterangan}
+                  width={600}
+                  height={600}
+                  class="w-full h-full object-cover transition-transform duration-300 motion-reduce:transition-none group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-navy-900/40 to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 motion-reduce:transition-none flex items-end p-3 sm:p-4 pointer-events-none">
+                  <p class="text-white text-xs sm:text-sm font-medium line-clamp-2">
+                    {item.data.keterangan}
+                  </p>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Empty State Filter Notice */}
+          <p
+            id="empty-gallery-filter"
+            class="hidden text-center text-slate-700 italic py-12"
+          >
+            Tidak ada foto dalam kategori ini.
+          </p>
+        </>
+      ) : (
+        <div class="py-16 sm:py-24 text-center max-w-md mx-auto">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-mist-100 flex items-center justify-center text-slate-500">
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <h2 class="font-heading text-xl font-bold text-navy-900 mb-2">
+            Galeri Dokumentasi
+          </h2>
+          <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+            Belum ada foto dalam galeri. Dokumentasi kegiatan akan ditambahkan segera.
+          </p>
+        </div>
+      )}
+    </Container>
+  </Section>
+
+  <!-- Native <dialog> Lightbox -->
+  <dialog
+    id="gallery-lightbox"
+    class="fixed inset-0 m-auto p-0 rounded-2xl bg-navy-900 text-white max-w-4xl w-[92vw] max-h-[90vh] shadow-2xl backdrop:bg-navy-900/85 backdrop:backdrop-blur-sm border border-navy-800 overflow-hidden focus:outline-none"
+    aria-labelledby="lightbox-caption"
+  >
+    <div class="relative flex flex-col h-full max-h-[90vh]">
+      <!-- Close Button -->
+      <button
+        type="button"
+        id="lightbox-close"
+        aria-label="Tutup galeri"
+        class="absolute top-4 right-4 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-accent-dark cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <!-- Previous Button -->
+      <button
+        type="button"
+        id="lightbox-prev"
+        aria-label="Foto sebelumnya"
+        class="absolute left-4 top-1/2 -translate-y-1/2 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-accent-dark cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <!-- Next Button -->
+      <button
+        type="button"
+        id="lightbox-next"
+        aria-label="Foto selanjutnya"
+        class="absolute right-4 top-1/2 -translate-y-1/2 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-accent-dark cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+
+      <!-- Image Area -->
+      <div class="relative flex-1 min-h-[250px] sm:min-h-[400px] flex items-center justify-center bg-black/40 p-4 sm:p-8">
+        <img
+          id="lightbox-img"
+          src=""
+          alt=""
+          class="max-h-[65vh] max-w-full object-contain rounded-lg"
+        />
+      </div>
+
+      <!-- Caption & Counter -->
+      <div class="p-4 sm:p-6 bg-navy-900 border-t border-navy-800 flex items-center justify-between gap-4">
+        <p id="lightbox-caption" class="text-sm sm:text-base text-gray-300 font-sans"></p>
+        <span id="lightbox-counter" class="text-xs font-mono text-gray-300 shrink-0"></span>
+      </div>
+    </div>
+  </dialog>
+</BaseLayout>
+
+<script>
+  function setupGallery() {
+    const dialog = document.getElementById('gallery-lightbox') as HTMLDialogElement | null;
+    const items = Array.from(document.querySelectorAll<HTMLButtonElement>('.gallery-item'));
+    const filterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.gallery-filter-btn'));
+    const emptyMsg = document.getElementById('empty-gallery-filter');
+
+    if (!dialog) return;
+
+    const img = dialog.querySelector<HTMLImageElement>('#lightbox-img');
+    const caption = dialog.querySelector<HTMLElement>('#lightbox-caption');
+    const counter = dialog.querySelector<HTMLElement>('#lightbox-counter');
+    const btnClose = dialog.querySelector<HTMLButtonElement>('#lightbox-close');
+    const btnPrev = dialog.querySelector<HTMLButtonElement>('#lightbox-prev');
+    const btnNext = dialog.querySelector<HTMLButtonElement>('#lightbox-next');
+
+    let currentVisibleItems: HTMLButtonElement[] = items;
+    let currentIndex = 0;
+
+    function updateLightbox(index: number) {
+      if (!currentVisibleItems.length || !img || !caption || !counter) return;
+      currentIndex = (index + currentVisibleItems.length) % currentVisibleItems.length;
+      const targetItem = currentVisibleItems[currentIndex];
+      const src = targetItem.getAttribute('data-img-src') || '';
+      const text = targetItem.getAttribute('data-caption') || '';
+
+      img.src = src;
+      img.alt = text;
+      caption.textContent = text;
+      counter.textContent = `${currentIndex + 1} / ${currentVisibleItems.length}`;
+    }
+
+    function openLightbox(index: number) {
+      if (!dialog) return;
+      updateLightbox(index);
+      dialog.showModal();
+    }
+
+    // Filter logic
+    if (filterBtns.length) {
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-gallery-filter');
+
+          filterBtns.forEach((b) => {
+            const isActive = b === btn;
+            b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            if (isActive) {
+              b.classList.add('bg-navy-900', 'text-white', 'font-semibold');
+              b.classList.remove('bg-mist-100', 'text-slate-700');
+            } else {
+              b.classList.remove('bg-navy-900', 'text-white', 'font-semibold');
+              b.classList.add('bg-mist-100', 'text-slate-700');
+            }
+          });
+
+          currentVisibleItems = [];
+          items.forEach((item) => {
+            const cat = item.getAttribute('data-kategori');
+            if (filter === 'all' || cat === filter) {
+              item.classList.remove('hidden');
+              currentVisibleItems.push(item);
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+
+          if (emptyMsg) {
+            if (currentVisibleItems.length === 0) {
+              emptyMsg.classList.remove('hidden');
+            } else {
+              emptyMsg.classList.add('hidden');
+            }
+          }
+        });
+      });
+    }
+
+    // Items click
+    items.forEach((item) => {
+      item.addEventListener('click', () => {
+        const itemIndex = currentVisibleItems.indexOf(item);
+        if (itemIndex !== -1) {
+          openLightbox(itemIndex);
+        }
+      });
+    });
+
+    // Navigation buttons
+    btnPrev?.addEventListener('click', () => updateLightbox(currentIndex - 1));
+    btnNext?.addEventListener('click', () => updateLightbox(currentIndex + 1));
+    btnClose?.addEventListener('click', () => dialog.close());
+
+    // Click backdrop to close
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) {
+        dialog.close();
+      }
+    });
+
+    // Keyboard navigation
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        updateLightbox(currentIndex - 1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        updateLightbox(currentIndex + 1);
+      }
+    });
+  }
+
+  setupGallery();
+  document.addEventListener('astro:page-load', setupGallery);
+</script>

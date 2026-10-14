@@ -1,0 +1,90 @@
+---
+/**
+ * Divisi & Bidang — Menampilkan rincian empat divisi pilar dalam HIMASTI.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+
+const divisiList = (await getCollection('divisi')).sort(
+  (a, b) => a.data.urutan - b.data.urutan
+);
+---
+
+<BaseLayout
+  title="Divisi & Bidang"
+  description="Daftar dan tugas pokok divisi kepengurusan Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University."
+>
+  <!-- Hero-like Header -->
+  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+    <Container>
+      <div class="max-w-3xl">
+        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
+          // divisi &amp; bidang
+        </p>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+          Divisi &amp; Bidang
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+          Mengenal empat divisi yang menjadi penggerak pelaksanaan program kerja, kolaborasi, dan inovasi HIMASTI Cyber University Periode 2026/2027.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Section Divisi (white) -->
+  <Section bg="white">
+    <Container>
+      {divisiList.length > 0 ? (
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          {divisiList.map((divisi) => (
+            <article
+              id={divisi.data.slug}
+              class="scroll-mt-24 rounded-xl border border-gray-300 border-l-4 border-l-accent-light bg-white p-6 sm:p-8 flex flex-col justify-between"
+            >
+              <div>
+                <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-light mb-2">
+                  // divisi
+                </p>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-navy-900 mb-4">
+                  {divisi.data.nama}
+                </h2>
+                <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6">
+                  {divisi.data.ringkasan ||
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'}
+                </p>
+
+                {divisi.data.tugas && divisi.data.tugas.length > 0 && (
+                  <div class="mb-6">
+                    <h3 class="font-mono text-xs tracking-[0.08em] uppercase font-semibold text-slate-700 mb-2">
+                      // tugas utama
+                    </h3>
+                    <ul class="space-y-1.5 list-disc list-inside text-sm text-slate-700">
+                      {divisi.data.tugas.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div class="pt-4 mt-2 border-t border-gray-300">
+                <span class="font-mono text-xs tracking-wider uppercase text-slate-500 block mb-0.5">
+                  Kepala Divisi
+                </span>
+                <span class="font-heading font-semibold text-navy-900 text-base">
+                  {divisi.data.kepala}
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-slate-700 italic">
+          Data divisi belum tersedia.
+        </p>
+      )}
+    </Container>
+  </Section>
+</BaseLayout>

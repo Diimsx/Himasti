@@ -1,0 +1,141 @@
+---
+/**
+ * Footer — Full-width navy-900 footer with logo, quick links, contact, social, copyright.
+ * Acts as a sitemap (design.md § 4). design.md § 3 color rhythm.
+ */
+import { Image } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import logoHimasti from '../../assets/logo-himasti.png';
+
+const currentYear = new Date().getFullYear();
+
+const quickLinks = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang Kami', href: '/tentang' },
+  { label: 'Struktur', href: '/struktur' },
+  { label: 'Divisi', href: '/divisi' },
+];
+
+const programLinks = [
+  { label: 'Program Kerja', href: '/program-kerja' },
+  { label: 'Berita', href: '/berita' },
+  { label: 'Galeri', href: '/galeri' },
+  { label: 'Prestasi', href: '/prestasi' },
+];
+
+// TODO: Replace with actual social links from site settings (PRD.md pertanyaan terbuka)
+const socialLinks = [
+  { label: 'Instagram', href: '#', icon: 'instagram' },
+  { label: 'LinkedIn', href: '#', icon: 'linkedin' },
+  { label: 'Email', href: 'mailto:himasti@cyber.ac.id', icon: 'email' },
+];
+---
+
+<footer class="bg-navy-900 text-white border-t border-navy-800">
+  <Container>
+    <div class="py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+      <!-- Brand -->
+      <div class="sm:col-span-2 lg:col-span-1">
+        <a href="/" class="flex items-center gap-2.5 font-heading font-bold text-lg mb-4">
+          <Image src={logoHimasti} alt="Logo HIMASTI" class="h-9 w-auto" />
+          <span>HIMASTI</span>
+        </a>
+        <p class="text-sm text-gray-300 leading-relaxed max-w-xs">
+          Himpunan Mahasiswa Sistem &amp; Teknologi Informasi, Cyber University.
+        </p>
+        <!-- Social icons -->
+        <div class="flex items-center gap-3 mt-5">
+          {socialLinks.map(({ label, href }) => (
+            <a
+              href={href}
+              class="p-2 rounded-lg text-gray-300 hover:text-accent-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+              aria-label={label}
+            >
+              {/* Simple circle placeholder — replace with actual icons */}
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" />
+                <text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">
+                  {label.charAt(0)}
+                </text>
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="font-heading font-semibold text-sm uppercase tracking-wider text-mist-100 mb-4">
+          Navigasi
+        </h3>
+        <ul class="space-y-2" role="list">
+          {quickLinks.map(({ label, href }) => (
+            <li>
+              <a
+                href={href}
+                class="text-sm text-gray-300 hover:text-accent-dark transition-colors"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Program Links -->
+      <div>
+        <h3 class="font-heading font-semibold text-sm uppercase tracking-wider text-mist-100 mb-4">
+          Lainnya
+        </h3>
+        <ul class="space-y-2" role="list">
+          {programLinks.map(({ label, href }) => (
+            <li>
+              <a
+                href={href}
+                class="text-sm text-gray-300 hover:text-accent-dark transition-colors"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="font-heading font-semibold text-sm uppercase tracking-wider text-mist-100 mb-4">
+          Kontak
+        </h3>
+        <address class="not-italic text-sm text-gray-300 space-y-2">
+          <p>Cyber University</p>
+          <p>
+            <a href="mailto:himasti@cyber.ac.id" class="hover:text-accent-dark transition-colors">
+              himasti@cyber.ac.id
+            </a>
+          </p>
+        </address>
+        <div class="mt-4">
+          <a
+            href="/kontak"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-dark hover:text-accent-dark-hover transition-colors"
+          >
+            Hubungi Kami
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright bar -->
+    <div class="border-t border-navy-800 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-xs text-gray-300">
+        &copy; {currentYear} HIMASTI Cyber University. Seluruh hak dilindungi.
+      </p>
+      <p class="text-xs text-gray-300 font-mono">
+        Periode 2026/2027
+      </p>
+    </div>
+  </Container>
+</footer>

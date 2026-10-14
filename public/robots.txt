@@ -1,0 +1,8 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Block admin panel from crawlers
+Disallow: /admin
+
+Sitemap: https://himasti.example.com/sitemap-index.xml

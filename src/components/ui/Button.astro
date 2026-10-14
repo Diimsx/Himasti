@@ -1,0 +1,60 @@
+---
+/**
+ * Button — Primary and secondary button variants for light and dark backgrounds.
+ * Minimum touch target 44px. Renders as <a> if href is provided, otherwise <button>.
+ * See design.md § 4 for specs.
+ */
+interface Props {
+  /** Button variant */
+  variant?: 'primary' | 'secondary';
+  /** Background context — affects color scheme */
+  on?: 'light' | 'dark';
+  /** Render as link */
+  href?: string;
+  /** Button type (when not a link) */
+  type?: 'button' | 'submit';
+  /** Additional CSS classes */
+  class?: string;
+  /** Open in new tab */
+  external?: boolean;
+}
+
+const {
+  variant = 'primary',
+  on = 'light',
+  href,
+  type = 'button',
+  class: className = '',
+  external = false,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+
+const baseClasses =
+  'inline-flex items-center justify-center gap-2 rounded-lg px-6 font-semibold text-base transition-colors duration-150 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2';
+
+const variantClasses: Record<string, Record<string, string>> = {
+  primary: {
+    dark: 'bg-accent-dark text-navy-900 hover:bg-accent-dark-hover focus-visible:outline-accent-dark',
+    light: 'bg-navy-900 text-white hover:bg-navy-800 focus-visible:outline-accent-light',
+  },
+  secondary: {
+    dark: 'border-[1.5px] border-gray-300 text-white hover:border-accent-dark hover:text-accent-dark focus-visible:outline-accent-dark',
+    light: 'border-[1.5px] border-navy-900 text-navy-900 hover:border-accent-light hover:text-accent-light focus-visible:outline-accent-light',
+  },
+};
+
+const classes = `${baseClasses} ${variantClasses[variant][on]} ${className}`;
+
+const linkProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+{Tag === 'a' ? (
+  <a href={href} class={classes} {...linkProps}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes}>
+    <slot />
+  </button>
+)}

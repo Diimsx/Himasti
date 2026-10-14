@@ -1,0 +1,102 @@
+---
+/**
+ * Detail Berita — Halaman artikel berita dan pengumuman individual.
+ * Menggunakan getStaticPaths untuk menghasilkan rute dinamis secara statis.
+ */
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Prose from '../../components/ui/Prose.astro';
+
+export const getStaticPaths = (async () => {
+  const beritaEntries = await getCollection('berita');
+  return beritaEntries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formattedDate = entry.data.tanggal.toLocaleDateString('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout
+  title={`${entry.data.judul} — Berita HIMASTI`}
+  description={entry.data.ringkasan}
+>
+  <!-- Hero-like Header -->
+  <section class="bg-navy-900 text-white py-12 lg:py-16 border-b border-navy-800">
+    <Container>
+      <!-- Back Link -->
+      <a
+        href="/berita"
+        class="inline-flex items-center gap-2 font-mono text-xs tracking-wider uppercase text-gray-300 hover:text-white transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        Kembali ke Berita
+      </a>
+
+      <!-- Category Eyebrow -->
+      <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
+        // {entry.data.kategori || 'berita'}
+      </p>
+
+      <!-- Title -->
+      <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 max-w-4xl">
+        {entry.data.judul}
+      </h1>
+
+      <!-- Date & Author Metadata -->
+      <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-gray-300">
+        <time datetime={entry.data.tanggal.toISOString()}>{formattedDate}</time>
+        <span aria-hidden="true">·</span>
+        <span>Ditulis oleh {entry.data.penulis}</span>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Content Section (white) -->
+  <Section bg="white">
+    <Container>
+      <div class="max-w-3xl">
+        {entry.data.sampul && (
+          <div class="mb-8 rounded-xl overflow-hidden aspect-video border border-gray-300">
+            <Image
+              src={entry.data.sampul}
+              alt={entry.data.judul}
+              width={960}
+              height={540}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        <Prose>
+          <Content />
+        </Prose>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

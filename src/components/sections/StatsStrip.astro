@@ -1,0 +1,23 @@
+---
+/**
+ * StatsStrip — Statistics strip showing verified numbers on navy-800 background.
+ * Verified numbers: 4 Divisi, 6 Program Kerja (PRD.md).
+ */
+import Container from '../ui/Container.astro';
+import Stat from '../ui/Stat.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<section class:list={['bg-navy-800 border-t border-slate-700 py-10 lg:py-14', className]}>
+  <Container>
+    <div class="grid grid-cols-2 lg:grid-cols-2 gap-8 md:gap-12 max-w-xl mx-auto">
+      <Stat value="4" label="Divisi" dark={true} />
+      <Stat value="6" label="Program Kerja" dark={true} />
+    </div>
+  </Container>
+</section>

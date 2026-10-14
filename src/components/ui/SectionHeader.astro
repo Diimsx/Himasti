@@ -1,0 +1,57 @@
+---
+/**
+ * SectionHeader — Eyebrow + heading + optional description for each section.
+ * Eyebrow uses the "code comment" style: // label (design.md § 4).
+ */
+interface Props {
+  /** Eyebrow label shown above the heading (e.g. "tentang", "divisi") */
+  eyebrow?: string;
+  /** Section heading (H2) */
+  title: string;
+  /** Optional description paragraph below the heading */
+  description?: string;
+  /** Text alignment */
+  align?: 'left' | 'center';
+  /** Whether the section is on a dark background */
+  dark?: boolean;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  align = 'center',
+  dark = false,
+} = Astro.props;
+
+const alignClass = align === 'center' ? 'text-center' : 'text-left';
+const eyebrowColor = dark ? 'text-accent-dark' : 'text-accent-light';
+const titleColor = dark ? 'text-white' : 'text-navy-900';
+const descColor = dark ? 'text-gray-300' : 'text-slate-700';
+---
+
+<div class:list={['mb-10 lg:mb-14', alignClass]}>
+  {eyebrow && (
+    <p class:list={[
+      'font-mono text-xs tracking-[0.08em] uppercase font-medium mb-3',
+      eyebrowColor,
+    ]}>
+      // {eyebrow}
+    </p>
+  )}
+  <h2 class:list={[
+    'font-heading text-[26px] md:text-4xl font-bold leading-[1.2]',
+    titleColor,
+  ]}>
+    {title}
+  </h2>
+  {description && (
+    <p class:list={[
+      'mt-4 text-base md:text-lg leading-relaxed max-w-2xl',
+      align === 'center' && 'mx-auto',
+      descColor,
+    ]}>
+      {description}
+    </p>
+  )}
+</div>

@@ -1,0 +1,71 @@
+---
+/**
+ * BaseLayout — Root layout for all pages.
+ * Includes global styles, fonts, SEO head, skip-link, and landmark structure.
+ */
+import SEO from '../components/layout/SEO.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+
+// Self-hosted variable fonts
+import '@fontsource-variable/inter';
+import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource-variable/jetbrains-mono';
+
+// Global styles & Tailwind
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  /** Set true to hide navbar and footer (e.g. for special pages) */
+  bare?: boolean;
+}
+
+const { title, description, ogImage, ogType, noindex, bare = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogType={ogType}
+      noindex={noindex}
+    />
+  </head>
+  <body class="bg-white text-navy-900 font-sans antialiased">
+    <!-- Skip link for keyboard/screen-reader users -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-accent-light focus:text-white focus:rounded-lg focus:outline-none"
+    >
+      Lewati ke konten
+    </a>
+
+    {!bare && (
+      <header>
+        <Navbar />
+      </header>
+    )}
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    {!bare && (
+      <footer>
+        <Footer />
+      </footer>
+    )}
+  </body>
+</html>

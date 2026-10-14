@@ -1,0 +1,34 @@
+---
+/**
+ * Stat — Large number with label beneath it.
+ * Number uses mono font at 40–56px (design.md § 4).
+ * Counter animation respects prefers-reduced-motion.
+ */
+interface Props {
+  /** The number or value to display */
+  value: string | number;
+  /** Label below the number */
+  label: string;
+  /** Whether on a dark background */
+  dark?: boolean;
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { value, label, dark = false, class: className = '' } = Astro.props;
+
+const valueColor = dark ? 'text-accent-dark' : 'text-navy-900';
+const labelColor = dark ? 'text-gray-300' : 'text-slate-700';
+---
+
+<div class:list={['text-center', className]}>
+  <p class:list={[
+    'font-mono text-[40px] md:text-[56px] font-bold leading-none tracking-tight',
+    valueColor,
+  ]}>
+    {value}
+  </p>
+  <p class:list={['mt-2 text-sm font-medium', labelColor]}>
+    {label}
+  </p>
+</div>

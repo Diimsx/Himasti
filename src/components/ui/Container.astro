@@ -1,0 +1,18 @@
+---
+/**
+ * Container — Centers content with responsive horizontal padding.
+ * Max width 1200px as specified in design.md § 3.
+ */
+interface Props {
+  /** Additional CSS classes */
+  class?: string;
+  /** HTML tag to render */
+  as?: 'div' | 'section' | 'article' | 'aside';
+}
+
+const { class: className = '', as: Tag = 'div' } = Astro.props;
+---
+
+<Tag class:list={['mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8', className]}>
+  <slot />
+</Tag>

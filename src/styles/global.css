@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — HIMASTI brand palette
+ * Source: design.md § 1.1–1.5 (from FEED_HIMASTI_2026_2027.png)
+ *
+ * IMPORTANT: Do not use raw hex values or default Tailwind colors elsewhere.
+ * All colors must come from these tokens.
+ */
+@theme {
+  /* === Brand palette (from feed pixel sampling) === */
+  --color-navy-900: #1E273B;
+  --color-navy-800: #283348;
+  --color-slate-700: #434E61;
+  --color-slate-500: #657186;
+  --color-gray-300: #C3C5C9;
+  --color-mist-100: #E0E6E6;
+
+  /* === Accent (proposed — no accent in original feed) === */
+  --color-accent-dark: #38BDF8;
+  --color-accent-dark-hover: #7DD3FC;
+  --color-accent-light: #0369A1;
+  --color-accent-light-hover: #075985;
+
+  /* === Typography === */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Plus Jakarta Sans Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+}

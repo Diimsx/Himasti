@@ -1,0 +1,36 @@
+---
+/**
+ * Prose — Styled container for rendered Markdown content.
+ * Applies consistent typography to headings, paragraphs, lists, links, etc.
+ * Max reading width ~65–75 characters (design.md § 2).
+ */
+interface Props {
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'prose prose-lg max-w-prose',
+    // Headings
+    'prose-headings:font-heading prose-headings:font-bold prose-headings:text-navy-900',
+    // Body text
+    'prose-p:text-slate-700 prose-p:leading-[1.65]',
+    // Links
+    'prose-a:text-accent-light prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-accent-light-hover',
+    // Lists
+    'prose-li:text-slate-700',
+    // Strong
+    'prose-strong:text-navy-900',
+    // Code
+    'prose-code:font-mono prose-code:text-sm prose-code:bg-mist-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded',
+    // Images
+    'prose-img:rounded-xl',
+    className,
+  ]}
+>
+  <slot />
+</div>

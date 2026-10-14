@@ -1,0 +1,32 @@
+---
+/**
+ * 404 — Halaman Tidak Ditemukan
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Halaman Tidak Ditemukan"
+  description="Halaman yang Anda cari tidak ditemukan."
+  noindex={true}
+>
+  <section class="min-h-screen flex items-center justify-center bg-navy-900">
+    <div class="text-center px-4">
+      <p class="font-mono text-sm tracking-widest uppercase text-gray-300 mb-4">
+        // error
+      </p>
+      <h1 class="font-heading text-6xl md:text-8xl font-extrabold text-white mb-4">
+        404
+      </h1>
+      <p class="text-lg text-mist-100 mb-8 max-w-md mx-auto">
+        Halaman yang Anda cari tidak ditemukan atau telah dipindahkan.
+      </p>
+      <a
+        href="/"
+        class="inline-block px-6 py-3 bg-accent-dark text-navy-900 font-semibold rounded-lg hover:bg-accent-dark-hover transition-colors"
+      >
+        Kembali ke Beranda
+      </a>
+    </div>
+  </section>
+</BaseLayout>

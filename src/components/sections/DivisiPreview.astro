@@ -1,0 +1,47 @@
+---
+/**
+ * DivisiPreview — Preview of divisions on mist-100 background.
+ * Fetches divisi content collection sorted by urutan.
+ */
+import { getCollection } from 'astro:content';
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import DivisiCard from '../ui/DivisiCard.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const divisiEntries = await getCollection('divisi');
+const sortedDivisi = divisiEntries.sort((a, b) => (a.data.urutan ?? 0) - (b.data.urutan ?? 0));
+---
+
+<Section bg="mist" class={className}>
+  <Container>
+    <SectionHeader
+      eyebrow="divisi"
+      title="Divisi Kepengurusan"
+      description="Struktur divisi yang menjalankan roda organisasi dan program kerja HIMASTI."
+    />
+
+    {sortedDivisi.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {sortedDivisi.map((entry) => (
+          <DivisiCard
+            nama={entry.data.nama}
+            slug={entry.data.slug}
+            kepala={entry.data.kepala}
+            ringkasan={entry.data.ringkasan}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-slate-700">
+        Informasi divisi akan segera diperbarui.
+      </p>
+    )}
+  </Container>
+</Section>

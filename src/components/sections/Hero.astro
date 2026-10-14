@@ -1,0 +1,112 @@
+---
+/**
+ * Hero — Homepage hero section on navy-900 background with gradient to navy-800.
+ * Min height: 80vh mobile, 90vh desktop (hints content below).
+ * Respects prefers-reduced-motion for entrance animation.
+ */
+import { Image } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import logoHimasti from '../../assets/logo-himasti.png';
+import logoCyberUniversity from '../../assets/logo-cyber-university.png';
+import logoKabinetArthasena from '../../assets/logo-kabinet-arthasena.png';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<section
+  class:list={[
+    'relative flex items-center justify-center min-h-[80vh] lg:min-h-[90vh] bg-gradient-to-b from-navy-900 to-navy-800 overflow-hidden',
+    className,
+  ]}
+>
+  <!-- Decorative dot grid (opacity <= 6%) -->
+  <div class="hero-dot-grid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+  <Container class="relative z-10 py-16 lg:py-20 text-center">
+    <div class="hero-content mx-auto max-w-4xl">
+      <!-- Main HIMASTI Logo -->
+      <div class="flex justify-center mb-6">
+        <Image
+          src={logoHimasti}
+          alt="Logo HIMASTI"
+          class="h-16 sm:h-20 w-auto"
+          loading="eager"
+        />
+      </div>
+
+      <!-- Eyebrow -->
+      <p class="font-mono text-xs md:text-sm tracking-[0.08em] uppercase font-medium text-accent-dark mb-4 md:mb-6">
+        // himasti
+      </p>
+
+      <!-- Display heading -->
+      <h1 class="font-heading text-4xl sm:text-5xl lg:text-[64px] font-extrabold leading-[1.1] tracking-tight text-white mb-6">
+        Himpunan Mahasiswa<br />
+        <span class="text-accent-dark">Sistem &amp; Teknologi Informasi</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-base sm:text-lg lg:text-xl text-mist-100 max-w-xl mx-auto">
+        Cyber University · Periode 2026/2027
+      </p>
+
+      <!-- Affiliation logos -->
+      <div class="flex items-center justify-center gap-6 mt-6">
+        <div class="flex items-center gap-2">
+          <Image
+            src={logoCyberUniversity}
+            alt="Logo Cyber University"
+            class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
+          />
+        </div>
+        <span class="text-gray-300/30 text-sm" aria-hidden="true">|</span>
+        <div class="flex items-center gap-2">
+          <Image
+            src={logoKabinetArthasena}
+            alt="Logo Kabinet ArthaSena"
+            class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
+          />
+        </div>
+      </div>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 lg:mt-10">
+        <Button variant="primary" on="dark" href="/tentang">
+          Kenali Kami
+        </Button>
+        <Button variant="secondary" on="dark" href="/kontak">
+          Gabung
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .hero-dot-grid {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-content {
+      animation: heroFadeIn 0.3s ease-out forwards;
+    }
+  }
+
+  @keyframes heroFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+/**
+ * PengurusCard — Card for organization member.
+ * Photo ratio 4:5, name (H3), position, division eyebrow.
+ * No NIM or personal contact displayed (PRD.md § 5.2).
+ */
+interface Props {
+  nama: string;
+  jabatan: string;
+  divisi?: string;
+  foto?: ImageMetadata;
+  class?: string;
+}
+
+import { Image } from 'astro:assets';
+
+const { nama, jabatan, divisi, foto, class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'rounded-xl border border-gray-300 bg-white overflow-hidden text-center',
+    className,
+  ]}
+>
+  <div class="aspect-[4/5] bg-mist-100 overflow-hidden">
+    {foto ? (
+      <Image
+        src={foto}
+        alt={`Foto ${nama}`}
+        width={320}
+        height={400}
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    ) : (
+      <div class="w-full h-full flex items-center justify-center">
+        <svg
+          class="w-16 h-16 text-gray-300"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+          />
+        </svg>
+      </div>
+    )}
+  </div>
+  <div class="p-4">
+    {divisi && (
+      <p class="font-mono text-[11px] tracking-[0.08em] uppercase font-medium text-accent-light mb-1">
+        {divisi}
+      </p>
+    )}
+    <h3 class="font-heading text-base font-bold text-navy-900">
+      {nama}
+    </h3>
+    <p class="text-sm text-slate-700 mt-0.5">
+      {jabatan}
+    </p>
+  </div>
+</div>

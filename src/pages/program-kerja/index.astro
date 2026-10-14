@@ -1,0 +1,158 @@
+---
+/**
+ * Program Kerja — Daftar seluruh program kerja HIMASTI Periode 2026/2027.
+ * Dilengkapi filter interaktif berbasis kategori.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import ProkerCard from '../../components/ui/ProkerCard.astro';
+
+const allProker = await getCollection('proker');
+// Urutkan secara alfabet atau status
+const prokerList = allProker.sort((a, b) =>
+  a.data.judul.localeCompare(b.data.judul)
+);
+
+const filterOptions = [
+  { label: 'Semua', value: 'all' },
+  { label: 'Kunjungan', value: 'kunjungan' },
+  { label: 'Pelatihan', value: 'pelatihan' },
+  { label: 'Kebersamaan', value: 'kebersamaan' },
+  { label: 'Seminar', value: 'seminar' },
+];
+---
+
+<BaseLayout
+  title="Program Kerja"
+  description="Daftar program kerja Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027."
+>
+  <!-- Hero-like Header -->
+  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+    <Container>
+      <div class="max-w-3xl">
+        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
+          // program kerja
+        </p>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+          Program Kerja
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+          Rangkaian inisiatif dan kegiatan strategis HIMASTI Cyber University Periode 2026/2027 untuk pengembangan wawasan, keahlian, dan jejaring mahasiswa.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Section Program Kerja (white) -->
+  <Section bg="white">
+    <Container>
+      <!-- Filter Buttons -->
+      <div class="flex flex-wrap items-center gap-2 mb-8" role="group" aria-label="Filter kategori program kerja">
+        {filterOptions.map((opt, idx) => (
+          <button
+            type="button"
+            data-filter={opt.value}
+            aria-pressed={idx === 0 ? 'true' : 'false'}
+            class:list={[
+              'filter-btn inline-flex items-center justify-center min-h-[44px] px-5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-light cursor-pointer',
+              idx === 0
+                ? 'bg-navy-900 text-white font-semibold'
+                : 'bg-mist-100 text-slate-700 hover:bg-gray-300/60',
+            ]}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Proker Grid -->
+      {prokerList.length > 0 ? (
+        <div id="proker-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {prokerList.map((proker) => (
+            <div
+              class="proker-item transition-all duration-150"
+              data-kategori={proker.data.kategori}
+            >
+              <ProkerCard
+                judul={proker.data.judul}
+                slug={proker.data.slug}
+                ringkasan={proker.data.ringkasan}
+                waktu={proker.data.waktu}
+                kategori={proker.data.kategori}
+                status={proker.data.status}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-slate-700 italic py-8">
+          Belum ada program kerja yang terdaftar.
+        </p>
+      )}
+
+      <!-- Empty State Filter Notice -->
+      <p
+        id="empty-filter-message"
+        class="hidden text-center text-slate-700 italic py-12"
+      >
+        Tidak ada program kerja dalam kategori ini.
+      </p>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<script>
+  function setupProkerFilter() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const items = document.querySelectorAll<HTMLElement>('.proker-item');
+    const emptyMsg = document.getElementById('empty-filter-message');
+
+    if (!buttons.length || !items.length) return;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+
+        // Update button states
+        buttons.forEach((b) => {
+          const isActive = b === btn;
+          b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          if (isActive) {
+            b.classList.add('bg-navy-900', 'text-white', 'font-semibold');
+            b.classList.remove('bg-mist-100', 'text-slate-700');
+          } else {
+            b.classList.remove('bg-navy-900', 'text-white', 'font-semibold');
+            b.classList.add('bg-mist-100', 'text-slate-700');
+          }
+        });
+
+        // Filter cards
+        let visibleCount = 0;
+        items.forEach((item) => {
+          const itemCat = item.getAttribute('data-kategori');
+          if (filter === 'all' || itemCat === filter) {
+            item.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        // Toggle empty message
+        if (emptyMsg) {
+          if (visibleCount === 0) {
+            emptyMsg.classList.remove('hidden');
+          } else {
+            emptyMsg.classList.add('hidden');
+          }
+        }
+      });
+    });
+  }
+
+  // Run on initial load
+  setupProkerFilter();
+  document.addEventListener('astro:page-load', setupProkerFilter);
+</script>

@@ -1,0 +1,40 @@
+---
+/**
+ * Beranda — HIMASTI Cyber University Homepage
+ * Assembles all homepage sections in prescribed order:
+ * Hero -> StatsStrip -> AboutPreview -> DivisiPreview -> ProkerPreview -> CTABand
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import StatsStrip from '../components/sections/StatsStrip.astro';
+import AboutPreview from '../components/sections/AboutPreview.astro';
+import DivisiPreview from '../components/sections/DivisiPreview.astro';
+import ProkerPreview from '../components/sections/ProkerPreview.astro';
+import Timeline from '../components/sections/Timeline.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import Section from '../components/ui/Section.astro';
+import Container from '../components/ui/Container.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+---
+
+<BaseLayout
+  title="Beranda"
+  description="Website resmi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University."
+>
+  <Hero />
+  <StatsStrip />
+  <AboutPreview />
+  <DivisiPreview />
+  <ProkerPreview />
+  <Section bg="mist">
+    <Container>
+      <SectionHeader
+        eyebrow="timeline"
+        title="Roadmap 2026/2027"
+        description="Jadwal pelaksanaan program kerja HIMASTI sepanjang periode kepengurusan 2026/2027."
+      />
+      <Timeline />
+    </Container>
+  </Section>
+  <CTABand />
+</BaseLayout>

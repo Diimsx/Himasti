@@ -1,0 +1,48 @@
+---
+/**
+ * DivisiCard — Card displaying a division's info.
+ * Radius 12px, border gray-300, hover lift effect (design.md § 4).
+ */
+interface Props {
+  nama: string;
+  slug: string;
+  ringkasan?: string;
+  kepala: string;
+  /** Whether on dark background */
+  dark?: boolean;
+  class?: string;
+}
+
+const { nama, slug, ringkasan, kepala, dark = false, class: className = '' } = Astro.props;
+
+const cardBg = dark ? 'bg-navy-800' : 'bg-white border border-gray-300';
+const titleColor = dark ? 'text-white' : 'text-navy-900';
+const textColor = dark ? 'text-gray-300' : 'text-slate-700';
+const metaColor = dark ? 'text-accent-dark' : 'text-accent-light';
+---
+
+<a
+  href={`/divisi#${slug}`}
+  class:list={[
+    'group block rounded-xl p-6 transition-all duration-150',
+    'hover:-translate-y-0.5 hover:shadow-md',
+    dark ? 'hover:border hover:border-accent-dark' : 'hover:border-accent-light',
+    cardBg,
+    className,
+  ]}
+>
+  <p class:list={['font-mono text-xs tracking-[0.08em] uppercase font-medium mb-2', metaColor]}>
+    // divisi
+  </p>
+  <h3 class:list={['font-heading text-xl font-bold mb-2', titleColor]}>
+    {nama}
+  </h3>
+  {ringkasan && (
+    <p class:list={['text-sm leading-relaxed mb-4 line-clamp-3', textColor]}>
+      {ringkasan}
+    </p>
+  )}
+  <p class:list={['text-sm', textColor]}>
+    <span class="font-medium">Kepala:</span> {kepala}
+  </p>
+</a>

@@ -1,0 +1,156 @@
+---
+/**
+ * Navbar — Sticky navigation with logo, links, CTA, and mobile drawer.
+ * Height 64px, keyboard-friendly, navy-900 bg (design.md § 4).
+ * Mobile menu uses <dialog> for focus trapping without JS framework.
+ */
+import { Image } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import logoHimasti from '../../assets/logo-himasti.png';
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+const navLinks: NavLink[] = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang', href: '/tentang' },
+  { label: 'Struktur', href: '/struktur' },
+  { label: 'Divisi', href: '/divisi' },
+  { label: 'Program Kerja', href: '/program-kerja' },
+  { label: 'Berita', href: '/berita' },
+  { label: 'Kontak', href: '/kontak' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav
+  class="sticky top-0 z-40 bg-navy-900/95 backdrop-blur-sm border-b border-navy-800"
+  aria-label="Navigasi utama"
+>
+  <Container class="flex items-center justify-between h-16">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2.5 text-white font-heading font-bold text-lg">
+      <Image src={logoHimasti} alt="Logo HIMASTI" class="h-9 w-auto" />
+      <span>HIMASTI</span>
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden lg:flex items-center gap-1" role="list">
+      {navLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+              currentPath === href || (href !== '/' && currentPath.startsWith(href))
+                ? 'text-accent-dark'
+                : 'text-gray-300 hover:text-white',
+            ]}
+            aria-current={currentPath === href ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Desktop CTA -->
+    <div class="hidden lg:block">
+      <Button href="/kontak" variant="primary" on="dark" class="text-sm px-4">
+        Gabung
+      </Button>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button
+      type="button"
+      id="mobile-menu-open"
+      class="lg:hidden p-2 rounded-lg text-gray-300 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+      aria-label="Buka menu navigasi"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </Container>
+</nav>
+
+<!-- Mobile drawer -->
+<dialog
+  id="mobile-menu"
+  class="fixed inset-0 z-50 m-0 h-full w-full max-h-none max-w-none bg-navy-900 p-0 text-white open:flex open:flex-col"
+>
+  <div class="flex items-center justify-between h-16 px-4 sm:px-6 border-b border-navy-800">
+    <a href="/" class="flex items-center gap-2.5 font-heading font-bold text-lg">
+      <Image src={logoHimasti} alt="Logo HIMASTI" class="h-9 w-auto" />
+      <span>HIMASTI</span>
+    </a>
+    <button
+      type="button"
+      id="mobile-menu-close"
+      class="p-2 rounded-lg text-gray-300 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+      aria-label="Tutup menu navigasi"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+  <ul class="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-1" role="list">
+    {navLinks.map(({ label, href }) => (
+      <li>
+        <a
+          href={href}
+          class:list={[
+            'block px-4 py-3 rounded-lg text-base font-medium transition-colors',
+            currentPath === href || (href !== '/' && currentPath.startsWith(href))
+              ? 'text-accent-dark bg-navy-800'
+              : 'text-gray-300 hover:text-white hover:bg-navy-800',
+          ]}
+          aria-current={currentPath === href ? 'page' : undefined}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="px-4 sm:px-6 pb-6">
+    <Button href="/kontak" variant="primary" on="dark" class="w-full text-center">
+      Gabung
+    </Button>
+  </div>
+</dialog>
+
+<script>
+  const openBtn = document.getElementById('mobile-menu-open') as HTMLButtonElement;
+  const closeBtn = document.getElementById('mobile-menu-close') as HTMLButtonElement;
+  const dialog = document.getElementById('mobile-menu') as HTMLDialogElement;
+
+  openBtn?.addEventListener('click', () => {
+    dialog?.showModal();
+    openBtn.setAttribute('aria-expanded', 'true');
+  });
+
+  closeBtn?.addEventListener('click', () => {
+    dialog?.close();
+    openBtn.setAttribute('aria-expanded', 'false');
+    openBtn.focus();
+  });
+
+  dialog?.addEventListener('close', () => {
+    openBtn.setAttribute('aria-expanded', 'false');
+  });
+
+  // Close on backdrop click
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) {
+      dialog.close();
+    }
+  });
+</script>
