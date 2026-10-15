@@ -1,29 +1,166 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — HIMASTI brand palette
- * Source: design.md § 1.1–1.5 (from FEED_HIMASTI_2026_2027.png)
+ * Design tokens — HIMASTI v3 "Layered Clean Tech"
+ * Source: design.md § 2, 3, 4, 11
  *
- * IMPORTANT: Do not use raw hex values or default Tailwind colors elsewhere.
+ * IMPORTANT: No raw hex values, no default Tailwind colors, no accent-* tokens.
  * All colors must come from these tokens.
+ * Only shadow color: shadow-ink (navy-900 transparent).
  */
 @theme {
-  /* === Brand palette (from feed pixel sampling) === */
+  /* === Brand palette (from FEED_HIMASTI_2026_2027.png) === */
   --color-navy-900: #1E273B;
   --color-navy-800: #283348;
   --color-slate-700: #434E61;
   --color-slate-500: #657186;
   --color-gray-300: #C3C5C9;
   --color-mist-100: #E0E6E6;
-
-  /* === Accent (proposed — no accent in original feed) === */
-  --color-accent-dark: #38BDF8;
-  --color-accent-dark-hover: #7DD3FC;
-  --color-accent-light: #0369A1;
-  --color-accent-light-hover: #075985;
+  --color-mist-50:  #F3F5F5;   /* derived: mist-100 40% over white */
 
   /* === Typography === */
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Plus Jakarta Sans Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* === Elevation: shadow-ink only (navy-900 transparent) === */
+  --shadow-xs:  0 1px 2px rgb(30 39 59 / 0.06);
+  --shadow-sm:  0 1px 2px rgb(30 39 59 / 0.06), 0 4px 12px -2px rgb(30 39 59 / 0.08);
+  --shadow-md:  0 2px 4px rgb(30 39 59 / 0.05), 0 12px 24px -6px rgb(30 39 59 / 0.12);
+  --shadow-lg:  0 4px 8px rgb(30 39 59 / 0.06), 0 24px 48px -12px rgb(30 39 59 / 0.18);
+  --shadow-xl:  0 8px 16px rgb(30 39 59 / 0.08), 0 40px 80px -20px rgb(30 39 59 / 0.28);
+
+  /* === Radii === */
+  --radius-card:   1.25rem;  /* 20px */
+  --radius-island: 2rem;     /* 32px */
+
+  /* === Easing === */
+  --ease-out-soft: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* ========== Custom utilities (design.md § 11.1) ========== */
+
+/* Pulau gelap: ink gradient (§ 3.3) */
+@utility surface-ink {
+  background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy-800) 55%, var(--color-slate-700) 130%);
+  color: white;
+}
+
+/* Sorotan sudut — letakkan pada pseudo-elemen DI LUAR area teks (§ 3.3) */
+@utility ink-glow {
+  background: radial-gradient(60% 60% at 80% 0%, color-mix(in srgb, var(--color-slate-700) 60%, transparent), transparent 70%);
+}
+
+/* Hero berkabut — teks hanya di zona lolos (§ 2.3) */
+@utility surface-mist {
+  background: linear-gradient(180deg, #fff 0%, var(--color-mist-100) 45%, var(--color-gray-300) 70%, var(--color-slate-500) 85%, var(--color-navy-900) 100%);
+}
+
+/* Kaca di atas navy (§ 2.2) */
+@utility surface-glass {
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.10);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(12px);
+}
+
+/* Navbar pill (§ 6, 2.3: jangan < 80%) */
+@utility nav-pill {
+  background: color-mix(in srgb, var(--color-navy-900) 85%, transparent);
+  border: 1px solid rgb(255 255 255 / 0.10);
+  backdrop-filter: blur(12px);
+}
+
+/* Dot textures (§ 3.4) */
+@utility bg-dots-light {
+  background-image: radial-gradient(var(--color-mist-100) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+@utility bg-dots-dark {
+  background-image: radial-gradient(rgb(195 197 201 / 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ========== Motion patterns (§ 11.2) ========== */
+
+/* Default: everything readable without motion or JS */
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll-driven text glow (§ 8.2) */
+  @supports (animation-timeline: view()) {
+    .lit-word {
+      color: rgb(255 255 255 / 0.55); /* dim: 5.55:1 on navy-900 */
+      animation: lit linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 55%;
+    }
+    @keyframes lit { to { color: #fff; } }
+
+    .timeline-fill {
+      transform-origin: top;
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 10% exit 60%;
+    }
+    @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  }
+
+  /* Footer wordmark marquee (§ 8.5) */
+  .marquee-track {
+    animation: marquee 50s linear infinite;
+  }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* Hero entrance (§ 8.6) */
+  .hero-entrance {
+    animation: heroFadeIn 600ms var(--ease-out-soft) forwards;
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Navbar entrance (§ 8.4) */
+  .nav-entrance {
+    animation: navDrop 300ms var(--ease-out-soft) forwards;
+  }
+  @keyframes navDrop {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Card entrance stagger (§ 8.6) */
+  .card-enter {
+    animation: cardUp 500ms var(--ease-out-soft) both;
+  }
+  @keyframes cardUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Wordmark mask (§ 8.5) — always applied */
+.wordmark {
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+
+/* Header blur zone (§ 6, 8.4) — aria-hidden, pointer-events: none */
+.header-blur {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 96px;
+  z-index: 40;
+  pointer-events: none;
+  backdrop-filter: blur(12px);
+  mask-image: linear-gradient(#000, transparent);
+}
+
+/* Scroll padding so focus doesn't hide behind blur zone */
+html {
+  scroll-padding-top: 96px;
+}
+
+/* Sheen animation for CTA banner (§ 3.3, 8.6) */
+@utility bg-sheen {
+  background-image: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.06) 45%, transparent 60%);
+  background-size: 200% 100%;
 }

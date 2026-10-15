@@ -33,17 +33,13 @@ const filterOptions = [
   title="Galeri & Dokumentasi"
   description="Dokumentasi visual rangkaian kegiatan, program kerja, dan kebersamaan keluarga besar HIMASTI Cyber University."
 >
-  <!-- Hero-like Header -->
-  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
-          // galeri
-        </p>
-        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-          Galeri &amp; Dokumentasi
-        </h1>
-        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Galeri</span>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Galeri &amp; Dokumentasi</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
           Dokumentasi visual rangkaian kegiatan, program kerja, dan kebersamaan keluarga besar HIMASTI Cyber University.
         </p>
       </div>
@@ -51,7 +47,7 @@ const filterOptions = [
   </section>
 
   <!-- Section Galeri (white) -->
-  <Section bg="white">
+  <Section bg="white" class="py-20 lg:py-32">
     <Container>
       {galeriEntries.length > 0 ? (
         <>
@@ -68,10 +64,10 @@ const filterOptions = [
                   data-gallery-filter={opt.value}
                   aria-pressed={idx === 0 ? 'true' : 'false'}
                   class:list={[
-                    'gallery-filter-btn inline-flex items-center justify-center min-h-[44px] px-5 py-2 rounded-lg text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-light cursor-pointer',
+                    'gallery-filter-btn inline-flex items-center justify-center min-h-[44px] px-5 py-2 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 cursor-pointer',
                     idx === 0
-                      ? 'bg-navy-900 text-white font-semibold'
-                      : 'bg-mist-100 text-slate-700 hover:bg-gray-300/60',
+                      ? 'bg-navy-900 text-white font-medium'
+                      : 'bg-mist-50 text-slate-700 hover:bg-mist-100',
                   ]}
                 >
                   {opt.label}
@@ -88,7 +84,7 @@ const filterOptions = [
             {galeriEntries.map((item, index) => (
               <button
                 type="button"
-                class="gallery-item group relative aspect-square rounded-xl overflow-hidden cursor-pointer bg-mist-100 border border-gray-300 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-light transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
+                class="gallery-item group relative aspect-square rounded-[20px] overflow-hidden cursor-pointer bg-mist-50 border border-mist-100 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500"
                 data-kategori={item.data.kategori || ''}
                 data-img-src={item.data.gambar.src}
                 data-caption={item.data.keterangan}
@@ -138,7 +134,7 @@ const filterOptions = [
               />
             </svg>
           </div>
-          <h2 class="font-heading text-xl font-bold text-navy-900 mb-2">
+          <h2 class="font-heading text-xl font-medium text-navy-900 mb-2">
             Galeri Dokumentasi
           </h2>
           <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
@@ -152,7 +148,7 @@ const filterOptions = [
   <!-- Native <dialog> Lightbox -->
   <dialog
     id="gallery-lightbox"
-    class="fixed inset-0 m-auto p-0 rounded-2xl bg-navy-900 text-white max-w-4xl w-[92vw] max-h-[90vh] shadow-2xl backdrop:bg-navy-900/85 backdrop:backdrop-blur-sm border border-navy-800 overflow-hidden focus:outline-none"
+    class="fixed inset-0 m-auto p-0 rounded-[20px] bg-navy-900 text-white max-w-4xl w-[92vw] max-h-[90vh] shadow-xl backdrop:bg-navy-900/85 backdrop:backdrop-blur-sm border border-navy-800 overflow-hidden focus:outline-none"
     aria-labelledby="lightbox-caption"
   >
     <div class="relative flex flex-col h-full max-h-[90vh]">
@@ -161,7 +157,7 @@ const filterOptions = [
         type="button"
         id="lightbox-close"
         aria-label="Tutup galeri"
-        class="absolute top-4 right-4 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-accent-dark cursor-pointer"
+        class="absolute top-4 right-4 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-white cursor-pointer"
       >
         <svg
           class="w-6 h-6"
@@ -184,7 +180,7 @@ const filterOptions = [
         type="button"
         id="lightbox-prev"
         aria-label="Foto sebelumnya"
-        class="absolute left-4 top-1/2 -translate-y-1/2 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-accent-dark cursor-pointer"
+        class="absolute left-4 top-1/2 -translate-y-1/2 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-white cursor-pointer"
       >
         <svg
           class="w-6 h-6"
@@ -207,7 +203,7 @@ const filterOptions = [
         type="button"
         id="lightbox-next"
         aria-label="Foto selanjutnya"
-        class="absolute right-4 top-1/2 -translate-y-1/2 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-accent-dark cursor-pointer"
+        class="absolute right-4 top-1/2 -translate-y-1/2 z-20 min-h-[44px] min-w-[44px] rounded-full bg-navy-800/80 hover:bg-navy-800 text-white flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-white cursor-pointer"
       >
         <svg
           class="w-6 h-6"
@@ -292,11 +288,11 @@ const filterOptions = [
             const isActive = b === btn;
             b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             if (isActive) {
-              b.classList.add('bg-navy-900', 'text-white', 'font-semibold');
-              b.classList.remove('bg-mist-100', 'text-slate-700');
+              b.classList.add('bg-navy-900', 'text-white', 'font-medium');
+              b.classList.remove('bg-mist-50', 'text-slate-700');
             } else {
-              b.classList.remove('bg-navy-900', 'text-white', 'font-semibold');
-              b.classList.add('bg-mist-100', 'text-slate-700');
+              b.classList.remove('bg-navy-900', 'text-white', 'font-medium');
+              b.classList.add('bg-mist-50', 'text-slate-700');
             }
           });
 

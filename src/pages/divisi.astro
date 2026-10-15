@@ -16,17 +16,13 @@ const divisiList = (await getCollection('divisi')).sort(
   title="Divisi & Bidang"
   description="Daftar dan tugas pokok divisi kepengurusan Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University."
 >
-  <!-- Hero-like Header -->
-  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
-          // divisi &amp; bidang
-        </p>
-        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-          Divisi &amp; Bidang
-        </h1>
-        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Divisi &amp; Bidang</span>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Divisi &amp; Bidang</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
           Mengenal empat divisi yang menjadi penggerak pelaksanaan program kerja, kolaborasi, dan inovasi HIMASTI Cyber University Periode 2026/2027.
         </p>
       </div>
@@ -34,20 +30,20 @@ const divisiList = (await getCollection('divisi')).sort(
   </section>
 
   <!-- Section Divisi (white) -->
-  <Section bg="white">
+  <Section bg="white" class="py-20 lg:py-32">
     <Container>
       {divisiList.length > 0 ? (
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {divisiList.map((divisi) => (
             <article
               id={divisi.data.slug}
-              class="scroll-mt-24 rounded-xl border border-gray-300 border-l-4 border-l-accent-light bg-white p-6 sm:p-8 flex flex-col justify-between"
+              class="scroll-mt-24 rounded-[20px] border border-mist-100 border-l-4 border-l-navy-900 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 hover:border-l-navy-900 flex flex-col justify-between"
             >
               <div>
-                <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-light mb-2">
-                  // divisi
-                </p>
-                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-navy-900 mb-4">
+                <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+                  Divisi
+                </span>
+                <h2 class="font-heading text-2xl sm:text-3xl font-medium text-navy-900 mb-4">
                   {divisi.data.nama}
                 </h2>
                 <p class="text-slate-700 text-sm sm:text-base leading-relaxed mb-6">
@@ -57,9 +53,9 @@ const divisiList = (await getCollection('divisi')).sort(
 
                 {divisi.data.tugas && divisi.data.tugas.length > 0 && (
                   <div class="mb-6">
-                    <h3 class="font-mono text-xs tracking-[0.08em] uppercase font-semibold text-slate-700 mb-2">
-                      // tugas utama
-                    </h3>
+                    <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
+                      Tugas Utama
+                    </span>
                     <ul class="space-y-1.5 list-disc list-inside text-sm text-slate-700">
                       {divisi.data.tugas.map((item) => (
                         <li>{item}</li>
@@ -69,11 +65,11 @@ const divisiList = (await getCollection('divisi')).sort(
                 )}
               </div>
 
-              <div class="pt-4 mt-2 border-t border-gray-300">
+              <div class="pt-4 mt-2 border-t border-mist-100">
                 <span class="font-mono text-xs tracking-wider uppercase text-slate-500 block mb-0.5">
                   Kepala Divisi
                 </span>
-                <span class="font-heading font-semibold text-navy-900 text-base">
+                <span class="font-heading font-medium text-navy-900 text-base">
                   {divisi.data.kepala}
                 </span>
               </div>

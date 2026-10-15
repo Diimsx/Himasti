@@ -7,7 +7,6 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
-import SectionHeader from '../components/ui/SectionHeader.astro';
 import PengurusCard from '../components/ui/PengurusCard.astro';
 
 const allPengurus = await getCollection('pengurus');
@@ -30,17 +29,13 @@ const divisiNames = [
   title="Struktur Organisasi"
   description="Susunan pengurus dan struktur organisasi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027."
 >
-  <!-- Hero-like Header -->
-  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
-          // struktur organisasi
-        </p>
-        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-          Struktur Organisasi
-        </h1>
-        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Struktur Organisasi</span>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Struktur Organisasi</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
           Struktur kepengurusan Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027.
         </p>
       </div>
@@ -48,17 +43,21 @@ const divisiNames = [
   </section>
 
   <!-- Section Pembina (white) -->
-  <Section bg="white">
+  <Section bg="white" class="py-20 lg:py-32">
     <Container>
-      <SectionHeader
-        eyebrow="pembina"
-        title="Pembina HIMASTI"
-        description="Dosen pembina yang mengarahkan dan membimbing jalannya roda organisasi."
-        align="center"
-      />
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Pembina</span>
+        <h2 class="font-heading text-3xl sm:text-4xl font-medium leading-[1.15] tracking-[-0.02em]">
+          <span class="text-navy-900">Pembina</span> <span class="text-slate-700">HIMASTI</span>
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+          Dosen pembina yang mengarahkan dan membimbing jalannya roda organisasi.
+        </p>
+      </div>
+
       <!-- Prominent Pembina Card -->
       <div class="max-w-md mx-auto">
-        <div class="rounded-xl border border-gray-300 bg-white p-6 sm:p-8 text-center shadow-xs">
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 text-center shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
           <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-mist-100 flex items-center justify-center text-slate-500">
             <svg
               class="w-12 h-12"
@@ -75,10 +74,10 @@ const divisiNames = [
               />
             </svg>
           </div>
-          <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-light mb-1">
-            // dosen pembina
-          </p>
-          <h3 class="font-heading text-xl sm:text-2xl font-bold text-navy-900">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+            Dosen Pembina
+          </span>
+          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900">
             Neneng Rachmalia Feta, M.Kom.
           </h3>
           <p class="text-sm sm:text-base text-slate-700 mt-1">
@@ -90,14 +89,18 @@ const divisiNames = [
   </Section>
 
   <!-- Section Pengurus Inti (mist-100) -->
-  <Section bg="mist">
+  <Section bg="mist" class="py-20 lg:py-32">
     <Container>
-      <SectionHeader
-        eyebrow="pengurus inti"
-        title="Pengurus Inti"
-        description="Pimpinan pusat yang mengoordinasikan seluruh pergerakan dan arah strategis HIMASTI."
-        align="center"
-      />
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Pengurus Inti</span>
+        <h2 class="font-heading text-3xl sm:text-4xl font-medium leading-[1.15] tracking-[-0.02em]">
+          <span class="text-navy-900">Pengurus</span> <span class="text-slate-700">Inti</span>
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+          Pimpinan pusat yang mengoordinasikan seluruh pergerakan dan arah strategis HIMASTI.
+        </p>
+      </div>
+
       {pengurusInti.length > 0 ? (
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {pengurusInti.map((p) => (
@@ -125,13 +128,13 @@ const divisiNames = [
     const bgVariant = idx % 2 === 0 ? 'white' : 'mist';
 
     return (
-      <Section bg={bgVariant}>
+      <Section bg={bgVariant} class="py-20 lg:py-32">
         <Container>
           <div class="mb-8">
-            <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-light mb-2">
-              // divisi
-            </p>
-            <h3 class="font-heading text-2xl sm:text-3xl font-bold text-navy-900">
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+              Divisi
+            </span>
+            <h3 class="font-heading text-2xl sm:text-3xl font-medium text-navy-900">
               {divisiName}
             </h3>
           </div>

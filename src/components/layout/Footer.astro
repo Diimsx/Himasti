@@ -1,11 +1,9 @@
 ---
 /**
- * Footer — Full-width navy-900 footer with logo, quick links, contact, social, copyright.
- * Acts as a sitemap (design.md § 4). design.md § 3 color rhythm.
+ * Footer — Full-width navy-900 footer with giant wordmark marquee, 3-column sitemap, contact, and copyright.
+ * HIMASTI v3 "Layered Clean Tech" (design.md § 6, 8.5).
  */
-import { Image } from 'astro:assets';
 import Container from '../ui/Container.astro';
-import logoHimasti from '../../assets/logo-himasti.png';
 
 const currentYear = new Date().getFullYear();
 
@@ -23,7 +21,7 @@ const programLinks = [
   { label: 'Prestasi', href: '/prestasi' },
 ];
 
-// TODO: Replace with actual social links from site settings (PRD.md pertanyaan terbuka)
+// Official organization contact and social links
 const socialLinks = [
   { label: 'Instagram', href: '#', icon: 'instagram' },
   { label: 'LinkedIn', href: '#', icon: 'linkedin' },
@@ -31,27 +29,82 @@ const socialLinks = [
 ];
 ---
 
-<footer class="bg-navy-900 text-white border-t border-navy-800">
+<footer class="bg-navy-900 text-white border-t border-white/10">
+  <!-- Wordmark marquee section (§ 6, 8.5) -->
+  <div class="overflow-hidden py-12 lg:py-16 border-b border-white/10" aria-hidden="true">
+    <div class="wordmark">
+      <div class="marquee-track flex whitespace-nowrap gap-8">
+        {/* Repeat HIMASTI text 8+ times for seamless loop */}
+        {Array.from({ length: 8 }).map(() => (
+          <span class="text-[20vw] lg:text-[16vw] font-heading font-medium text-gray-300 select-none leading-none">HIMASTI</span>
+        ))}
+      </div>
+    </div>
+  </div>
+
   <Container>
-    <div class="py-12 lg:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-      <!-- Brand -->
-      <div class="sm:col-span-2 lg:col-span-1">
-        <a href="/" class="flex items-center gap-2.5 font-heading font-bold text-lg mb-4">
-          <Image src={logoHimasti} alt="Logo HIMASTI" class="h-9 w-auto" />
-          <span>HIMASTI</span>
-        </a>
-        <p class="text-sm text-gray-300 leading-relaxed max-w-xs">
-          Himpunan Mahasiswa Sistem &amp; Teknologi Informasi, Cyber University.
-        </p>
+    <!-- 3-column sitemap: Navigasi, Program, Kontak -->
+    <div class="py-12 lg:py-16 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-8">
+      <!-- Navigasi -->
+      <div>
+        <h3 class="text-white text-sm font-medium mb-4">
+          Navigasi
+        </h3>
+        <ul class="space-y-2" role="list">
+          {quickLinks.map(({ label, href }) => (
+            <li>
+              <a
+                href={href}
+                class="text-sm text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:rounded"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Program -->
+      <div>
+        <h3 class="text-white text-sm font-medium mb-4">
+          Program
+        </h3>
+        <ul class="space-y-2" role="list">
+          {programLinks.map(({ label, href }) => (
+            <li>
+              <a
+                href={href}
+                class="text-sm text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:rounded"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Kontak -->
+      <div>
+        <h3 class="text-white text-sm font-medium mb-4">
+          Kontak
+        </h3>
+        <address class="not-italic text-sm text-gray-300 space-y-2">
+          <p>Cyber University</p>
+          <p>
+            <a href="mailto:himasti@cyber.ac.id" class="text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:rounded">
+              himasti@cyber.ac.id
+            </a>
+          </p>
+        </address>
+
         <!-- Social icons -->
         <div class="flex items-center gap-3 mt-5">
           {socialLinks.map(({ label, href }) => (
             <a
               href={href}
-              class="p-2 rounded-lg text-gray-300 hover:text-accent-dark transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+              class="p-2 rounded-lg text-gray-300 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white"
               aria-label={label}
             >
-              {/* Simple circle placeholder — replace with actual icons */}
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" />
                 <text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">
@@ -61,63 +114,11 @@ const socialLinks = [
             </a>
           ))}
         </div>
-      </div>
 
-      <!-- Quick Links -->
-      <div>
-        <h3 class="font-heading font-semibold text-sm uppercase tracking-wider text-mist-100 mb-4">
-          Navigasi
-        </h3>
-        <ul class="space-y-2" role="list">
-          {quickLinks.map(({ label, href }) => (
-            <li>
-              <a
-                href={href}
-                class="text-sm text-gray-300 hover:text-accent-dark transition-colors"
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Program Links -->
-      <div>
-        <h3 class="font-heading font-semibold text-sm uppercase tracking-wider text-mist-100 mb-4">
-          Lainnya
-        </h3>
-        <ul class="space-y-2" role="list">
-          {programLinks.map(({ label, href }) => (
-            <li>
-              <a
-                href={href}
-                class="text-sm text-gray-300 hover:text-accent-dark transition-colors"
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div>
-        <h3 class="font-heading font-semibold text-sm uppercase tracking-wider text-mist-100 mb-4">
-          Kontak
-        </h3>
-        <address class="not-italic text-sm text-gray-300 space-y-2">
-          <p>Cyber University</p>
-          <p>
-            <a href="mailto:himasti@cyber.ac.id" class="hover:text-accent-dark transition-colors">
-              himasti@cyber.ac.id
-            </a>
-          </p>
-        </address>
         <div class="mt-4">
           <a
             href="/kontak"
-            class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-dark hover:text-accent-dark-hover transition-colors"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-white underline hover:text-gray-300 transition-colors focus-visible:outline-2 focus-visible:outline-white"
           >
             Hubungi Kami
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -129,7 +130,7 @@ const socialLinks = [
     </div>
 
     <!-- Copyright bar -->
-    <div class="border-t border-navy-800 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
       <p class="text-xs text-gray-300">
         &copy; {currentYear} HIMASTI Cyber University. Seluruh hak dilindungi.
       </p>

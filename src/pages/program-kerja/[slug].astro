@@ -27,25 +27,19 @@ const statusLabel: Record<string, string> = {
   'berlangsung': 'Berlangsung',
   'selesai': 'Selesai',
 };
-
-const statusVariant: Record<string, 'warning' | 'info' | 'success'> = {
-  'akan-datang': 'warning',
-  'berlangsung': 'info',
-  'selesai': 'success',
-};
 ---
 
 <BaseLayout
   title={`${entry.data.judul} — Program Kerja HIMASTI`}
   description={entry.data.ringkasan}
 >
-  <!-- Hero-like Header -->
-  <section class="bg-navy-900 text-white py-12 lg:py-16 border-b border-navy-800">
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-12 lg:pb-16 bg-white border-b border-mist-100">
     <Container>
       <!-- Back Link -->
       <a
         href="/program-kerja"
-        class="inline-flex items-center gap-2 font-mono text-xs tracking-wider uppercase text-gray-300 hover:text-white transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
       >
         <svg
           class="w-4 h-4"
@@ -66,28 +60,28 @@ const statusVariant: Record<string, 'warning' | 'info' | 'success'> = {
 
       <!-- Category and Status Badge -->
       <div class="flex flex-wrap items-center gap-3 mb-4">
-        <span class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark">
-          // {entry.data.kategori}
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] capitalize">
+          {entry.data.kategori}
         </span>
-        <Badge variant={statusVariant[entry.data.status]}>
+        <Badge variant={entry.data.status}>
           {statusLabel[entry.data.status]}
         </Badge>
       </div>
 
       <!-- Title -->
-      <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">
+      <h1 class="font-heading text-3xl sm:text-4xl lg:text-[44px] font-medium leading-[1.15] tracking-[-0.02em] text-navy-900 mb-4 max-w-4xl">
         {entry.data.judul}
       </h1>
 
       <!-- Summary -->
-      <p class="text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+      <p class="text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
         {entry.data.ringkasan}
       </p>
     </Container>
   </section>
 
   <!-- Content & Metadata Section (white) -->
-  <Section bg="white">
+  <Section bg="white" class="py-16 lg:py-24">
     <Container>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
         <!-- Main Content -->
@@ -99,16 +93,16 @@ const statusVariant: Record<string, 'warning' | 'info' | 'success'> = {
 
         <!-- Sidebar Metadata -->
         <aside class="w-full">
-          <div class="rounded-xl border border-gray-300 bg-white p-6 sticky top-24">
-            <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-light mb-4">
-              // informasi proker
-            </p>
+          <div class="rounded-[20px] border border-mist-100 bg-white p-6 shadow-sm sticky top-28">
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
+              Informasi Proker
+            </span>
 
-            <dl class="space-y-4 text-sm divide-y divide-gray-300/60">
+            <dl class="space-y-4 text-sm divide-y divide-mist-100">
               <div class="pt-2">
                 <dt class="font-mono text-xs uppercase text-slate-500">Status</dt>
                 <dd class="mt-1">
-                  <Badge variant={statusVariant[entry.data.status]}>
+                  <Badge variant={entry.data.status}>
                     {statusLabel[entry.data.status]}
                   </Badge>
                 </dd>

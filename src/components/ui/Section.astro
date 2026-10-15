@@ -1,11 +1,12 @@
 ---
 /**
  * Section — Full-width section with consistent vertical rhythm.
- * Padding: 64px mobile / 96px desktop (design.md § 3).
+ * Padding: 80px mobile / 128px desktop (design.md § 5).
+ * Supports standard page sections and rounded dark islands (design.md § 3.2, 5).
  */
 interface Props {
   /** Background variant */
-  bg?: 'white' | 'mist' | 'navy-900' | 'navy-800';
+  bg?: 'white' | 'mist' | 'mist-50' | 'navy-900' | 'navy-800' | 'island';
   /** Additional CSS classes */
   class?: string;
   /** HTML id for anchor links */
@@ -16,15 +17,17 @@ const { bg = 'white', class: className = '', id } = Astro.props;
 
 const bgClasses: Record<string, string> = {
   'white': 'bg-white text-navy-900',
-  'mist': 'bg-mist-100 text-navy-900',
+  'mist': 'bg-mist-50 text-navy-900',
+  'mist-50': 'bg-mist-50 text-navy-900',
   'navy-900': 'bg-navy-900 text-white',
   'navy-800': 'bg-navy-800 text-white',
+  'island': 'surface-ink rounded-[32px] lg:rounded-[40px] mx-2 lg:mx-3 shadow-xl relative overflow-hidden text-white',
 };
 ---
 
 <section
   id={id}
-  class:list={['py-16 lg:py-24', bgClasses[bg], className]}
+  class:list={['py-20 lg:py-32', bgClasses[bg], className]}
 >
   <slot />
 </section>

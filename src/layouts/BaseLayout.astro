@@ -2,6 +2,7 @@
 /**
  * BaseLayout — Root layout for all pages.
  * Includes global styles, fonts, SEO head, skip-link, and landmark structure.
+ * Updated for HIMASTI v3 "Layered Clean Tech" with header-blur zone and navy-900 skip link.
  */
 import SEO from '../components/layout/SEO.astro';
 import Navbar from '../components/layout/Navbar.astro';
@@ -47,15 +48,19 @@ const { title, description, ogImage, ogType, noindex, bare = false } = Astro.pro
     <!-- Skip link for keyboard/screen-reader users -->
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-accent-light focus:text-white focus:rounded-lg focus:outline-none"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-navy-900 focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-navy-900"
     >
       Lewati ke konten
     </a>
 
     {!bare && (
-      <header>
-        <Navbar />
-      </header>
+      <>
+        <!-- Header blur zone (§6) -->
+        <div class="header-blur" aria-hidden="true"></div>
+        <header>
+          <Navbar />
+        </header>
+      </>
     )}
 
     <main id="main-content">

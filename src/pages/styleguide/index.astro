@@ -2,6 +2,7 @@
 /**
  * /_styleguide — Internal page to review all UI components.
  * Not indexed, not linked from navigation.
+ * Updated for design v3 "Layered Clean Tech".
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/ui/Container.astro';
@@ -20,54 +21,48 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== COLORS ======================== -->
   <Section bg="white">
     <Container>
-      <SectionHeader eyebrow="warna" title="Palet Warna" description="Token warna dari design.md" />
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
+      <SectionHeader eyebrow="warna" title="Palet Warna v3" description="Token warna HIMASTI — tanpa accent, hanya navy-mist-slate" />
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
         <div>
-          <div class="h-20 rounded-xl bg-navy-900"></div>
+          <div class="h-20 rounded-[20px] bg-navy-900"></div>
           <p class="text-xs font-mono mt-2 text-center">navy-900<br/>#1E273B</p>
         </div>
         <div>
-          <div class="h-20 rounded-xl bg-navy-800"></div>
+          <div class="h-20 rounded-[20px] bg-navy-800"></div>
           <p class="text-xs font-mono mt-2 text-center">navy-800<br/>#283348</p>
         </div>
         <div>
-          <div class="h-20 rounded-xl bg-slate-700"></div>
+          <div class="h-20 rounded-[20px] bg-slate-700"></div>
           <p class="text-xs font-mono mt-2 text-center">slate-700<br/>#434E61</p>
         </div>
         <div>
-          <div class="h-20 rounded-xl bg-slate-500"></div>
+          <div class="h-20 rounded-[20px] bg-slate-500"></div>
           <p class="text-xs font-mono mt-2 text-center">slate-500<br/>#657186</p>
         </div>
         <div>
-          <div class="h-20 rounded-xl bg-gray-300"></div>
+          <div class="h-20 rounded-[20px] bg-gray-300"></div>
           <p class="text-xs font-mono mt-2 text-center">gray-300<br/>#C3C5C9</p>
         </div>
         <div>
-          <div class="h-20 rounded-xl bg-mist-100"></div>
+          <div class="h-20 rounded-[20px] bg-mist-100"></div>
           <p class="text-xs font-mono mt-2 text-center">mist-100<br/>#E0E6E6</p>
         </div>
         <div>
-          <div class="h-20 rounded-xl border border-gray-300 bg-white"></div>
+          <div class="h-20 rounded-[20px] bg-mist-50"></div>
+          <p class="text-xs font-mono mt-2 text-center">mist-50<br/>#F3F5F5</p>
+        </div>
+        <div>
+          <div class="h-20 rounded-[20px] border border-mist-100 bg-white"></div>
           <p class="text-xs font-mono mt-2 text-center">white<br/>#FFFFFF</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-        <div>
-          <div class="h-20 rounded-xl bg-accent-dark"></div>
-          <p class="text-xs font-mono mt-2 text-center">accent-dark<br/>#38BDF8</p>
-        </div>
-        <div>
-          <div class="h-20 rounded-xl bg-accent-dark-hover"></div>
-          <p class="text-xs font-mono mt-2 text-center">accent-dark-hover<br/>#7DD3FC</p>
-        </div>
-        <div>
-          <div class="h-20 rounded-xl bg-accent-light"></div>
-          <p class="text-xs font-mono mt-2 text-center">accent-light<br/>#0369A1</p>
-        </div>
-        <div>
-          <div class="h-20 rounded-xl bg-accent-light-hover"></div>
-          <p class="text-xs font-mono mt-2 text-center">accent-light-hover<br/>#075985</p>
-        </div>
+
+      <!-- Surfaces demo -->
+      <h3 class="font-heading text-xl font-medium text-navy-900 mt-12 mb-4">Permukaan</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="surface-ink rounded-[20px] p-6 text-white text-sm">surface-ink (pulau gelap)</div>
+        <div class="surface-glass rounded-[20px] p-6 text-white text-sm bg-navy-900">surface-glass (kaca)</div>
+        <div class="surface-mist rounded-[20px] p-6 h-40 text-sm text-navy-900">surface-mist (hero)</div>
       </div>
     </Container>
   </Section>
@@ -75,35 +70,39 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== TYPOGRAPHY ======================== -->
   <Section bg="mist">
     <Container>
-      <SectionHeader eyebrow="tipografi" title="Skala Tipografi" />
+      <SectionHeader eyebrow="tipografi" title="Skala Tipografi v3" description="Heading ringan (500), editorial, dua nada" />
       <div class="space-y-6 max-w-3xl">
         <div>
-          <p class="text-xs font-mono text-slate-500 mb-1">Display (hero) — Plus Jakarta Sans 700</p>
-          <p class="font-heading text-[40px] md:text-[64px] font-bold leading-[1.1] text-navy-900">Display Heading</p>
+          <p class="text-xs font-mono text-slate-500 mb-1">Display (hero) — Plus Jakarta Sans 500</p>
+          <p class="font-heading text-[40px] md:text-[64px] font-medium leading-[1.08] tracking-[-0.03em] text-navy-900">Display <span class="text-slate-700">Heading</span></p>
         </div>
         <div>
-          <p class="text-xs font-mono text-slate-500 mb-1">H1 — Plus Jakarta Sans 700</p>
-          <p class="font-heading text-[32px] md:text-5xl font-bold leading-[1.15] text-navy-900">Heading One</p>
+          <p class="text-xs font-mono text-slate-500 mb-1">H1 — Plus Jakarta Sans 500</p>
+          <p class="font-heading text-[32px] md:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Heading One</p>
         </div>
         <div>
-          <p class="text-xs font-mono text-slate-500 mb-1">H2 — Plus Jakarta Sans 700</p>
-          <p class="font-heading text-[26px] md:text-4xl font-bold leading-[1.2] text-navy-900">Heading Two</p>
+          <p class="text-xs font-mono text-slate-500 mb-1">H2 — Plus Jakarta Sans 500</p>
+          <p class="font-heading text-[28px] md:text-[44px] font-medium leading-[1.15] tracking-[-0.02em] text-navy-900">Heading Two</p>
         </div>
         <div>
           <p class="text-xs font-mono text-slate-500 mb-1">H3 — Plus Jakarta Sans 600</p>
           <p class="font-heading text-xl md:text-2xl font-semibold leading-[1.3] text-navy-900">Heading Three</p>
         </div>
         <div>
+          <p class="text-xs font-mono text-slate-500 mb-1">Pernyataan — Plus Jakarta Sans 500</p>
+          <p class="font-heading text-2xl md:text-[40px] font-medium leading-[1.3] tracking-[-0.01em] text-navy-900">Paragraf besar untuk pulau gelap.</p>
+        </div>
+        <div>
           <p class="text-xs font-mono text-slate-500 mb-1">Body — Inter 400</p>
-          <p class="text-base md:text-lg leading-[1.65] text-slate-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p class="text-base md:text-lg leading-[1.65] text-slate-700">Teks isi utama untuk paragraf dan deskripsi. Lebar baris 65–75 karakter.</p>
         </div>
         <div>
-          <p class="text-xs font-mono text-slate-500 mb-1">Small — Inter 400</p>
-          <p class="text-sm leading-[1.5] text-slate-700">Teks kecil untuk label dan keterangan tambahan.</p>
+          <p class="text-xs font-mono text-slate-500 mb-1">Pil Label — Inter 500</p>
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em]">Pil Label</span>
         </div>
         <div>
-          <p class="text-xs font-mono text-slate-500 mb-1">Eyebrow — JetBrains Mono 500</p>
-          <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-light">// eyebrow label</p>
+          <p class="text-xs font-mono text-slate-500 mb-1">Angka — JetBrains Mono 500</p>
+          <p class="font-mono text-[40px] md:text-[64px] font-medium leading-none tracking-[-0.02em] text-navy-900">2026</p>
         </div>
       </div>
     </Container>
@@ -137,28 +136,31 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== BADGES ======================== -->
   <Section bg="white">
     <Container>
-      <SectionHeader eyebrow="komponen" title="Badge" />
+      <SectionHeader eyebrow="komponen" title="Badge Status" description="Palet HIMASTI, tanpa warna eksternal" />
       <div class="flex flex-wrap gap-3">
         <Badge variant="default">Default</Badge>
-        <Badge variant="info">Berlangsung</Badge>
-        <Badge variant="warning">Akan Datang</Badge>
-        <Badge variant="success">Selesai</Badge>
+        <Badge variant="akan-datang">Akan Datang</Badge>
+        <Badge variant="berlangsung">Berlangsung</Badge>
+        <Badge variant="selesai">Selesai</Badge>
       </div>
     </Container>
   </Section>
 
   <!-- ======================== STATS ======================== -->
-  <Section bg="navy-900">
-    <Container>
-      <SectionHeader eyebrow="komponen" title="Statistik" dark />
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <Stat value="4" label="Divisi" dark />
-        <Stat value="6" label="Program Kerja" dark />
-        <Stat value="25" label="Pengurus" dark />
-        <Stat value="2026" label="Periode" dark />
-      </div>
-    </Container>
-  </Section>
+  <section class="px-2 lg:px-3 py-4">
+    <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl py-20 lg:py-32 relative overflow-hidden">
+      <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
+      <Container>
+        <SectionHeader eyebrow="komponen" title="Statistik" dark />
+        <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+          <Stat value="4" label="Divisi" dark />
+          <Stat value="6" label="Program Kerja" dark />
+          <Stat value="25" label="Pengurus" dark />
+          <Stat value="2026" label="Periode" dark />
+        </div>
+      </Container>
+    </div>
+  </section>
 
   <!-- ======================== CARDS ======================== -->
   <Section bg="mist">
@@ -169,25 +171,26 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
           nama="Kreasi & Inovasi"
           slug="kreasi-inovasi"
           kepala="Muhammad Nabil Nurfadillah"
-          ringkasan="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          ringkasan="Pengembangan kreativitas dan inovasi mahasiswa."
         />
         <DivisiCard
           nama="Humas"
           slug="humas"
           kepala="Rayssa Ameyliananda"
-          ringkasan="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          ringkasan="Hubungan masyarakat dan komunikasi eksternal."
         />
         <DivisiCard
           nama="Sarana & Prasarana"
           slug="sarpras"
           kepala="Radithya Akmalino Setiawan"
-          ringkasan="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          ringkasan="Pengelolaan sarana dan prasarana organisasi."
         />
         <DivisiCard
           nama="Media & Informasi"
           slug="medinfo"
           kepala="Ableir Benny Purba"
-          ringkasan="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          ringkasan="Pengelolaan media digital dan informasi."
+          dark
         />
       </div>
     </Container>
@@ -272,15 +275,17 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
     </Container>
   </Section>
 
-  <Section bg="navy-800">
-    <Container>
-      <SectionHeader
-        eyebrow="contoh"
-        title="Section Header Dark"
-        description="Tampilan header di atas latar gelap."
-        dark
-      />
-    </Container>
-  </Section>
+  <section class="px-2 lg:px-3 py-4">
+    <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl py-20 lg:py-32 relative overflow-hidden">
+      <Container>
+        <SectionHeader
+          eyebrow="contoh"
+          title="Section Header Dark (Island)"
+          description="Tampilan header di atas pulau gelap."
+          dark
+        />
+      </Container>
+    </div>
+  </section>
 
 </BaseLayout>

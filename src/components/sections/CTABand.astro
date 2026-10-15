@@ -1,6 +1,6 @@
 ---
 /**
- * CTABand — Call-to-action section on navy-800 background.
+ * CTABand — Call-to-action island banner with ink gradient, sheen, and ink-glow.
  */
 import Section from '../ui/Section.astro';
 import Container from '../ui/Container.astro';
@@ -13,23 +13,48 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<Section bg="navy-800" class={className}>
-  <Container>
-    <div class="max-w-2xl mx-auto text-center">
-      <h2 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
-        Tertarik Bergabung dengan HIMASTI?
-      </h2>
-      <p class="mt-4 text-base md:text-lg text-gray-300 leading-relaxed">
-        Jadilah bagian dari keluarga besar Sistem &amp; Teknologi Informasi Cyber University.
-      </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-        <Button variant="primary" on="dark" href="/kontak">
-          Gabung Sekarang
-        </Button>
-        <Button variant="secondary" on="dark" href="/kontak">
-          Hubungi Kami
-        </Button>
+<section class:list={['px-2 lg:px-3 py-4', className]}>
+  <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden">
+    <!-- Sheen overlay (§ 3.3, 8.6) -->
+    <div class="absolute inset-0 bg-sheen pointer-events-none" aria-hidden="true"></div>
+    <!-- Ink glow corner highlight (§ 3.3) -->
+    <div class="absolute inset-0 ink-glow pointer-events-none" aria-hidden="true"></div>
+
+    <Container class="relative z-10 py-20 lg:py-32">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-medium text-white text-center leading-tight">
+          Tertarik Bergabung dengan HIMASTI?
+        </h2>
+        <p class="mt-4 text-base md:text-lg text-gray-300 leading-relaxed max-w-xl mx-auto">
+          Jadilah bagian dari keluarga besar Sistem &amp; Teknologi Informasi Cyber University.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8 lg:mt-10">
+          <a
+            href="/kontak"
+            class="group surface-glass rounded-full px-8 py-3 text-white font-medium inline-flex items-center gap-2 hover:bg-white/15 transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+          >
+            <span>Gabung Sekarang</span>
+            <svg
+              class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transform-none"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </a>
+          <a
+            href="/kontak"
+            class="text-gray-300 underline hover:text-white transition-colors text-sm font-medium focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+          >
+            Hubungi Kami
+          </a>
+        </div>
       </div>
-    </div>
-  </Container>
-</Section>
+    </Container>
+  </div>
+</section>

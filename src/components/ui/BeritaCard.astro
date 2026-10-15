@@ -3,6 +3,8 @@
  * BeritaCard — Card for news/article entry.
  * Shows title, date, author, summary, and optional cover image.
  */
+import { Image } from 'astro:assets';
+
 interface Props {
   judul: string;
   slug: string;
@@ -12,8 +14,6 @@ interface Props {
   sampul?: ImageMetadata;
   class?: string;
 }
-
-import { Image } from 'astro:assets';
 
 const { judul, slug, tanggal, penulis, ringkasan, sampul, class: className = '' } = Astro.props;
 
@@ -27,8 +27,8 @@ const formattedDate = tanggal.toLocaleDateString('id-ID', {
 <a
   href={`/berita/${slug}`}
   class:list={[
-    'group block rounded-xl border border-gray-300 bg-white overflow-hidden transition-all duration-150',
-    'hover:-translate-y-0.5 hover:shadow-md hover:border-accent-light',
+    'group block rounded-[20px] border border-mist-100 bg-white overflow-hidden shadow-sm transition-all duration-150',
+    'hover:-translate-y-[2px] hover:shadow-md hover:border-slate-500',
     className,
   ]}
 >
@@ -50,7 +50,7 @@ const formattedDate = tanggal.toLocaleDateString('id-ID', {
       <span aria-hidden="true">·</span>
       <span>{penulis}</span>
     </div>
-    <h3 class="font-heading text-lg font-bold text-navy-900 mb-2 group-hover:text-accent-light transition-colors">
+    <h3 class="font-heading text-lg font-medium text-navy-900 mb-2 group-hover:underline transition-colors">
       {judul}
     </h3>
     <p class="text-sm text-slate-700 leading-relaxed line-clamp-2">

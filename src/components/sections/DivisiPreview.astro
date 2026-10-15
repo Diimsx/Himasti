@@ -1,13 +1,15 @@
 ---
 /**
- * DivisiPreview — Preview of divisions on mist-100 background.
+ * DivisiPreview — Preview of divisions on white background.
  * Fetches divisi content collection sorted by urutan.
+ * First card rendered as dark bento highlight per design.md § 5 (#6).
  */
 import { getCollection } from 'astro:content';
 import Section from '../ui/Section.astro';
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import DivisiCard from '../ui/DivisiCard.astro';
+import Button from '../ui/Button.astro';
 
 interface Props {
   class?: string;
@@ -19,7 +21,7 @@ const divisiEntries = await getCollection('divisi');
 const sortedDivisi = divisiEntries.sort((a, b) => (a.data.urutan ?? 0) - (b.data.urutan ?? 0));
 ---
 
-<Section bg="mist" class={className}>
+<section class:list={['bg-white py-20 lg:py-32', className]}>
   <Container>
     <SectionHeader
       eyebrow="divisi"
@@ -28,20 +30,30 @@ const sortedDivisi = divisiEntries.sort((a, b) => (a.data.urutan ?? 0) - (b.data
     />
 
     {sortedDivisi.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {sortedDivisi.map((entry) => (
-          <DivisiCard
-            nama={entry.data.nama}
-            slug={entry.data.slug}
-            kepala={entry.data.kepala}
-            ringkasan={entry.data.ringkasan}
-          />
-        ))}
-      </div>
+      <>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {sortedDivisi.map((entry, idx) => (
+            <DivisiCard
+              nama={entry.data.nama}
+              slug={entry.data.slug}
+              kepala={entry.data.kepala}
+              ringkasan={entry.data.ringkasan}
+              dark={idx === 0}
+              class={idx === 0 ? 'surface-ink border-0 shadow-lg' : ''}
+            />
+          ))}
+        </div>
+
+        <div class="mt-10 lg:mt-12 text-center">
+          <Button variant="secondary" on="light" href="/divisi">
+            Lihat Semua Divisi
+          </Button>
+        </div>
+      </>
     ) : (
       <p class="text-center text-slate-700">
         Informasi divisi akan segera diperbarui.
       </p>
     )}
   </Container>
-</Section>
+</section>

@@ -18,17 +18,13 @@ const prestasiList = allPrestasi.sort((a, b) => b.data.tahun - a.data.tahun);
   title="Prestasi"
   description="Daftar pencapaian dan kebanggaan mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University di berbagai ajang kompetisi."
 >
-  <!-- Hero-like Header -->
-  <section class="bg-navy-900 text-white py-16 lg:py-24 border-b border-navy-800">
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
-          // prestasi
-        </p>
-        <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-          Prestasi Mahasiswa
-        </h1>
-        <p class="mt-4 text-base sm:text-lg text-gray-300 max-w-2xl leading-relaxed">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Prestasi</span>
+        <h1 class="font-heading text-3xl sm:text-4xl lg:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Prestasi Mahasiswa</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
           Pencapaian dan kebanggaan mahasiswa Sistem &amp; Teknologi Informasi yang mengukir prestasi gemilang di berbagai ajang kompetisi.
         </p>
       </div>
@@ -36,15 +32,15 @@ const prestasiList = allPrestasi.sort((a, b) => b.data.tahun - a.data.tahun);
   </section>
 
   <!-- Section Prestasi (white) -->
-  <Section bg="white">
+  <Section bg="white" class="py-20 lg:py-32">
     <Container>
       {prestasiList.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {prestasiList.map((item) => (
-            <div class="rounded-xl border border-gray-300 bg-white p-6 flex flex-col justify-between transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-accent-light">
+            <div class="rounded-[20px] border border-mist-100 bg-white p-6 flex flex-col justify-between shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
               <div>
                 {item.data.foto && (
-                  <div class="aspect-video mb-5 rounded-lg overflow-hidden border border-gray-300">
+                  <div class="aspect-video mb-5 rounded-[14px] overflow-hidden border border-mist-100">
                     <Image
                       src={item.data.foto}
                       alt={item.data.nama}
@@ -57,7 +53,7 @@ const prestasiList = allPrestasi.sort((a, b) => b.data.tahun - a.data.tahun);
                 )}
 
                 <div class="flex items-center justify-between gap-3 mb-4">
-                  <div class="w-10 h-10 rounded-lg bg-mist-100 flex items-center justify-center text-accent-light shrink-0">
+                  <div class="w-10 h-10 rounded-lg bg-mist-100 flex items-center justify-center text-slate-700 shrink-0">
                     <!-- Trophy Icon -->
                     <svg
                       class="w-5 h-5"
@@ -74,12 +70,12 @@ const prestasiList = allPrestasi.sort((a, b) => b.data.tahun - a.data.tahun);
                       />
                     </svg>
                   </div>
-                  <Badge variant="info">
+                  <Badge variant="default">
                     {item.data.tingkat}
                   </Badge>
                 </div>
 
-                <h3 class="font-heading text-lg font-bold text-navy-900 mb-2">
+                <h3 class="font-heading text-lg font-medium text-navy-900 mb-2">
                   {item.data.nama}
                 </h3>
                 <p class="text-sm text-slate-700 leading-relaxed">
@@ -87,7 +83,7 @@ const prestasiList = allPrestasi.sort((a, b) => b.data.tahun - a.data.tahun);
                 </p>
               </div>
 
-              <div class="mt-6 pt-4 border-t border-gray-300/60 flex items-center justify-between text-xs font-mono text-slate-500">
+              <div class="mt-6 pt-4 border-t border-mist-100 flex items-center justify-between text-xs font-mono text-slate-500">
                 <span class="uppercase">Tahun</span>
                 <span class="font-semibold text-navy-900">{item.data.tahun}</span>
               </div>
@@ -112,7 +108,7 @@ const prestasiList = allPrestasi.sort((a, b) => b.data.tahun - a.data.tahun);
               />
             </svg>
           </div>
-          <h2 class="font-heading text-xl font-bold text-navy-900 mb-2">
+          <h2 class="font-heading text-xl font-medium text-navy-900 mb-2">
             Prestasi HIMASTI
           </h2>
           <p class="text-slate-700 leading-relaxed text-sm sm:text-base">

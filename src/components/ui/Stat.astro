@@ -1,7 +1,7 @@
 ---
 /**
  * Stat — Large number with label beneath it.
- * Number uses mono font at 40–56px (design.md § 4).
+ * Number uses mono font at 40–64px (design.md § 4, § 6).
  * Counter animation respects prefers-reduced-motion.
  */
 interface Props {
@@ -17,13 +17,13 @@ interface Props {
 
 const { value, label, dark = false, class: className = '' } = Astro.props;
 
-const valueColor = dark ? 'text-accent-dark' : 'text-navy-900';
-const labelColor = dark ? 'text-gray-300' : 'text-slate-700';
+const valueColor = dark ? 'text-white' : 'text-navy-900';
+const labelColor = dark ? 'text-gray-300' : 'text-slate-500';
 ---
 
 <div class:list={['text-center', className]}>
   <p class:list={[
-    'font-mono text-[40px] md:text-[56px] font-bold leading-none tracking-tight',
+    'font-mono text-[40px] md:text-[64px] font-medium leading-none tracking-[-0.02em]',
     valueColor,
   ]}>
     {value}

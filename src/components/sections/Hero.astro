@@ -1,8 +1,7 @@
 ---
 /**
- * Hero — Homepage hero section on navy-900 background with gradient to navy-800.
- * Min height: 80vh mobile, 90vh desktop (hints content below).
- * Respects prefers-reduced-motion for entrance animation.
+ * Hero — Homepage hero section in HIMASTI v3 "Layered Clean Tech" design.
+ * Rounded mist gradient card, two-tone heading, pill label, bottom-left pill CTA.
  */
 import { Image } from 'astro:assets';
 import Container from '../ui/Container.astro';
@@ -18,17 +17,13 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<section
-  class:list={[
-    'relative flex items-center justify-center min-h-[80vh] lg:min-h-[90vh] bg-gradient-to-b from-navy-900 to-navy-800 overflow-hidden',
-    className,
-  ]}
->
-  <!-- Decorative dot grid (opacity <= 6%) -->
-  <div class="hero-dot-grid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+<section class:list={['px-2 lg:px-3 pt-24 lg:pt-28 pb-4', className]}>
+  <div class="surface-mist rounded-[32px] lg:rounded-[40px] shadow-xl min-h-[calc(100svh-24px)] relative overflow-hidden flex flex-col items-center justify-center px-4 py-16 sm:py-20 lg:py-24">
+    <!-- Dot grid texture in top 45% zone (§ 4.1, 6) -->
+    <div class="absolute inset-x-0 top-0 h-[45%] bg-dots-light opacity-60 pointer-events-none" aria-hidden="true"></div>
 
-  <Container class="relative z-10 py-16 lg:py-20 text-center">
-    <div class="hero-content mx-auto max-w-4xl">
+    <!-- Centered content in top zone (0-45% where background is light = dark text safe) -->
+    <div class="hero-content hero-entrance mx-auto max-w-4xl text-center relative z-10">
       <!-- Main HIMASTI Logo -->
       <div class="flex justify-center mb-6">
         <Image
@@ -39,19 +34,21 @@ const { class: className = '' } = Astro.props;
         />
       </div>
 
-      <!-- Eyebrow -->
-      <p class="font-mono text-xs md:text-sm tracking-[0.08em] uppercase font-medium text-accent-dark mb-4 md:mb-6">
-        // himasti
-      </p>
+      <!-- Pill Label -->
+      <div>
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">
+          HIMASTI 2026/2027
+        </span>
+      </div>
 
-      <!-- Display heading -->
-      <h1 class="font-heading text-4xl sm:text-5xl lg:text-[64px] font-extrabold leading-[1.1] tracking-tight text-white mb-6">
+      <!-- Two-tone Heading -->
+      <h1 class="font-heading text-4xl sm:text-5xl lg:text-[64px] font-medium leading-[1.08] tracking-[-0.03em] text-center text-navy-900 mb-6">
         Himpunan Mahasiswa<br />
-        <span class="text-accent-dark">Sistem &amp; Teknologi Informasi</span>
+        <span class="text-slate-700">Sistem &amp; Teknologi Informasi</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-base sm:text-lg lg:text-xl text-mist-100 max-w-xl mx-auto">
+      <p class="text-base sm:text-lg lg:text-xl text-slate-500 max-w-xl mx-auto">
         Cyber University · Periode 2026/2027
       </p>
 
@@ -64,7 +61,7 @@ const { class: className = '' } = Astro.props;
             class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
           />
         </div>
-        <span class="text-gray-300/30 text-sm" aria-hidden="true">|</span>
+        <span class="text-slate-500/40 text-sm" aria-hidden="true">|</span>
         <div class="flex items-center gap-2">
           <Image
             src={logoKabinetArthasena}
@@ -73,40 +70,19 @@ const { class: className = '' } = Astro.props;
           />
         </div>
       </div>
-
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 lg:mt-10">
-        <Button variant="primary" on="dark" href="/tentang">
-          Kenali Kami
-        </Button>
-        <Button variant="secondary" on="dark" href="/kontak">
-          Gabung
-        </Button>
-      </div>
     </div>
-  </Container>
+
+    <!-- Pill CTA in bottom zone (90-100% where background is navy = white text safe) -->
+    <div class="absolute bottom-8 lg:bottom-12 left-8 lg:left-12 z-10">
+      <a
+        href="/kontak"
+        class="bg-white/90 backdrop-blur text-navy-900 rounded-full px-6 py-3 text-sm font-medium hover:bg-white shadow-lg transition-colors inline-flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+      >
+        <span>Gabung</span>
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 </section>
-
-<style>
-  .hero-dot-grid {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-content {
-      animation: heroFadeIn 0.3s ease-out forwards;
-    }
-  }
-
-  @keyframes heroFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

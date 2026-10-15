@@ -33,13 +33,13 @@ const formattedDate = entry.data.tanggal.toLocaleDateString('id-ID', {
   title={`${entry.data.judul} — Berita HIMASTI`}
   description={entry.data.ringkasan}
 >
-  <!-- Hero-like Header -->
-  <section class="bg-navy-900 text-white py-12 lg:py-16 border-b border-navy-800">
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-12 lg:pb-16 bg-white border-b border-mist-100">
     <Container>
       <!-- Back Link -->
       <a
         href="/berita"
-        class="inline-flex items-center gap-2 font-mono text-xs tracking-wider uppercase text-gray-300 hover:text-white transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark"
+        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
       >
         <svg
           class="w-4 h-4"
@@ -59,17 +59,19 @@ const formattedDate = entry.data.tanggal.toLocaleDateString('id-ID', {
       </a>
 
       <!-- Category Eyebrow -->
-      <p class="font-mono text-xs tracking-[0.08em] uppercase font-medium text-accent-dark mb-3">
-        // {entry.data.kategori || 'berita'}
-      </p>
+      <div class="mb-4">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em]">
+          {entry.data.kategori || 'berita'}
+        </span>
+      </div>
 
       <!-- Title -->
-      <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 max-w-4xl">
+      <h1 class="font-heading text-3xl sm:text-4xl lg:text-[44px] font-medium leading-[1.15] tracking-[-0.02em] text-navy-900 mb-4 max-w-4xl">
         {entry.data.judul}
       </h1>
 
       <!-- Date & Author Metadata -->
-      <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-gray-300">
+      <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-500">
         <time datetime={entry.data.tanggal.toISOString()}>{formattedDate}</time>
         <span aria-hidden="true">·</span>
         <span>Ditulis oleh {entry.data.penulis}</span>
@@ -78,11 +80,11 @@ const formattedDate = entry.data.tanggal.toLocaleDateString('id-ID', {
   </section>
 
   <!-- Content Section (white) -->
-  <Section bg="white">
+  <Section bg="white" class="py-16 lg:py-24">
     <Container>
       <div class="max-w-3xl">
         {entry.data.sampul && (
-          <div class="mb-8 rounded-xl overflow-hidden aspect-video border border-gray-300">
+          <div class="mb-10 rounded-[20px] overflow-hidden aspect-video border border-mist-100 shadow-sm">
             <Image
               src={entry.data.sampul}
               alt={entry.data.judul}
