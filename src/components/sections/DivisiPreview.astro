@@ -5,7 +5,6 @@
  * First card rendered as dark bento highlight per design.md § 5 (#6).
  */
 import { getCollection } from 'astro:content';
-import Section from '../ui/Section.astro';
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import DivisiCard from '../ui/DivisiCard.astro';
@@ -33,14 +32,15 @@ const sortedDivisi = divisiEntries.sort((a, b) => (a.data.urutan ?? 0) - (b.data
       <>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {sortedDivisi.map((entry, idx) => (
+            <div class="card-enter grid" style={`--i:${idx}`}>
             <DivisiCard
               nama={entry.data.nama}
               slug={entry.data.slug}
               kepala={entry.data.kepala}
               ringkasan={entry.data.ringkasan}
               dark={idx === 0}
-              class={idx === 0 ? 'surface-ink border-0 shadow-lg' : ''}
             />
+            </div>
           ))}
         </div>
 

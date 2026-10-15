@@ -4,7 +4,6 @@
  * Fetches proker content collection and displays the top 3 cards.
  */
 import { getCollection } from 'astro:content';
-import Section from '../ui/Section.astro';
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
 import ProkerCard from '../ui/ProkerCard.astro';
@@ -45,7 +44,8 @@ const topProker = [...prokerEntries]
     {topProker.length > 0 ? (
       <>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {topProker.map((item) => (
+          {topProker.map((item, idx) => (
+            <div class="card-enter grid" style={`--i:${idx}`}>
             <ProkerCard
               judul={item.data.judul}
               slug={item.data.slug}
@@ -54,6 +54,7 @@ const topProker = [...prokerEntries]
               kategori={item.data.kategori}
               status={item.data.status}
             />
+            </div>
           ))}
         </div>
 

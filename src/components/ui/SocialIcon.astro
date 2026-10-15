@@ -1,0 +1,44 @@
+---
+/**
+ * SocialIcon — Inline line icons (Lucide-style, 24px grid) for contact/social links.
+ * Decorative: the parent link must carry an accessible name (aria-label or visible text).
+ */
+interface Props {
+  name: 'instagram' | 'linkedin' | 'email';
+  class?: string;
+}
+
+const { name, class: className = 'w-5 h-5' } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {name === 'instagram' && (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none" />
+    </>
+  )}
+  {name === 'linkedin' && (
+    <>
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </>
+  )}
+  {name === 'email' && (
+    <>
+      <rect x="2" y="4" width="20" height="16" rx="3" />
+      <path d="m22 7-10 6L2 7" />
+    </>
+  )}
+</svg>

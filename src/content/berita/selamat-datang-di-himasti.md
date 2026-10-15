@@ -1,10 +1,11 @@
 ---
-judul: "Selamat Datang di Website HIMASTI"
-slug: "selamat-datang-di-himasti"
+judul: Selamat Datang di Website HIMASTI
+slug: selamat-datang-di-himasti
 tanggal: 2026-10-01
-penulis: "Tim HIMASTI"
-kategori: "Pengumuman"
-ringkasan: "Website resmi HIMASTI Cyber University kini hadir sebagai pusat informasi himpunan."
+penulis: Tim HIMASTI
+kategori: Pengumuman
+sampul: /src/assets/uploads/20260427_154254.jpg
+ringkasan: Website resmi HIMASTI Cyber University kini hadir sebagai pusat informasi himpunan.
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.

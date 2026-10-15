@@ -6,18 +6,32 @@
 interface Props {
   /** Visual variant */
   variant?: 'default' | 'akan-datang' | 'berlangsung' | 'selesai';
+  /** Background the badge sits on (design.md § 6). Dark variants never use slate-500/700 text. */
+  on?: 'light' | 'dark';
   /** Additional CSS classes */
   class?: string;
 }
 
-const { variant = 'default', class: className = '' } = Astro.props;
+const { variant = 'default', on = 'light', class: className = '' } = Astro.props;
 
-const variantClasses: Record<'default' | 'akan-datang' | 'berlangsung' | 'selesai', string> = {
+type Variant = 'default' | 'akan-datang' | 'berlangsung' | 'selesai';
+
+const lightClasses: Record<Variant, string> = {
   'default': 'bg-mist-100 text-navy-900',
   'akan-datang': 'border border-slate-700 text-slate-700',
   'berlangsung': 'bg-navy-900 text-white',
   'selesai': 'bg-mist-100 text-navy-900',
 };
+
+// On navy: outline gray-300 / solid white + navy-900 / glass + white (contrast >= 6.78:1)
+const darkClasses: Record<Variant, string> = {
+  'default': 'bg-white text-navy-900',
+  'akan-datang': 'border border-gray-300 text-gray-300',
+  'berlangsung': 'bg-white text-navy-900',
+  'selesai': 'surface-glass text-white',
+};
+
+const variantClasses = on === 'dark' ? darkClasses : lightClasses;
 ---
 
 <span
@@ -28,7 +42,7 @@ const variantClasses: Record<'default' | 'akan-datang' | 'berlangsung' | 'selesa
   ]}
 >
   {variant === 'berlangsung' && (
-    <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse" aria-hidden="true" />
+    <span class:list={['w-1.5 h-1.5 rounded-full motion-safe:animate-pulse', on === 'dark' ? 'bg-navy-900' : 'bg-white']} aria-hidden="true" />
   )}
   {variant === 'selesai' && (
     <svg

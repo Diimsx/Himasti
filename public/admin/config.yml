@@ -156,5 +156,3 @@ collections:
           - { label: "Alamat", name: "alamat", widget: "text", required: false }
           - { label: "Instagram", name: "instagram", widget: "string", required: false }
           - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
-          - { label: "Formulir Pendaftaran", name: "formulir_pendaftaran", widget: "string", required: false }
-          - { label: "Jadwal Open Recruitment", name: "open_recruitment_jadwal", widget: "string", required: false }

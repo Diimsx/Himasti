@@ -1,25 +1,24 @@
 ---
 /**
- * Kontak & Gabung — Halaman kontak resmi dan informasi pendaftaran HIMASTI.
+ * Kontak — Halaman kontak resmi HIMASTI.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
-import Button from '../components/ui/Button.astro';
 ---
 
 <BaseLayout
-  title="Kontak & Gabung"
-  description="Hubungi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University atau daftar sebagai pengurus dan anggota."
+  title="Kontak"
+  description="Hubungi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University dan temukan kanal resmi kami."
 >
   <!-- Page Hero Header -->
   <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Kontak &amp; Gabung</span>
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Kontak</span>
         <h1 class="font-heading text-3xl sm:text-4xl lg:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Hubungi Kami</h1>
         <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
-          Punya pertanyaan seputar kegiatan, kolaborasi, atau ingin bergabung dengan keluarga besar HIMASTI Cyber University? Jangan ragu untuk menghubungi kami.
+          Punya pertanyaan seputar kegiatan atau kolaborasi dengan HIMASTI Cyber University? Jangan ragu untuk menghubungi kami.
         </p>
       </div>
     </Container>
@@ -162,102 +161,4 @@ import Button from '../components/ui/Button.astro';
     </Container>
   </Section>
 
-  <!-- Section 2: Gabung dengan HIMASTI (mist bg) -->
-  <Section bg="mist" class="py-20 lg:py-32">
-    <Container>
-      <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Gabung</span>
-        <h2 class="font-heading text-3xl sm:text-4xl font-medium leading-[1.15] tracking-[-0.02em]">
-          <span class="text-navy-900">Gabung dengan</span> <span class="text-slate-700">HIMASTI</span>
-        </h2>
-        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
-          Siapkan diri Anda menjadi bagian dari perubahan dan pengembangan teknologi di kampus tercinta.
-        </p>
-      </div>
-
-      <!-- Steps / Alur Pendaftaran -->
-      <div class="max-w-3xl mx-auto mb-10">
-        <h3 class="font-heading text-xl font-medium text-navy-900 mb-6 text-center">
-          Alur Pendaftaran
-        </h3>
-        <ol class="space-y-4">
-          <li class="flex items-start gap-4 p-4 rounded-[20px] bg-white border border-mist-100 shadow-sm">
-            <span class="font-mono text-sm font-bold w-8 h-8 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
-              01
-            </span>
-            <div>
-              <h4 class="font-heading font-medium text-navy-900 text-base">
-                Pengisian Formulir Daring
-              </h4>
-              <p class="text-sm text-slate-700 mt-1 leading-relaxed">
-                Lengkapi biodata dan pilih divisi yang sesuai dengan minat dan keterampilan Anda melalui formulir pendaftaran.
-              </p>
-            </div>
-          </li>
-
-          <li class="flex items-start gap-4 p-4 rounded-[20px] bg-white border border-mist-100 shadow-sm">
-            <span class="font-mono text-sm font-bold w-8 h-8 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
-              02
-            </span>
-            <div>
-              <h4 class="font-heading font-medium text-navy-900 text-base">
-                Seleksi Berkas &amp; Administrasi
-              </h4>
-              <p class="text-sm text-slate-700 mt-1 leading-relaxed">
-                Tim verifikasi akan memeriksa kesesuaian berkas dan portofolio (bila dipersyaratkan).
-              </p>
-            </div>
-          </li>
-
-          <li class="flex items-start gap-4 p-4 rounded-[20px] bg-white border border-mist-100 shadow-sm">
-            <span class="font-mono text-sm font-bold w-8 h-8 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
-              03
-            </span>
-            <div>
-              <h4 class="font-heading font-medium text-navy-900 text-base">
-                Wawancara
-              </h4>
-              <p class="text-sm text-slate-700 mt-1 leading-relaxed">
-                Sesi wawancara tatap muka atau daring untuk mendalami motivasi dan komitmen organisasi.
-              </p>
-            </div>
-          </li>
-
-          <li class="flex items-start gap-4 p-4 rounded-[20px] bg-white border border-mist-100 shadow-sm">
-            <span class="font-mono text-sm font-bold w-8 h-8 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
-              04
-            </span>
-            <div>
-              <h4 class="font-heading font-medium text-navy-900 text-base">
-                Pengumuman &amp; Welcoming
-              </h4>
-              <p class="text-sm text-slate-700 mt-1 leading-relaxed">
-                Pengumuman hasil seleksi akhir dan orientasi penyambutan anggota baru HIMASTI.
-              </p>
-            </div>
-          </li>
-        </ol>
-      </div>
-
-      <!-- Jadwal Open Recruitment Placeholder -->
-      <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 text-center max-w-xl mx-auto mb-8 shadow-sm">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
-          Jadwal Open Recruitment
-        </span>
-        <p class="font-heading text-lg sm:text-xl font-medium text-navy-900">
-          [ISI] — Jadwal Segera Diumumkan
-        </p>
-        <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-          Informasi tanggal resmi pembukaan pendaftaran akan dipublikasikan melalui kanal sosial media HIMASTI.
-        </p>
-      </div>
-
-      <!-- CTA Button -->
-      <div class="text-center">
-        <Button href="#" variant="primary" on="light" class="inline-flex">
-          Daftar Sekarang
-        </Button>
-      </div>
-    </Container>
-  </Section>
 </BaseLayout>

@@ -2,7 +2,8 @@
 /**
  * Beranda — HIMASTI Cyber University Homepage
  * Assembles all homepage sections in prescribed order:
- * Hero -> StatsStrip -> AboutPreview -> DivisiPreview -> Pulau gelap Pernyataan -> ProkerPreview -> Pulau gelap Timeline -> CTABand
+ * Hero -> StatsStrip -> AboutPreview -> DivisiPreview -> [island] Pernyataan -> ProkerPreview -> [island] Timeline -> BeritaPreview -> [island] CTABand
+ * Never two dark islands back-to-back (design.md § 3.2).
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/sections/Hero.astro';
@@ -12,8 +13,10 @@ import DivisiPreview from '../components/sections/DivisiPreview.astro';
 import ProkerPreview from '../components/sections/ProkerPreview.astro';
 import Timeline from '../components/sections/Timeline.astro';
 import CTABand from '../components/sections/CTABand.astro';
-import Container from '../components/ui/Container.astro';
+import Pernyataan from '../components/sections/Pernyataan.astro';
+import BeritaPreview from '../components/sections/BeritaPreview.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
+import Container from '../components/ui/Container.astro';
 ---
 
 <BaseLayout
@@ -25,19 +28,10 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
   <AboutPreview />
   <DivisiPreview />
 
-  <!-- Pulau gelap Pernyataan (NEW) -->
-  <section class="px-2 lg:px-3 py-4">
-    <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden py-20 lg:py-32">
-      <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute inset-0 ink-glow pointer-events-none" aria-hidden="true"></div>
-      <Container>
-        <div class="relative z-10 text-center max-w-3xl mx-auto">
-          <span class="inline-flex items-center rounded-full border border-gray-300 text-gray-300 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Tentang Kami</span>
-          <p class="font-heading text-2xl sm:text-3xl lg:text-[40px] font-medium leading-[1.3] tracking-[-0.01em] text-white">Wadah aspirasi, kolaborasi, dan akselerasi potensi bagi seluruh mahasiswa Sistem &amp; Teknologi Informasi Cyber University.</p>
-        </div>
-      </Container>
-    </div>
-  </section>
+  <Pernyataan
+    label="Tentang Kami"
+    text="Wadah aspirasi, kolaborasi, dan akselerasi potensi bagi seluruh mahasiswa Sistem & Teknologi Informasi Cyber University."
+  />
 
   <ProkerPreview />
 
@@ -56,6 +50,9 @@ import SectionHeader from '../components/ui/SectionHeader.astro';
       </Container>
     </div>
   </section>
+
+  <!-- Berita on a light background separates the Timeline island from the CTA island -->
+  <BeritaPreview />
 
   <CTABand />
 </BaseLayout>

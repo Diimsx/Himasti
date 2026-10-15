@@ -113,7 +113,7 @@ himasti-website/
 │   │   ├── pengurus/             # Biodata dan susunan pengurus (per periode)
 │   │   ├── prestasi/             # Catatan prestasi akademik dan non-akademik
 │   │   ├── proker/               # Daftar program kerja organisasi
-│   │   └── settings.json         # Pengaturan global situs (kontak, sosmed, oprec)
+│   │   └── settings.json         # Pengaturan global situs (kontak dan sosmed)
 │   ├── content.config.ts         # Skema validasi Content Collections (Zod)
 │   ├── layouts/                  # Layout pembungkus utama (BaseLayout.astro)
 │   ├── lib/                      # Utilitas pembantu (format tanggal, sorting, dll.)
@@ -251,8 +251,6 @@ Data umum organisasi yang tampil di bagian *footer*, header, dan narahubung:
 - `alamat`: Lokasi fisik sekretariat di kampus Cyber University.
 - `instagram`: Tautan profil akun Instagram resmi.
 - `linkedin`: Tautan profil laman LinkedIn resmi.
-- `formulir_pendaftaran`: URL Google Form pendaftaran *Open Recruitment*.
-- `open_recruitment_jadwal`: Informasi jadwal tahapan seleksi.
 
 ---
 
@@ -374,7 +372,7 @@ Saat masa bakti kepengurusan berakhir dan terjadi pergantian kabinet baru, ikuti
    - Ubah status proker periode lama menjadi `selesai`.
    - Masukkan daftar program kerja periode baru dengan status `akan-datang`.
 4. **Pembaruan Pengaturan Kontak & Media Sosial**:
-   - Perbarui `src/content/settings.json` bila ada perubahan email humas, nomor sekretariat, atau tautan formulir pendaftaran mahasiswa baru.
+   - Perbarui `src/content/settings.json` bila ada perubahan email humas atau nomor sekretariat.
 5. **Serah Terima Kredensial & Hak Akses (Handover Teknis)**:
    > [!WARNING]
    > Lakukan serah terima kredensial teknis **SEBELUM** kepengurusan lama resmi demisioner!

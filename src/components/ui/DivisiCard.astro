@@ -16,7 +16,7 @@ interface Props {
 const { nama, slug, ringkasan, kepala, dark = false, class: className = '' } = Astro.props;
 
 const cardClasses = dark
-  ? 'surface-glass rounded-[20px] text-white hover:-translate-y-[2px] hover:shadow-md'
+  ? 'surface-ink border border-white/10 rounded-[20px] text-white shadow-lg hover:-translate-y-[2px] hover:shadow-xl'
   : 'bg-white border border-mist-100 rounded-[20px] shadow-sm hover:shadow-md hover:border-slate-500 hover:-translate-y-[2px]';
 
 const titleColor = dark ? 'text-white' : 'text-navy-900';

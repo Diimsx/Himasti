@@ -1,11 +1,9 @@
 ---
 /**
  * Hero — Homepage hero section in HIMASTI v3 "Layered Clean Tech" design.
- * Rounded mist gradient card, two-tone heading, pill label, bottom-left pill CTA.
+ * Rounded mist gradient card, two-tone heading, pill label.
  */
 import { Image } from 'astro:assets';
-import Container from '../ui/Container.astro';
-import Button from '../ui/Button.astro';
 import logoHimasti from '../../assets/logo-himasti.png';
 import logoCyberUniversity from '../../assets/logo-cyber-university.png';
 import logoKabinetArthasena from '../../assets/logo-kabinet-arthasena.png';
@@ -18,11 +16,11 @@ const { class: className = '' } = Astro.props;
 ---
 
 <section class:list={['px-2 lg:px-3 pt-24 lg:pt-28 pb-4', className]}>
-  <div class="surface-mist rounded-[32px] lg:rounded-[40px] shadow-xl min-h-[calc(100svh-24px)] relative overflow-hidden flex flex-col items-center justify-center px-4 py-16 sm:py-20 lg:py-24">
+  <div class="surface-mist rounded-[32px] lg:rounded-[40px] shadow-xl min-h-[calc(100svh-24px)] relative overflow-hidden flex flex-col items-center justify-start px-4 pt-14 sm:pt-16 lg:pt-20 pb-28">
     <!-- Dot grid texture in top 45% zone (§ 4.1, 6) -->
     <div class="absolute inset-x-0 top-0 h-[45%] bg-dots-light opacity-60 pointer-events-none" aria-hidden="true"></div>
 
-    <!-- Centered content in top zone (0-45% where background is light = dark text safe) -->
+    <!-- Content is top-aligned so every text line stays in the light zone (0-70% of the card; navy-900/slate-700 only, design.md § 2.3). Never place text in the 70-90% dead zone. -->
     <div class="hero-content hero-entrance mx-auto max-w-4xl text-center relative z-10">
       <!-- Main HIMASTI Logo -->
       <div class="flex justify-center mb-6">
@@ -48,7 +46,7 @@ const { class: className = '' } = Astro.props;
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-base sm:text-lg lg:text-xl text-slate-500 max-w-xl mx-auto">
+      <p class="text-base sm:text-lg lg:text-xl text-slate-700 max-w-xl mx-auto">
         Cyber University · Periode 2026/2027
       </p>
 
@@ -61,7 +59,7 @@ const { class: className = '' } = Astro.props;
             class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
           />
         </div>
-        <span class="text-slate-500/40 text-sm" aria-hidden="true">|</span>
+        <span class="h-6 w-px bg-slate-700/30" aria-hidden="true"></span>
         <div class="flex items-center gap-2">
           <Image
             src={logoKabinetArthasena}
@@ -72,17 +70,5 @@ const { class: className = '' } = Astro.props;
       </div>
     </div>
 
-    <!-- Pill CTA in bottom zone (90-100% where background is navy = white text safe) -->
-    <div class="absolute bottom-8 lg:bottom-12 left-8 lg:left-12 z-10">
-      <a
-        href="/kontak"
-        class="bg-white/90 backdrop-blur text-navy-900 rounded-full px-6 py-3 text-sm font-medium hover:bg-white shadow-lg transition-colors inline-flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
-      >
-        <span>Gabung</span>
-        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 8h10M9 4l4 4-4 4"/>
-        </svg>
-      </a>
-    </div>
   </div>
 </section>

@@ -1,0 +1,52 @@
+---
+/**
+ * BeritaPreview — latest 3 news on a subtle mist-50 background (design.md § 5, #11).
+ * Also keeps the two dark islands (Timeline, CTA banner) from touching each other.
+ */
+import { getCollection } from 'astro:content';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import BeritaCard from '../ui/BeritaCard.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const latest = (await getCollection('berita'))
+  .sort((a, b) => b.data.tanggal.getTime() - a.data.tanggal.getTime())
+  .slice(0, 3);
+---
+
+{latest.length > 0 && (
+  <section class:list={['bg-mist-50 py-20 lg:py-32', className]}>
+    <Container>
+      <SectionHeader
+        eyebrow="berita"
+        title="Kabar Terbaru"
+        description="Pengumuman dan cerita terkini dari kegiatan HIMASTI."
+      />
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {latest.map((item, idx) => (
+          <div class="card-enter grid" style={`--i:${idx}`}>
+            <BeritaCard
+              judul={item.data.judul}
+              slug={item.data.slug}
+              tanggal={item.data.tanggal}
+              penulis={item.data.penulis}
+              ringkasan={item.data.ringkasan}
+              sampul={item.data.sampul}
+            />
+          </div>
+        ))}
+      </div>
+      <div class="mt-10 lg:mt-12 text-center">
+        <Button variant="secondary" on="light" href="/berita">
+          Lihat Semua Berita
+        </Button>
+      </div>
+    </Container>
+  </section>
+)}

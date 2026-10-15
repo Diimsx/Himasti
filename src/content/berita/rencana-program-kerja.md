@@ -1,10 +1,11 @@
 ---
-judul: "Rencana Program Kerja 2026/2027"
-slug: "rencana-program-kerja"
+judul: Rencana Program Kerja 2026/2027
+slug: rencana-program-kerja
 tanggal: 2026-09-20
-penulis: "Tim HIMASTI"
-kategori: "Program Kerja"
-ringkasan: "HIMASTI telah menyusun enam program kerja unggulan untuk periode 2026/2027."
+penulis: Tim HIMASTI
+kategori: Program Kerja
+sampul: /src/assets/uploads/20260620_141235.jpg
+ringkasan: HIMASTI telah menyusun enam program kerja unggulan untuk periode 2026/2027.
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur.

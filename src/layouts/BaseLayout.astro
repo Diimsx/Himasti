@@ -36,6 +36,12 @@ const { title, description, ogImage, ogType, noindex, bare = false } = Astro.pro
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Enable scroll-linked text states only when motion is allowed (design.md § 8.7). Without JS, all text stays in its final state. -->
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('js-motion');
+      }
+    </script>
     <SEO
       title={title}
       description={description}
@@ -67,10 +73,10 @@ const { title, description, ogImage, ogType, noindex, bare = false } = Astro.pro
       <slot />
     </main>
 
-    {!bare && (
-      <footer>
-        <Footer />
-      </footer>
-    )}
+    {!bare && <Footer />}
+
+    <script>
+      import '../lib/motion';
+    </script>
   </body>
 </html>
