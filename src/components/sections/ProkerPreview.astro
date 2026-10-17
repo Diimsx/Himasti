@@ -1,12 +1,12 @@
 ---
 /**
- * ProkerPreview — Preview of top 3 program kerja on white background.
- * Fetches proker content collection and displays the top 3 cards.
+ * ProkerPreview - Preview of top 3 program kerja on white background.
+ * Fetches proker content collection and displays the top 3 compact tiles (nama + deskripsi).
  */
 import { getCollection } from 'astro:content';
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import ProkerCard from '../ui/ProkerCard.astro';
+import ProkerTile from '../ui/ProkerTile.astro';
 import Button from '../ui/Button.astro';
 
 interface Props {
@@ -36,23 +36,19 @@ const topProker = [...prokerEntries]
 <section class:list={['bg-white py-20 lg:py-32', className]}>
   <Container>
     <SectionHeader
-      eyebrow="program kerja"
       title="Program Kerja Unggulan"
       description="Inisiatif dan agenda strategis untuk meningkatkan kapasitas serta jejaring mahasiswa."
     />
 
     {topProker.length > 0 ? (
       <>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {topProker.map((item, idx) => (
             <div class="card-enter grid" style={`--i:${idx}`}>
-            <ProkerCard
+            <ProkerTile
               judul={item.data.judul}
               slug={item.data.slug}
               ringkasan={item.data.ringkasan}
-              waktu={item.data.waktu}
-              kategori={item.data.kategori}
-              status={item.data.status}
             />
             </div>
           ))}

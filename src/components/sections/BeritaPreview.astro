@@ -1,12 +1,14 @@
 ---
 /**
- * BeritaPreview — latest 3 news on a subtle mist-50 background (design.md § 5, #11).
- * Also keeps the two dark islands (Timeline, CTA banner) from touching each other.
+ * BeritaPreview - Karusel berita terbaru (maks. 9) di latar putih (design.md § 5, #11).
+ * Kartu: gambar, tanggal, judul, deskripsi singkat. Track memakai CSS scroll-snap (bisa digeser
+ * sentuh/trackpad/keyboard); tombol panah muncul hanya bila kartu melebihi lebar track.
+ * Juga menjaga dua pulau gelap (Timeline, CTA) agar tidak bersentuhan.
  */
 import { getCollection } from 'astro:content';
 import Container from '../ui/Container.astro';
 import SectionHeader from '../ui/SectionHeader.astro';
-import BeritaCard from '../ui/BeritaCard.astro';
+import BeritaSlide from '../ui/BeritaSlide.astro';
 import Button from '../ui/Button.astro';
 
 interface Props {
@@ -17,36 +19,121 @@ const { class: className = '' } = Astro.props;
 
 const latest = (await getCollection('berita'))
   .sort((a, b) => b.data.tanggal.getTime() - a.data.tanggal.getTime())
-  .slice(0, 3);
+  .slice(0, 9);
 ---
 
 {latest.length > 0 && (
-  <section class:list={['bg-mist-50 py-20 lg:py-32', className]}>
+  <section class:list={['bg-white py-20 lg:py-32', className]}>
     <Container>
       <SectionHeader
-        eyebrow="berita"
         title="Kabar Terbaru"
         description="Pengumuman dan cerita terkini dari kegiatan HIMASTI."
       />
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {latest.map((item, idx) => (
-          <div class="card-enter grid" style={`--i:${idx}`}>
-            <BeritaCard
-              judul={item.data.judul}
-              slug={item.data.slug}
-              tanggal={item.data.tanggal}
-              penulis={item.data.penulis}
-              ringkasan={item.data.ringkasan}
-              sampul={item.data.sampul}
-            />
+
+      <div data-carousel>
+        <!-- Padding + margin negatif memberi ruang bagi bayangan dan gerak hover agar tidak terpotong -->
+        <div
+          data-carousel-track
+          role="region"
+          aria-roledescription="karusel"
+          aria-label="Daftar berita terbaru"
+          tabindex="0"
+          class="-mx-1 -my-2 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-1 py-2 scroll-px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 motion-reduce:scroll-auto"
+        >
+          {latest.map((item) => (
+            <div class="basis-[85%] shrink-0 grow-0 snap-start sm:basis-[calc((100%-1.5rem)/2)] lg:basis-[calc((100%-3rem)/3)]">
+              <BeritaSlide
+                judul={item.data.judul}
+                slug={item.data.slug}
+                tanggal={item.data.tanggal}
+                ringkasan={item.data.ringkasan}
+                sampul={item.data.sampul}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-10 flex flex-col items-center gap-6 sm:flex-row sm:justify-between lg:mt-12">
+          <Button variant="secondary" on="light" href="/berita">
+            Lihat Semua Berita
+          </Button>
+
+          <!-- Tampil oleh skrip hanya jika kartu melebihi lebar track -->
+          <div data-carousel-controls hidden class="flex items-center gap-2">
+            <button
+              type="button"
+              data-carousel-prev
+              aria-label="Berita sebelumnya"
+              class="inline-flex size-11 items-center justify-center rounded-full border border-mist-100 bg-white text-navy-900 shadow-sm transition-[box-shadow,border-color,opacity] duration-150 hover:border-slate-500 hover:shadow-md disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
+            >
+              <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+            </button>
+            <button
+              type="button"
+              data-carousel-next
+              aria-label="Berita berikutnya"
+              class="inline-flex size-11 items-center justify-center rounded-full border border-mist-100 bg-white text-navy-900 shadow-sm transition-[box-shadow,border-color,opacity] duration-150 hover:border-slate-500 hover:shadow-md disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
+            >
+              <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+            </button>
           </div>
-        ))}
-      </div>
-      <div class="mt-10 lg:mt-12 text-center">
-        <Button variant="secondary" on="light" href="/berita">
-          Lihat Semua Berita
-        </Button>
+        </div>
       </div>
     </Container>
   </section>
 )}
+
+<script>
+  function query<T extends Element>(root: ParentNode, selector: string): T | null {
+    return root.querySelector<T>(selector);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = query<HTMLElement>(root, '[data-carousel-track]');
+    const controls = query<HTMLElement>(root, '[data-carousel-controls]');
+    const prev = query<HTMLButtonElement>(root, '[data-carousel-prev]');
+    const next = query<HTMLButtonElement>(root, '[data-carousel-next]');
+    if (!track || !controls || !prev || !next) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function update(): void {
+      if (!track || !controls || !prev || !next) return;
+      const max = track.scrollWidth - track.clientWidth;
+      controls.hidden = max <= 1;
+      prev.disabled = track.scrollLeft <= 1;
+      next.disabled = track.scrollLeft >= max - 1;
+    }
+
+    // Geser sejauh satu kartu (lebar kartu pertama + jarak antar kartu)
+    function step(): number {
+      const first = track?.firstElementChild;
+      if (!track || !(first instanceof HTMLElement)) return 0;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return first.offsetWidth + gap;
+    }
+
+    function go(direction: 1 | -1): void {
+      track?.scrollBy({ left: direction * step(), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    }
+
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+
+    let ticking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>

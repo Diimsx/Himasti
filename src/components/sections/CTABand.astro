@@ -13,7 +13,9 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<section class:list={['px-2 lg:px-3 py-4', className]}>
+<section class:list={['py-4', className]}>
+  <!-- Lebar pulau = lebar penuh Container, sama dengan Program Kerja dan Divisi -->
+  <Container>
   <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden">
     <!-- Sheen overlay (§ 3.3, 8.6) -->
     <div class="absolute inset-0 bg-sheen pointer-events-none" aria-hidden="true"></div>
@@ -51,4 +53,5 @@ const { class: className = '' } = Astro.props;
       </div>
     </Container>
   </div>
+  </Container>
 </section>

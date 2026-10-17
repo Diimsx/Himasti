@@ -1,0 +1,155 @@
+---
+/**
+ * Detail Program Kerja — Halaman rincian proker individual.
+ * Menggunakan getStaticPaths untuk menghasilkan rute dinamis secara statis.
+ */
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Prose from '../../components/ui/Prose.astro';
+
+export const getStaticPaths = (async () => {
+  const prokerEntries = await getCollection('proker');
+  return prokerEntries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const statusLabel: Record<string, string> = {
+  'akan-datang': 'Akan Datang',
+  'berlangsung': 'Berlangsung',
+  'selesai': 'Selesai',
+};
+---
+
+<BaseLayout
+  title={`${entry.data.judul} — Program Kerja`}
+  description={entry.data.ringkasan}
+>
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-12 lg:pb-16 bg-white border-b border-mist-100">
+    <Container>
+      <!-- Back Link -->
+      <a
+        href="/program-kerja"
+        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        Kembali ke Program Kerja
+      </a>
+
+      <!-- Category and Status Badge -->
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] capitalize">
+          {entry.data.kategori}
+        </span>
+        <Badge variant={entry.data.status}>
+          {statusLabel[entry.data.status]}
+        </Badge>
+      </div>
+
+      <!-- Title -->
+      <h1 class="type-heading-secondary mb-4 max-w-4xl">
+        {entry.data.judul}
+      </h1>
+
+      <!-- Summary -->
+      <p class="text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+        {entry.data.ringkasan}
+      </p>
+    </Container>
+  </section>
+
+  <!-- Content & Metadata Section (white) -->
+  <Section bg="white" class="py-16 lg:py-24">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <Prose>
+            <Content />
+          </Prose>
+        </div>
+
+        <!-- Sidebar Metadata -->
+        <aside class="w-full">
+          <div class="rounded-[20px] border border-mist-100 bg-white p-6 shadow-sm sticky top-28">
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
+              Informasi Proker
+            </span>
+
+            <dl class="space-y-4 text-sm divide-y divide-mist-100">
+              <div class="pt-2">
+                <dt class="font-mono text-xs uppercase text-slate-500">Status</dt>
+                <dd class="mt-1">
+                  <Badge variant={entry.data.status}>
+                    {statusLabel[entry.data.status]}
+                  </Badge>
+                </dd>
+              </div>
+
+              <div class="pt-4">
+                <dt class="font-mono text-xs uppercase text-slate-500">Kategori</dt>
+                <dd class="mt-1 font-medium text-navy-900 capitalize">
+                  {entry.data.kategori}
+                </dd>
+              </div>
+
+              <div class="pt-4">
+                <dt class="font-mono text-xs uppercase text-slate-500">Waktu</dt>
+                <dd class="mt-1 font-mono text-navy-900">
+                  {entry.data.waktu}
+                </dd>
+              </div>
+
+              {entry.data.sasaran && (
+                <div class="pt-4">
+                  <dt class="font-mono text-xs uppercase text-slate-500">Sasaran</dt>
+                  <dd class="mt-1 text-slate-700 leading-relaxed">
+                    {entry.data.sasaran}
+                  </dd>
+                </div>
+              )}
+
+              {entry.data.tujuan && (
+                <div class="pt-4">
+                  <dt class="font-mono text-xs uppercase text-slate-500">Tujuan</dt>
+                  <dd class="mt-1 text-slate-700 leading-relaxed">
+                    {entry.data.tujuan}
+                  </dd>
+                </div>
+              )}
+
+              <div class="pt-4">
+                <dt class="font-mono text-xs uppercase text-slate-500">Periode</dt>
+                <dd class="mt-1 text-slate-700 font-mono">
+                  {entry.data.periode}
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </aside>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

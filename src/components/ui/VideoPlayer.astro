@@ -1,0 +1,527 @@
+---
+/**
+ * VideoPlayer - YouTube facade with custom glass controls (design.md, "Video tertanam dengan pemutar").
+ * - Facade: no iframe and no YouTube script is loaded until the visitor presses play.
+ * - Controls: play/pause, seek bar, volume, playback speed (0.5x to 2x). Native YouTube controls are hidden.
+ * - Without JS, or if the embed fails, the overlay link opens the video on YouTube.
+ */
+interface Props {
+  /** YouTube video id, e.g. "RYm-RQKTeJo" */
+  videoId: string;
+  /** Start offset in seconds */
+  start?: number;
+  /** Accessible title of the video */
+  title: string;
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { videoId, start = 0, title, class: className = '' } = Astro.props;
+const watchUrl = `https://www.youtube.com/watch?v=${videoId}${start > 0 ? `&t=${start}s` : ''}`;
+const posterUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+const posterFallbackUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+const speeds = [0.5, 1, 1.5, 2] as const;
+---
+
+<div
+  class:list={['video-player', className]}
+  data-video-player
+  data-video-id={videoId}
+  data-start={start}
+  data-title={title}
+  data-state="idle"
+>
+  <div class="relative overflow-hidden rounded-[20px] bg-navy-900 shadow-lg">
+    <!-- Stage (16:9) -->
+    <div class="relative aspect-video">
+      <img
+        src={posterUrl}
+        data-fallback={posterFallbackUrl}
+        data-poster
+        alt={`Cuplikan video: ${title}`}
+        width="1280"
+        height="720"
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 size-full object-cover transition-opacity duration-300 [[data-started]_&]:opacity-0"
+      />
+      <div class="yt-host absolute inset-0" aria-hidden="true">
+        <div data-mount></div>
+      </div>
+
+      <!-- Click layer: starts playback, then toggles play/pause -->
+      <a
+        href={watchUrl}
+        target="_blank"
+        rel="noopener"
+        data-toggle-layer
+        aria-label={`Putar video: ${title}`}
+        class="absolute inset-0 z-10 flex items-center justify-center focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white"
+      >
+        <span
+          data-big-play
+          class="inline-flex size-16 items-center justify-center rounded-full surface-glass text-white transition-transform duration-200 hover:-translate-y-0.5 [[data-playing]_&]:hidden [[data-state='loading']_&]:animate-pulse"
+          aria-hidden="true"
+        >
+          <svg class="size-7 translate-x-px" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a.5.5 0 0 0 .77.42l10-6.5a.5.5 0 0 0 0-.84l-10-6.5A.5.5 0 0 0 8 5.5Z" /></svg>
+        </span>
+      </a>
+    </div>
+
+    <p
+      data-error
+      hidden
+      class="type-caption bg-navy-900 px-4 py-3 text-center text-gray-300"
+      role="status"
+    >
+      Video tidak dapat diputar di sini. Klik video untuk menontonnya di YouTube.
+    </p>
+
+    <!-- Controls -->
+    <div
+      class="z-20 bg-navy-900 p-3 sm:absolute sm:inset-x-3 sm:bottom-3 sm:rounded-2xl sm:bg-navy-900/80 sm:backdrop-blur-md sm:border sm:border-white/10"
+      role="group"
+      aria-label="Kontrol video"
+    >
+      <div class="flex items-center gap-3 text-white">
+        <span data-time-current class="type-data w-12 shrink-0 text-right" aria-hidden="true">0:00</span>
+        <input
+          type="range"
+          data-progress
+          min="0"
+          max="100"
+          step="0.1"
+          value="0"
+          disabled
+          aria-label="Posisi video"
+          class="vp-range min-w-0 flex-1"
+        />
+        <span data-time-duration class="type-data w-12 shrink-0" aria-hidden="true">0:00</span>
+      </div>
+
+      <div class="mt-1 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-white">
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            data-play
+            aria-label="Putar"
+            class="vp-btn size-11 rounded-xl"
+          >
+            <svg data-icon-play class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5v13l10-6.5-10-6.5Z" /></svg>
+            <svg data-icon-pause class="hidden size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5v14M15 5v14" /></svg>
+          </button>
+
+          <button
+            type="button"
+            data-mute
+            aria-label="Matikan suara"
+            aria-pressed="false"
+            class="vp-btn size-11 rounded-xl"
+          >
+            <svg data-icon-volume class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h3l5 4V6L7 10H4Z" /><path d="M16 9.5a4 4 0 0 1 0 5M18.5 7a7.5 7.5 0 0 1 0 10" /></svg>
+            <svg data-icon-muted class="hidden size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4h3l5 4V6L7 10H4Z" /><path d="m16 9.5 5 5M21 9.5l-5 5" /></svg>
+          </button>
+
+          <input
+            type="range"
+            data-volume
+            min="0"
+            max="100"
+            step="1"
+            value="100"
+            aria-label="Volume"
+            class="vp-range w-20 sm:w-28"
+          />
+        </div>
+
+        <div class="flex items-center gap-1" role="group" aria-label="Kecepatan putar">
+          {speeds.map((speed) => (
+            <button
+              type="button"
+              data-speed={speed}
+              aria-pressed={speed === 1 ? 'true' : 'false'}
+              aria-label={`Kecepatan ${speed} kali`}
+              class="vp-btn type-label h-11 min-w-11 rounded-xl px-2 aria-pressed:bg-white aria-pressed:text-navy-900"
+            >
+              {speed}x
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* The YouTube API swaps [data-mount] for an iframe; size it to the stage. */
+  .yt-host :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    pointer-events: none;
+  }
+
+  .video-player:not([data-started]) .yt-host {
+    visibility: hidden;
+  }
+
+  .vp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 150ms ease;
+  }
+  .vp-btn:hover {
+    background: rgb(255 255 255 / 0.12);
+  }
+  .vp-btn[aria-pressed='true']:hover {
+    background: white;
+  }
+  .vp-btn:focus-visible,
+  .vp-range:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  /* Range inputs: 44px tall hit area, thin track with a filled part (--p = percent). */
+  .vp-range {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 2.75rem;
+    background: transparent;
+    cursor: pointer;
+    --p: 0%;
+  }
+  .vp-range:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+  .vp-range::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, white var(--p), rgb(255 255 255 / 0.25) var(--p));
+  }
+  .vp-range::-moz-range-track {
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, white var(--p), rgb(255 255 255 / 0.25) var(--p));
+  }
+  .vp-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    border-radius: 9999px;
+    background: white;
+    border: 0;
+  }
+  .vp-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: white;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vp-btn {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  interface YTPlayer {
+    playVideo(): void;
+    pauseVideo(): void;
+    seekTo(seconds: number, allowSeekAhead: boolean): void;
+    getCurrentTime(): number;
+    getDuration(): number;
+    setVolume(volume: number): void;
+    mute(): void;
+    unMute(): void;
+    setPlaybackRate(rate: number): void;
+    getIframe(): HTMLIFrameElement;
+  }
+
+  interface YTPlayerEvent {
+    target: YTPlayer;
+    data: number;
+  }
+
+  interface YTNamespace {
+    Player: new (
+      element: HTMLElement,
+      options: {
+        videoId: string;
+        playerVars: Record<string, string | number>;
+        events: {
+          onReady: (event: YTPlayerEvent) => void;
+          onStateChange: (event: YTPlayerEvent) => void;
+          onError: () => void;
+        };
+      },
+    ) => YTPlayer;
+  }
+
+  declare global {
+    interface Window {
+      YT?: YTNamespace;
+      onYouTubeIframeAPIReady?: () => void;
+    }
+  }
+
+  const STATE_ENDED = 0;
+  const STATE_PLAYING = 1;
+  const STATE_PAUSED = 2;
+
+  let apiPromise: Promise<void> | null = null;
+
+  function loadApi(): Promise<void> {
+    if (window.YT?.Player) return Promise.resolve();
+    if (apiPromise) return apiPromise;
+
+    apiPromise = new Promise<void>((resolve, reject) => {
+      const previous = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        previous?.();
+        resolve();
+      };
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      script.onerror = () => {
+        apiPromise = null;
+        reject(new Error('YouTube API gagal dimuat'));
+      };
+      document.head.appendChild(script);
+    });
+    return apiPromise;
+  }
+
+  function formatTime(totalSeconds: number): string {
+    const s = Math.max(0, Math.floor(totalSeconds));
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = String(s % 60).padStart(2, '0');
+    return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${sec}` : `${m}:${sec}`;
+  }
+
+  function setFill(input: HTMLInputElement): void {
+    const max = Number(input.max) || 100;
+    const pct = max > 0 ? (Number(input.value) / max) * 100 : 0;
+    input.style.setProperty('--p', `${pct}%`);
+  }
+
+  function query<T extends Element>(root: ParentNode, selector: string): T {
+    const el = root.querySelector<T>(selector);
+    if (!el) throw new Error(`VideoPlayer: elemen ${selector} tidak ditemukan`);
+    return el;
+  }
+
+  function initPlayer(root: HTMLElement): void {
+    const videoId = root.dataset.videoId ?? '';
+    const start = Number(root.dataset.start) || 0;
+    const title = root.dataset.title ?? '';
+
+    const poster = query<HTMLImageElement>(root, '[data-poster]');
+    const mount = query<HTMLElement>(root, '[data-mount]');
+    const layer = query<HTMLAnchorElement>(root, '[data-toggle-layer]');
+    const errorMsg = query<HTMLElement>(root, '[data-error]');
+    const playBtn = query<HTMLButtonElement>(root, '[data-play]');
+    const iconPlay = query<SVGElement>(root, '[data-icon-play]');
+    const iconPause = query<SVGElement>(root, '[data-icon-pause]');
+    const muteBtn = query<HTMLButtonElement>(root, '[data-mute]');
+    const iconVolume = query<SVGElement>(root, '[data-icon-volume]');
+    const iconMuted = query<SVGElement>(root, '[data-icon-muted]');
+    const progress = query<HTMLInputElement>(root, '[data-progress]');
+    const volume = query<HTMLInputElement>(root, '[data-volume]');
+    const timeCurrent = query<HTMLElement>(root, '[data-time-current]');
+    const timeDuration = query<HTMLElement>(root, '[data-time-duration]');
+    const speedBtns = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-speed]'));
+
+    let player: YTPlayer | null = null;
+    let starting = false;
+    let playing = false;
+    let muted = false;
+    let rate = 1;
+    let timer: number | undefined;
+
+    // Poster fallback when maxresdefault does not exist for the video
+    poster.addEventListener('error', () => {
+      const fallback = poster.dataset.fallback;
+      if (fallback && poster.src !== fallback) poster.src = fallback;
+    });
+
+    // JS is active: the overlay link behaves as a button
+    layer.setAttribute('role', 'button');
+
+    function setPlayingUi(next: boolean): void {
+      playing = next;
+      root.toggleAttribute('data-playing', next);
+      iconPlay.classList.toggle('hidden', next);
+      iconPause.classList.toggle('hidden', !next);
+      const label = next ? 'Jeda' : 'Putar';
+      playBtn.setAttribute('aria-label', label);
+      layer.setAttribute('aria-label', `${label} video: ${title}`);
+    }
+
+    function sync(): void {
+      if (!player) return;
+      const duration = player.getDuration() || 0;
+      const current = player.getCurrentTime() || 0;
+      if (duration > 0 && Number(progress.max) !== duration) progress.max = String(duration);
+      progress.value = String(current);
+      progress.setAttribute('aria-valuetext', `${formatTime(current)} dari ${formatTime(duration)}`);
+      setFill(progress);
+      timeCurrent.textContent = formatTime(current);
+      timeDuration.textContent = formatTime(duration);
+    }
+
+    function startTimer(): void {
+      window.clearInterval(timer);
+      timer = window.setInterval(sync, 250);
+    }
+
+    function stopTimer(): void {
+      window.clearInterval(timer);
+      timer = undefined;
+    }
+
+    function showError(): void {
+      root.dataset.state = 'error';
+      errorMsg.hidden = false;
+      layer.removeAttribute('role');
+      layer.setAttribute('aria-label', `Tonton di YouTube: ${title}`);
+      stopTimer();
+    }
+
+    async function start_(): Promise<void> {
+      if (starting || player) return;
+      starting = true;
+      root.dataset.state = 'loading';
+      try {
+        await loadApi();
+        const YT = window.YT;
+        if (!YT) throw new Error('YouTube API tidak tersedia');
+        player = new YT.Player(mount, {
+          videoId,
+          playerVars: {
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+            iv_load_policy: 3,
+            autoplay: 1,
+            start,
+            origin: window.location.origin,
+          },
+          events: {
+            onReady: (event) => {
+              event.target.getIframe().title = title;
+              event.target.setVolume(Number(volume.value));
+              if (muted) event.target.mute();
+              event.target.setPlaybackRate(rate);
+              progress.disabled = false;
+              root.dataset.state = 'ready';
+              sync();
+            },
+            onStateChange: (event) => {
+              if (event.data === STATE_PLAYING) {
+                root.setAttribute('data-started', '');
+                setPlayingUi(true);
+                startTimer();
+              } else if (event.data === STATE_PAUSED || event.data === STATE_ENDED) {
+                setPlayingUi(false);
+                stopTimer();
+                sync();
+              }
+            },
+            onError: showError,
+          },
+        });
+      } catch {
+        showError();
+      } finally {
+        starting = false;
+      }
+    }
+
+    function toggle(): void {
+      if (!player) {
+        void start_();
+        return;
+      }
+      if (playing) player.pauseVideo();
+      else player.playVideo();
+    }
+
+    layer.addEventListener('click', (event) => {
+      if (root.dataset.state === 'error') return; // let the link open YouTube
+      event.preventDefault();
+      toggle();
+    });
+    layer.addEventListener('keydown', (event) => {
+      if (event.key === ' ' && root.dataset.state !== 'error') {
+        event.preventDefault();
+        toggle();
+      }
+    });
+    playBtn.addEventListener('click', toggle);
+
+    progress.addEventListener('input', () => {
+      setFill(progress);
+      timeCurrent.textContent = formatTime(Number(progress.value));
+    });
+    progress.addEventListener('change', () => {
+      player?.seekTo(Number(progress.value), true);
+    });
+
+    function applyMuteUi(): void {
+      iconVolume.classList.toggle('hidden', muted);
+      iconMuted.classList.toggle('hidden', !muted);
+      muteBtn.setAttribute('aria-pressed', String(muted));
+      muteBtn.setAttribute('aria-label', muted ? 'Nyalakan suara' : 'Matikan suara');
+    }
+
+    muteBtn.addEventListener('click', () => {
+      muted = !muted;
+      if (player) {
+        if (muted) player.mute();
+        else player.unMute();
+      }
+      applyMuteUi();
+    });
+
+    setFill(volume);
+    volume.addEventListener('input', () => {
+      const value = Number(volume.value);
+      setFill(volume);
+      player?.setVolume(value);
+      if (value > 0 && muted) {
+        muted = false;
+        player?.unMute();
+        applyMuteUi();
+      }
+    });
+
+    for (const btn of speedBtns) {
+      btn.addEventListener('click', () => {
+        rate = Number(btn.dataset.speed);
+        player?.setPlaybackRate(rate);
+        for (const other of speedBtns) {
+          other.setAttribute('aria-pressed', String(other === btn));
+        }
+      });
+    }
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('[data-video-player]')
+    .forEach((root) => initPlayer(root));
+
+  export {};
+</script>

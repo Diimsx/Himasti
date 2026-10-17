@@ -33,8 +33,7 @@ const divisiNames = [
   <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Struktur Organisasi</span>
-        <h1 class="font-heading text-3xl sm:text-4xl lg:text-[52px] font-medium leading-[1.12] tracking-[-0.02em] text-navy-900">Struktur Organisasi</h1>
+        <h1 class="type-heading-primary">Struktur Organisasi</h1>
         <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
           Struktur kepengurusan Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027.
         </p>
@@ -46,8 +45,7 @@ const divisiNames = [
   <Section bg="white" class="py-20 lg:py-32">
     <Container>
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Pembina</span>
-        <h2 class="font-heading text-3xl sm:text-4xl font-medium leading-[1.15] tracking-[-0.02em]">
+        <h2 class="type-heading-secondary">
           <span class="text-navy-900">Pembina</span> <span class="text-slate-700">HIMASTI</span>
         </h2>
         <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
@@ -89,11 +87,10 @@ const divisiNames = [
   </Section>
 
   <!-- Section Pengurus Inti (mist-100) -->
-  <Section bg="mist" class="py-20 lg:py-32">
+  <Section bg="white" class="py-20 lg:py-32">
     <Container>
       <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Pengurus Inti</span>
-        <h2 class="font-heading text-3xl sm:text-4xl font-medium leading-[1.15] tracking-[-0.02em]">
+        <h2 class="type-heading-secondary">
           <span class="text-navy-900">Pengurus</span> <span class="text-slate-700">Inti</span>
         </h2>
         <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
@@ -125,15 +122,11 @@ const divisiNames = [
     const divisiMembers = allPengurus
       .filter((p) => p.data.divisi === divisiName)
       .sort((a, b) => a.data.urutan - b.data.urutan);
-    const bgVariant = idx % 2 === 0 ? 'white' : 'mist';
 
     return (
-      <Section bg={bgVariant} class="py-20 lg:py-32">
+      <Section bg="white" class="py-20 lg:py-32">
         <Container>
           <div class="mb-8">
-            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
-              Divisi
-            </span>
             <h3 class="font-heading text-2xl sm:text-3xl font-medium text-navy-900">
               {divisiName}
             </h3>

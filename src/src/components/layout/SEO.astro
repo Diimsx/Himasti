@@ -1,0 +1,55 @@
+---
+/**
+ * SEO — Renders <title>, meta description, canonical, and Open Graph tags.
+ * Usage: <SEO title="Beranda" description="..." />
+ * Every page must use this component for consistent metadata.
+ */
+interface Props {
+  /** Page title — rendered as "{title} | HIMASTI". Pass an empty string on the homepage to get just "HIMASTI". */
+  title: string;
+  /** Meta description for search engines and social sharing */
+  description: string;
+  /** Canonical URL (defaults to current page URL) */
+  canonical?: string;
+  /** Open Graph image URL (defaults to site-wide fallback) */
+  ogImage?: string;
+  /** Open Graph type */
+  ogType?: string;
+  /** Set true to prevent indexing (e.g. /admin) */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical = Astro.url.href,
+  ogImage = '/og-default.svg',
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const SITE_NAME = 'HIMASTI';
+const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+const resolvedOgImage = new URL(ogImage, Astro.site).href;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:site_name" content="HIMASTI" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedOgImage} />

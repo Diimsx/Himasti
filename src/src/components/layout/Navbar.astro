@@ -1,0 +1,239 @@
+---
+/**
+ * Navbar — floating glass pill (design.md § 6) + curved side menu.
+ *
+ * The pill shows logo, 3 key links, and a menu button (all breakpoints).
+ * The menu button opens a right-hand panel with a curved leading edge, adapted from the
+ * "curved-menu" reference. It is a native <dialog> (focus trap, Esc, inert page) animated with
+ * CSS transitions + a tiny script for the SVG curve — no React / framer-motion / Next dependency.
+ */
+import { Image } from 'astro:assets';
+import logoHimasti from '../../assets/logo-himasti.png';
+import SocialIcon from '../ui/SocialIcon.astro';
+import { getContactLinks } from '../../lib/contact';
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+// Full list shown inside the curved menu
+const menuLinks: NavLink[] = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang', href: '/tentang' },
+  { label: 'Struktur', href: '/struktur' },
+  { label: 'Divisi', href: '/divisi' },
+  { label: 'Program Kerja', href: '/program-kerja' },
+  { label: 'Berita', href: '/berita' },
+  { label: 'Galeri', href: '/galeri' },
+  { label: 'Prestasi', href: '/prestasi' },
+  { label: 'Kontak', href: '/kontak' },
+];
+
+// Short list inside the pill (desktop only) so it stays compact
+const pillLinks: NavLink[] = [
+  { label: 'Tentang', href: '/tentang' },
+  { label: 'Divisi', href: '/divisi' },
+  { label: 'Proker', href: '/program-kerja' },
+];
+
+const contactLinks = getContactLinks();
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath === href || currentPath.startsWith(`${href}/`);
+---
+
+<nav
+  id="site-nav"
+  class="fixed top-3 lg:top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-24px)] lg:w-auto lg:min-w-[440px] nav-pill rounded-full shadow-lg nav-entrance h-[52px] lg:h-[56px]"
+  aria-label="Navigasi utama"
+  data-scrolled="false"
+>
+  <div class="flex items-center justify-between pl-4 pr-1.5 lg:pl-5 h-full gap-2 lg:gap-4">
+    <a
+      href="/"
+      class="flex items-center gap-2 text-white font-heading font-medium text-base shrink-0 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      aria-label="HIMASTI, ke beranda"
+    >
+      <Image src={logoHimasti} alt="" class="h-7 w-auto" />
+      <span>HIMASTI</span>
+    </a>
+
+    <ul class="hidden lg:flex items-center gap-1" role="list">
+      {pillLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'px-2 py-2 text-sm font-medium rounded transition-colors focus-visible:outline-2 focus-visible:outline-white',
+              isCurrent(href)
+                ? 'text-white underline underline-offset-4 decoration-2'
+                : 'text-gray-300 hover:text-white',
+            ]}
+            aria-current={isCurrent(href) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-1 shrink-0">
+      <button
+        type="button"
+        id="menu-open"
+        class="inline-flex items-center justify-center w-11 h-11 rounded-full text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white"
+        aria-label="Buka menu navigasi"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="site-menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<dialog id="site-menu" class="menu-dialog" aria-label="Menu navigasi" data-state="closed">
+  <div class="menu-panel">
+    <svg class="menu-curve" aria-hidden="true" focusable="false">
+      <path id="menu-curve-path"></path>
+    </svg>
+
+    <div class="flex items-center justify-between px-8 sm:px-14 pt-6 pb-4 menu-item" style="--i:0">
+      <span class="inline-flex items-center rounded-full border border-gray-300 text-gray-300 px-3 py-1 text-xs font-medium tracking-[0.02em]">
+        Navigasi
+      </span>
+      <button
+        type="button"
+        id="menu-close"
+        class="inline-flex items-center justify-center w-11 h-11 rounded-full text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white"
+        aria-label="Tutup menu navigasi"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-width="2" d="M6 6l12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="menu-scroll px-8 sm:px-14">
+      <ul role="list">
+        {menuLinks.map(({ label, href }, idx) => (
+          <li class="menu-item border-b border-white/15" style={`--i:${idx + 1}`}>
+            <a
+              href={href}
+              class="menu-link group flex items-baseline gap-4 py-3 sm:py-4 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              aria-current={isCurrent(href) ? 'page' : undefined}
+            >
+              <span class="font-mono text-xs text-gray-300 w-6 shrink-0" aria-hidden="true">
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <span class="sr-only">{label}</span>
+              <span class="font-heading text-2xl sm:text-3xl font-medium tracking-[-0.02em] text-white" aria-hidden="true">
+                {[...label].map((ch, i) => (
+                  <span class="menu-letter" style={`--i:${i}`}>{ch === ' ' ? '\u00A0' : ch}</span>
+                ))}
+              </span>
+              {isCurrent(href) && (
+                <span class="ml-auto self-center text-xs text-gray-300 inline-flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white" aria-hidden="true"></span>
+                  Halaman ini
+                </span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="px-8 sm:px-14 py-6 border-t border-white/10 menu-item flex items-center justify-between gap-4" style={`--i:${menuLinks.length + 1}`}>
+      <ul class="flex items-center gap-1" role="list">
+        {contactLinks.map(({ name, label, href }) => (
+          <li>
+            <a
+              href={href}
+              class="inline-flex items-center justify-center w-11 h-11 rounded-full text-gray-300 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white"
+              aria-label={label}
+              {...(name !== 'email' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              <SocialIcon name={name} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const openBtn = document.getElementById('menu-open') as HTMLButtonElement | null;
+  const closeBtn = document.getElementById('menu-close') as HTMLButtonElement | null;
+  const dialog = document.getElementById('site-menu') as HTMLDialogElement | null;
+  const curve = document.getElementById('menu-curve-path');
+
+  if (openBtn && closeBtn && dialog && curve) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const ENTER_MS = 1000;
+    const EXIT_MS = 800;
+    // easeInOutCubic-like (≈ cubic-bezier(.76,0,.24,1))
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    let rafId = 0;
+    let closing = false;
+
+    // Leading edge: control point x goes from -100 (bulged) to 100 (flat)
+    function drawCurve(qx: number) {
+      const h = window.innerHeight;
+      curve!.setAttribute('d', `M100 0 L200 0 L200 ${h} L100 ${h} Q${qx} ${h / 2} 100 0`);
+    }
+
+    function animateCurve(from: number, to: number, ms: number) {
+      cancelAnimationFrame(rafId);
+      if (reduce.matches) { drawCurve(to); return; }
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / ms);
+        drawCurve(from + (to - from) * ease(t));
+        if (t < 1) rafId = requestAnimationFrame(step);
+      };
+      rafId = requestAnimationFrame(step);
+    }
+
+    function open() {
+      if (dialog!.open) return;
+      closing = false;
+      drawCurve(-100);
+      dialog!.showModal();
+      openBtn!.setAttribute('aria-expanded', 'true');
+      // two frames so the browser registers the initial (off-screen) state before transitioning
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        dialog!.dataset.state = 'open';
+        animateCurve(-100, 100, ENTER_MS);
+      }));
+    }
+
+    function close() {
+      if (!dialog!.open || closing) return;
+      closing = true;
+      dialog!.dataset.state = 'closed';
+      animateCurve(100, -100, EXIT_MS);
+      window.setTimeout(() => {
+        dialog!.close();
+        openBtn!.setAttribute('aria-expanded', 'false');
+        openBtn!.focus();
+        closing = false;
+      }, reduce.matches ? 0 : EXIT_MS);
+    }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+
+    // Esc: run the animated close instead of the instant native one
+    dialog.addEventListener('cancel', (e) => { e.preventDefault(); close(); });
+
+    // Click outside the panel (on the transparent dialog area)
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+  }
+</script>

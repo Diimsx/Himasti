@@ -1,0 +1,95 @@
+---
+/**
+ * DivisiTile — Kartu divisi bergaya "service card" (grid 2×2), tanpa JavaScript.
+ * Empat varian warna dipetakan ke palet HIMASTI (design.md § 2): ink, white, mist, slate.
+ * Ilustrasi 3D di sudut kanan-bawah bersifat dekoratif (alt kosong) dan dipotong di tepi kartu.
+ * Slug divisi tanpa ilustrasi memakai ikon garis cadangan.
+ */
+import { Image } from 'astro:assets';
+import kreasiInovasi from '../../assets/divisi/kreasi-inovasi.png';
+import humas from '../../assets/divisi/humas.png';
+import sarpras from '../../assets/divisi/sarpras.png';
+import medinfo from '../../assets/divisi/medinfo.png';
+
+type Variant = 'ink' | 'white' | 'mist' | 'slate';
+
+interface Props {
+  nama: string;
+  slug: string;
+  variant?: Variant;
+  class?: string;
+}
+
+const { nama, slug, variant = 'white', class: className = '' } = Astro.props;
+
+const surface: Record<Variant, string> = {
+  ink: 'surface-ink border border-white/10',
+  white: 'bg-white border border-mist-100',
+  mist: 'bg-mist-100 border border-mist-100',
+  slate: 'bg-slate-700 border border-white/10',
+};
+const titleColor = variant === 'ink' || variant === 'slate' ? 'text-white' : 'text-navy-900';
+
+const art: Record<string, ImageMetadata> = {
+  'kreasi-inovasi': kreasiInovasi,
+  humas,
+  sarpras,
+  medinfo,
+};
+const image = art[slug];
+---
+
+<a
+  href={`/divisi#${slug}`}
+  class:list={[
+    'group relative flex flex-col justify-between overflow-hidden rounded-[20px] p-6 sm:p-7 min-h-[11rem] sm:min-h-[12.5rem]',
+    'shadow-sm transition-[transform,box-shadow] duration-200',
+    'motion-safe:hover:-translate-y-0.5 hover:shadow-md',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900',
+    surface[variant],
+    className,
+  ]}
+>
+  {image ? (
+    <Image
+      src={image}
+      alt=""
+      height={256}
+      class="pointer-events-none absolute -right-1 -bottom-2 h-28 sm:h-32 w-auto max-w-none origin-bottom-right drop-shadow-md transition-transform duration-300 motion-safe:group-hover:scale-105 motion-safe:group-hover:-rotate-3"
+    />
+  ) : (
+    <svg
+      viewBox="0 0 96 96"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-3 -bottom-3 w-32 sm:w-36 h-auto text-slate-500/40"
+    >
+      <rect x="14" y="14" width="30" height="30" rx="6" />
+      <rect x="52" y="14" width="30" height="30" rx="6" />
+      <rect x="14" y="52" width="30" height="30" rx="6" />
+      <rect x="52" y="52" width="30" height="30" rx="6" />
+    </svg>
+  )}
+
+  <h3 class:list={['relative max-w-[70%] type-heading-tertiary', titleColor]}>{nama}</h3>
+
+  <span class:list={['relative mt-6 inline-flex items-center gap-2 type-label uppercase', titleColor]}>
+    Selengkapnya
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      class="h-4 w-4 transition-transform duration-200 motion-safe:group-hover:translate-x-1"
+    >
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  </span>
+</a>

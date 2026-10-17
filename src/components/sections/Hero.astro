@@ -1,7 +1,11 @@
 ---
 /**
- * Hero — Homepage hero section in HIMASTI v3 "Layered Clean Tech" design.
- * Rounded mist gradient card, two-tone heading, pill label.
+ * Hero — kartu membulat berkabut, judul dua nada di tengah, tombol bundar di kiri bawah.
+ * Komposisi mengikuti referensi solation.eu; warna tetap dari palet HIMASTI (design.md § 2, 4.1).
+ *
+ * Zona kontras (design.md § 2.3): teks gelap hanya di 0–70% tinggi kartu. Blok teks digeser ke atas
+ * dengan padding bawah agar pusatnya jatuh di ±40%. Zona 70–90% tidak memuat teks.
+ * Kabut dan "ladang" di bawah murni hiasan (aria-hidden), dibuat dari CSS/SVG, tanpa foto stok.
  */
 import { Image } from 'astro:assets';
 import logoHimasti from '../../assets/logo-himasti.png';
@@ -13,62 +17,66 @@ interface Props {
 }
 
 const { class: className = '' } = Astro.props;
+
+// Garis alur ladang: kurva yang bergeser ke bawah, makin ke bawah makin rapat dan terang.
+const furrows = Array.from({ length: 9 }, (_, i) => {
+  const y = 40 + i * 26 + i * i * 1.5;
+  const amp = 14 + i * 3;
+  return {
+    d: `M-20 ${y} C 260 ${y - amp}, 520 ${y + amp}, 760 ${y} S 1200 ${y - amp}, 1460 ${y + amp / 2}`,
+    o: (0.1 + i * 0.03).toFixed(2),
+  };
+});
 ---
 
-<section class:list={['px-2 lg:px-3 pt-24 lg:pt-28 pb-4', className]}>
-  <div class="surface-mist rounded-[32px] lg:rounded-[40px] shadow-xl min-h-[calc(100svh-24px)] relative overflow-hidden flex flex-col items-center justify-start px-4 pt-14 sm:pt-16 lg:pt-20 pb-28">
-    <!-- Dot grid texture in top 45% zone (§ 4.1, 6) -->
-    <div class="absolute inset-x-0 top-0 h-[45%] bg-dots-light opacity-60 pointer-events-none" aria-hidden="true"></div>
+<section class:list={['px-2 lg:px-3 pt-2 lg:pt-3 pb-4', className]}>
+  <div
+    class="surface-mist rounded-[32px] lg:rounded-[40px] shadow-xl min-h-[calc(100svh-24px)] relative overflow-hidden flex flex-col items-center justify-center px-4"
+  >
+    <!-- Kabut: lapisan putih lembut di atas gradasi mist -->
+    <div class="absolute inset-0 hero-fog pointer-events-none" aria-hidden="true"></div>
 
-    <!-- Content is top-aligned so every text line stays in the light zone (0-70% of the card; navy-900/slate-700 only, design.md § 2.3). Never place text in the 70-90% dead zone. -->
-    <div class="hero-content hero-entrance mx-auto max-w-4xl text-center relative z-10">
-      <!-- Main HIMASTI Logo -->
-      <div class="flex justify-center mb-6">
-        <Image
-          src={logoHimasti}
-          alt="Logo HIMASTI"
-          class="h-16 sm:h-20 w-auto"
-          loading="eager"
-        />
+    <!-- Ladang: kurva halus di zona bawah (70–100%) -->
+    <svg
+      class="absolute inset-x-0 bottom-0 w-full h-[30%] text-gray-300 pointer-events-none"
+      viewBox="0 0 1440 300"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {furrows.map((f) => (
+        <path d={f.d} fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity={f.o} />
+      ))}
+    </svg>
+
+    <!-- Konten: pusat blok di ±40% tinggi kartu (zona teks gelap) -->
+    <div class="hero-content hero-entrance relative z-10 mx-auto max-w-5xl text-center pt-20 pb-[26svh] lg:pb-[20svh]">
+      <!-- Tiga logo di atas judul: HIMASTI, Cyber University, Kabinet Arthasena -->
+      <div class="flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-10 gap-y-4 mb-8 lg:mb-10">
+        <Image src={logoHimasti} alt="Logo HIMASTI" class="h-14 sm:h-20 lg:h-24 w-auto" loading="eager" />
+        <Image src={logoCyberUniversity} alt="Logo Cyber University" class="h-12 sm:h-16 lg:h-20 w-auto" loading="eager" />
+        <Image src={logoKabinetArthasena} alt="Logo Kabinet ArthaSena" class="h-12 sm:h-16 lg:h-20 w-auto" loading="eager" />
       </div>
 
-      <!-- Pill Label -->
-      <div>
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">
-          HIMASTI 2026/2027
-        </span>
-      </div>
-
-      <!-- Two-tone Heading -->
-      <h1 class="font-heading text-4xl sm:text-5xl lg:text-[64px] font-medium leading-[1.08] tracking-[-0.03em] text-center text-navy-900 mb-6">
-        Himpunan Mahasiswa<br />
+      <h1 class="type-display text-balance">
+        <span class="text-navy-900">Himpunan Mahasiswa</span><br />
         <span class="text-slate-700">Sistem &amp; Teknologi Informasi</span>
       </h1>
 
-      <!-- Subtitle -->
-      <p class="text-base sm:text-lg lg:text-xl text-slate-700 max-w-xl mx-auto">
+      <p class="type-body-lead text-slate-700 max-w-xl mx-auto mt-8">
         Cyber University · Periode 2026/2027
       </p>
-
-      <!-- Affiliation logos -->
-      <div class="flex items-center justify-center gap-6 mt-6">
-        <div class="flex items-center gap-2">
-          <Image
-            src={logoCyberUniversity}
-            alt="Logo Cyber University"
-            class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
-          />
-        </div>
-        <span class="h-6 w-px bg-slate-700/30" aria-hidden="true"></span>
-        <div class="flex items-center gap-2">
-          <Image
-            src={logoKabinetArthasena}
-            alt="Logo Kabinet ArthaSena"
-            class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
-          />
-        </div>
-      </div>
     </div>
 
+    <!-- Tombol bundar kiri bawah (zona putih 90–100%): gulir ke seksi berikutnya -->
+    <a
+      href="#mengenal"
+      class="absolute left-4 bottom-4 lg:left-6 lg:bottom-6 z-10 inline-flex items-center justify-center size-11 rounded-full surface-glass text-white transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      aria-label="Gulir ke bagian Mengenal HIMASTI"
+    >
+      <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 5v14M6 13l6 6 6-6" />
+      </svg>
+    </a>
   </div>
 </section>

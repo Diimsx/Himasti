@@ -1,0 +1,58 @@
+---
+/**
+ * Beranda — HIMASTI Cyber University Homepage
+ * Assembles all homepage sections in prescribed order:
+ * Hero -> StatsStrip -> AboutPreview -> DivisiPreview -> [island] Pernyataan -> ProkerPreview -> [island] Timeline -> BeritaPreview -> [island] CTABand
+ * Never two dark islands back-to-back (design.md § 3.2).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import StatsStrip from '../components/sections/StatsStrip.astro';
+import AboutPreview from '../components/sections/AboutPreview.astro';
+import DivisiPreview from '../components/sections/DivisiPreview.astro';
+import ProkerPreview from '../components/sections/ProkerPreview.astro';
+import Timeline from '../components/sections/Timeline.astro';
+import CTABand from '../components/sections/CTABand.astro';
+import Pernyataan from '../components/sections/Pernyataan.astro';
+import BeritaPreview from '../components/sections/BeritaPreview.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Container from '../components/ui/Container.astro';
+---
+
+<BaseLayout
+  title=""
+  description="Website resmi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University."
+>
+  <Hero />
+  <StatsStrip />
+  <AboutPreview />
+  <DivisiPreview />
+
+  <Pernyataan
+    label="Tentang Kami"
+    text="Wadah aspirasi, kolaborasi, dan akselerasi potensi bagi seluruh mahasiswa Sistem & Teknologi Informasi Cyber University."
+  />
+
+  <ProkerPreview />
+
+  <!-- Pulau gelap Timeline -->
+  <section class="px-2 lg:px-3 py-4">
+    <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden py-20 lg:py-32">
+      <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
+      <Container>
+        <SectionHeader
+          eyebrow="timeline"
+          title="Roadmap 2026/2027"
+          description="Jadwal pelaksanaan program kerja HIMASTI sepanjang periode kepengurusan 2026/2027."
+          dark={true}
+        />
+        <Timeline />
+      </Container>
+    </div>
+  </section>
+
+  <!-- Berita on a light background separates the Timeline island from the CTA island -->
+  <BeritaPreview />
+
+  <CTABand />
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+/**
+ * BeritaCard — Card for news/article entry.
+ * Shows title, date, author, summary, and optional cover image.
+ */
+import { Image } from 'astro:assets';
+
+interface Props {
+  judul: string;
+  slug: string;
+  tanggal: Date;
+  penulis: string;
+  ringkasan: string;
+  sampul?: ImageMetadata;
+  class?: string;
+}
+
+const { judul, slug, tanggal, penulis, ringkasan, sampul, class: className = '' } = Astro.props;
+
+const formattedDate = tanggal.toLocaleDateString('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<a
+  href={`/berita/${slug}`}
+  class:list={[
+    'group block rounded-[20px] border border-mist-100 bg-white overflow-hidden shadow-sm transition-all duration-150',
+    'hover:-translate-y-[2px] hover:shadow-md hover:border-slate-500',
+    className,
+  ]}
+>
+  {sampul && (
+    <div class="aspect-video overflow-hidden">
+      <Image
+        src={sampul}
+        alt={judul}
+        width={640}
+        height={360}
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        loading="lazy"
+      />
+    </div>
+  )}
+  <div class="p-6">
+    <div class="flex items-center gap-2 type-data text-slate-500 mb-3">
+      <time datetime={tanggal.toISOString()}>{formattedDate}</time>
+      <span aria-hidden="true">·</span>
+      <span>{penulis}</span>
+    </div>
+    <h3 class="font-heading text-lg font-medium text-navy-900 mb-2 group-hover:underline transition-colors">
+      {judul}
+    </h3>
+    <p class="text-sm text-slate-700 leading-relaxed line-clamp-2">
+      {ringkasan}
+    </p>
+  </div>
+</a>

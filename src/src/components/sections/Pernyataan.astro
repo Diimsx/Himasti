@@ -1,0 +1,51 @@
+---
+/**
+ * Pernyataan — dark island with one large statement whose words light up on scroll
+ * (design.md § 4.2, 8.2). Full text stays in the DOM as one paragraph; without JS or with
+ * reduced motion every word is white.
+ *
+ * Lebar pulau sengaja sama dengan section Program Kerja dan Divisi (lebar penuh Container) agar tepi kiri-kanan sejajar.
+ *
+ * Contrast rule (§ 2.3/2.4): dim words (white/55) are only valid on plain navy. The glow is
+ * therefore kept in the top-right corner, outside the text block.
+ */
+import Container from '../ui/Container.astro';
+
+interface Props {
+  label?: string;
+  text: string;
+  class?: string;
+}
+
+const { label, text, class: className = '' } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+---
+
+<section class:list={['py-4', className]}>
+  <!-- Lebar pulau = lebar grid kartu Divisi (Container penuh, sama dengan ProkerPreview dan DivisiPreview) -->
+  <Container>
+  <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden py-20 lg:py-32">
+    <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute -top-32 -right-32 w-72 h-72 ink-glow pointer-events-none opacity-70" aria-hidden="true"></div>
+    <Container>
+      <div class="relative z-10 text-center max-w-3xl mx-auto">
+        {label && (
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-gray-300 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">
+            {label}
+          </span>
+        )}
+        <p
+          data-lit
+          class="type-statement text-white"
+        >
+          {words.map((w, i) => (
+            <>
+              <span class="lit-word">{w}</span>{i < words.length - 1 ? ' ' : ''}
+            </>
+          ))}
+        </p>
+      </div>
+    </Container>
+  </div>
+  </Container>
+</section>

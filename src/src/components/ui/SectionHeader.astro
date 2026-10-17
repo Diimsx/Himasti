@@ -1,0 +1,57 @@
+---
+/**
+ * SectionHeader — Eyebrow + heading + optional description for each section.
+ * Eyebrow uses the pill outline label style (design.md § 4, § 6).
+ */
+interface Props {
+  /** Eyebrow label shown above the heading (e.g. "tentang", "divisi") */
+  eyebrow?: string;
+  /** Section heading (H2) */
+  title: string;
+  /** Optional description paragraph below the heading */
+  description?: string;
+  /** Text alignment */
+  align?: 'left' | 'center';
+  /** Whether the section is on a dark background */
+  dark?: boolean;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  align = 'center',
+  dark = false,
+} = Astro.props;
+
+const alignClass = align === 'center' ? 'text-center' : 'text-left';
+const eyebrowColor = dark ? 'border-gray-300 text-gray-300' : 'border-gray-300 text-slate-700';
+const titleColor = dark ? 'text-white' : 'text-navy-900';
+const descColor = dark ? 'text-gray-300' : 'text-slate-700';
+---
+
+<div class:list={['mb-10 lg:mb-14', alignClass]}>
+  {eyebrow && (
+    <span class:list={[
+      'inline-flex items-center rounded-full border px-3 py-1 type-label mb-4',
+      eyebrowColor,
+    ]}>
+      {eyebrow}
+    </span>
+  )}
+  <h2 class:list={[
+    'type-heading-secondary',
+    titleColor,
+  ]}>
+    {title}
+  </h2>
+  {description && (
+    <p class:list={[
+      'type-body-lead mt-4 max-w-2xl',
+      align === 'center' && 'mx-auto',
+      descColor,
+    ]}>
+      {description}
+    </p>
+  )}
+</div>

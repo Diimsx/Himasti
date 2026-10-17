@@ -1,0 +1,161 @@
+---
+/**
+ * Struktur Organisasi — Struktur kepengurusan HIMASTI Periode 2026/2027.
+ * Menampilkan Pembina, Pengurus Inti, dan 4 Divisi.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import PengurusCard from '../components/ui/PengurusCard.astro';
+
+const allPengurus = await getCollection('pengurus');
+
+// Pengurus inti: pengurus tanpa divisi
+const pengurusInti = allPengurus
+  .filter((p) => !p.data.divisi)
+  .sort((a, b) => a.data.urutan - b.data.urutan);
+
+// Daftar nama divisi sesuai data
+const divisiNames = [
+  'Kreasi & Inovasi',
+  'Humas',
+  'Sarana & Prasarana',
+  'Media & Informasi',
+];
+---
+
+<BaseLayout
+  title="Struktur Organisasi"
+  description="Susunan pengurus dan struktur organisasi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027."
+>
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
+    <Container>
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Struktur Organisasi</span>
+        <h1 class="type-heading-primary">Struktur Organisasi</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+          Struktur kepengurusan Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Section Pembina (white) -->
+  <Section bg="white" class="py-20 lg:py-32">
+    <Container>
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Pembina</span>
+        <h2 class="type-heading-secondary">
+          <span class="text-navy-900">Pembina</span> <span class="text-slate-700">HIMASTI</span>
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+          Dosen pembina yang mengarahkan dan membimbing jalannya roda organisasi.
+        </p>
+      </div>
+
+      <!-- Prominent Pembina Card -->
+      <div class="max-w-md mx-auto">
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 text-center shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
+          <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-mist-100 flex items-center justify-center text-slate-500">
+            <svg
+              class="w-12 h-12"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+              />
+            </svg>
+          </div>
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+            Dosen Pembina
+          </span>
+          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900">
+            Neneng Rachmalia Feta, M.Kom.
+          </h3>
+          <p class="text-sm sm:text-base text-slate-700 mt-1">
+            Pembina HIMASTI Periode 2026/2027
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section Pengurus Inti (mist-100) -->
+  <Section bg="mist" class="py-20 lg:py-32">
+    <Container>
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Pengurus Inti</span>
+        <h2 class="type-heading-secondary">
+          <span class="text-navy-900">Pengurus</span> <span class="text-slate-700">Inti</span>
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+          Pimpinan pusat yang mengoordinasikan seluruh pergerakan dan arah strategis HIMASTI.
+        </p>
+      </div>
+
+      {pengurusInti.length > 0 ? (
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {pengurusInti.map((p) => (
+            <PengurusCard
+              nama={p.data.nama}
+              jabatan={p.data.jabatan}
+              divisi={p.data.divisi}
+              foto={p.data.foto}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-slate-700 italic">
+          Data pengurus inti belum tersedia.
+        </p>
+      )}
+    </Container>
+  </Section>
+
+  <!-- Section per Divisi (alternating white/mist) -->
+  {divisiNames.map((divisiName, idx) => {
+    const divisiMembers = allPengurus
+      .filter((p) => p.data.divisi === divisiName)
+      .sort((a, b) => a.data.urutan - b.data.urutan);
+    const bgVariant = idx % 2 === 0 ? 'white' : 'mist';
+
+    return (
+      <Section bg={bgVariant} class="py-20 lg:py-32">
+        <Container>
+          <div class="mb-8">
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+              Divisi
+            </span>
+            <h3 class="font-heading text-2xl sm:text-3xl font-medium text-navy-900">
+              {divisiName}
+            </h3>
+          </div>
+          {divisiMembers.length > 0 ? (
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              {divisiMembers.map((member) => (
+                <PengurusCard
+                  nama={member.data.nama}
+                  jabatan={member.data.jabatan}
+                  divisi={member.data.divisi}
+                  foto={member.data.foto}
+                />
+              ))}
+            </div>
+          ) : (
+            <p class="text-slate-700 italic">
+              Daftar anggota divisi akan segera diperbarui.
+            </p>
+          )}
+        </Container>
+      </Section>
+    );
+  })}
+</BaseLayout>

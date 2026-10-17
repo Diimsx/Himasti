@@ -1,0 +1,72 @@
+---
+/**
+ * ProkerPreview — Preview of top 3 program kerja on white background.
+ * Fetches proker content collection and displays the top 3 cards.
+ */
+import { getCollection } from 'astro:content';
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import ProkerCard from '../ui/ProkerCard.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const prokerEntries = await getCollection('proker');
+
+// Prioritize ongoing and upcoming program kerja
+const statusOrder: Record<string, number> = {
+  'berlangsung': 0,
+  'akan-datang': 1,
+  'selesai': 2,
+};
+
+const topProker = [...prokerEntries]
+  .sort((a, b) => {
+    const orderA = statusOrder[a.data.status] ?? 3;
+    const orderB = statusOrder[b.data.status] ?? 3;
+    return orderA - orderB;
+  })
+  .slice(0, 3);
+---
+
+<section class:list={['bg-white py-20 lg:py-32', className]}>
+  <Container>
+    <SectionHeader
+      title="Program Kerja Unggulan"
+      description="Inisiatif dan agenda strategis untuk meningkatkan kapasitas serta jejaring mahasiswa."
+    />
+
+    {topProker.length > 0 ? (
+      <>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {topProker.map((item, idx) => (
+            <div class="card-enter grid" style={`--i:${idx}`}>
+            <ProkerCard
+              judul={item.data.judul}
+              slug={item.data.slug}
+              ringkasan={item.data.ringkasan}
+              waktu={item.data.waktu}
+              kategori={item.data.kategori}
+              status={item.data.status}
+            />
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-10 lg:mt-12 text-center">
+          <Button variant="secondary" on="light" href="/program-kerja">
+            Lihat Semua Program Kerja
+          </Button>
+        </div>
+      </>
+    ) : (
+      <p class="text-center text-slate-700">
+        Program kerja akan segera diumumkan.
+      </p>
+    )}
+  </Container>
+</section>

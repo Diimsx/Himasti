@@ -1,0 +1,78 @@
+---
+/**
+ * Berita & Artikel — Daftar kabar terbaru, artikel, dan dokumentasi kegiatan HIMASTI.
+ * Menampilkan kartu berita yang diurutkan dari tanggal terbaru.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import BeritaCard from '../../components/ui/BeritaCard.astro';
+
+const allBerita = (await getCollection('berita')).sort(
+  (a, b) => b.data.tanggal.getTime() - a.data.tanggal.getTime()
+);
+---
+
+<BaseLayout
+  title="Berita & Artikel"
+  description="Kabar terbaru, artikel informatif, dan dokumentasi kegiatan seputar HIMASTI Cyber University."
+>
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
+    <Container>
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Berita</span>
+        <h1 class="type-heading-primary">Berita &amp; Artikel</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+          Kabar terbaru, pengumuman penting, dan artikel informatif seputar kegiatan HIMASTI Cyber University.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Section Berita (white) -->
+  <Section bg="white" class="py-20 lg:py-32">
+    <Container>
+      {allBerita.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {allBerita.map((item) => (
+            <BeritaCard
+              judul={item.data.judul}
+              slug={item.data.slug}
+              tanggal={item.data.tanggal}
+              penulis={item.data.penulis}
+              ringkasan={item.data.ringkasan}
+              sampul={item.data.sampul}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="py-16 sm:py-24 text-center max-w-md mx-auto">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-mist-100 flex items-center justify-center text-slate-500">
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+              />
+            </svg>
+          </div>
+          <h2 class="font-heading text-xl font-medium text-navy-900 mb-2">
+            Belum Ada Berita
+          </h2>
+          <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+            Belum ada berita. Artikel terbaru akan muncul di sini.
+          </p>
+        </div>
+      )}
+    </Container>
+  </Section>
+</BaseLayout>

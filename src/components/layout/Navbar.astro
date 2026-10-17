@@ -1,14 +1,11 @@
 ---
 /**
- * Navbar — floating glass pill (design.md § 6) + curved side menu.
+ * Navbar - tombol pil kaca cair (liquid glass) "Menu +" khusus di pojok kanan atas (design.md § 6) + panel menu melengkung.
  *
- * The pill shows logo, 3 key links, and a menu button (all breakpoints).
- * The menu button opens a right-hand panel with a curved leading edge, adapted from the
- * "curved-menu" reference. It is a native <dialog> (focus trap, Esc, inert page) animated with
- * CSS transitions + a tiny script for the SVG curve — no React / framer-motion / Next dependency.
+ * Tidak ada logo atau tautan di tengah: seluruh navigasi ada di panel yang dibuka tombol ini.
+ * Panel adalah <dialog> native (fokus terkunci, Esc, halaman di belakang inert) dengan transisi CSS
+ * + skrip kecil untuk kurva SVG — tanpa React / framer-motion / Next.
  */
-import { Image } from 'astro:assets';
-import logoHimasti from '../../assets/logo-himasti.png';
 import SocialIcon from '../ui/SocialIcon.astro';
 import { getContactLinks } from '../../lib/contact';
 
@@ -30,13 +27,6 @@ const menuLinks: NavLink[] = [
   { label: 'Kontak', href: '/kontak' },
 ];
 
-// Short list inside the pill (desktop only) so it stays compact
-const pillLinks: NavLink[] = [
-  { label: 'Tentang', href: '/tentang' },
-  { label: 'Divisi', href: '/divisi' },
-  { label: 'Proker', href: '/program-kerja' },
-];
-
 const contactLinks = getContactLinks();
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) =>
@@ -45,67 +35,63 @@ const isCurrent = (href: string) =>
 
 <nav
   id="site-nav"
-  class="fixed top-3 lg:top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-24px)] lg:w-auto lg:min-w-[440px] nav-pill rounded-full shadow-lg nav-entrance h-[52px] lg:h-[56px]"
+  class="fixed top-3 right-3 lg:top-4 lg:right-4 z-50 nav-pill rounded-full nav-entrance h-[52px] lg:h-[56px]"
   aria-label="Navigasi utama"
   data-scrolled="false"
 >
-  <div class="flex items-center justify-between pl-4 pr-1.5 lg:pl-5 h-full gap-2 lg:gap-4">
-    <a
-      href="/"
-      class="flex items-center gap-2 text-white font-heading font-medium text-base shrink-0 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-      aria-label="HIMASTI, ke beranda"
-    >
-      <Image src={logoHimasti} alt="" class="h-7 w-auto" />
-      <span>HIMASTI</span>
-    </a>
-
-    <ul class="hidden lg:flex items-center gap-1" role="list">
-      {pillLinks.map(({ label, href }) => (
-        <li>
-          <a
-            href={href}
-            class:list={[
-              'px-2 py-2 text-sm font-medium rounded transition-colors focus-visible:outline-2 focus-visible:outline-white',
-              isCurrent(href)
-                ? 'text-white underline underline-offset-4 decoration-2'
-                : 'text-gray-300 hover:text-white',
-            ]}
-            aria-current={isCurrent(href) ? 'page' : undefined}
-          >
-            {label}
-          </a>
-        </li>
-      ))}
-    </ul>
-
-    <div class="flex items-center gap-1 shrink-0">
-      <button
-        type="button"
-        id="menu-open"
-        class="inline-flex items-center justify-center w-11 h-11 rounded-full text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white"
-        aria-label="Buka menu navigasi"
-        aria-haspopup="dialog"
-        aria-expanded="false"
-        aria-controls="site-menu"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          <path stroke-linecap="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10" />
-        </svg>
-      </button>
-    </div>
-  </div>
+  <button
+    type="button"
+    id="menu-open"
+    class="inline-flex items-center justify-center gap-2.5 h-full min-w-11 pl-5 pr-4 lg:pl-6 lg:pr-5 rounded-full text-white font-heading font-medium text-base [text-shadow:0_1px_2px_rgb(30_39_59/0.45)] hover:bg-white/10 active:scale-95 transition-[background-color,transform] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+    aria-label="Buka menu navigasi"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="site-menu"
+  >
+    <span>Menu</span>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-width="2" d="M12 5v14M5 12h14" />
+    </svg>
+  </button>
 </nav>
 
 <dialog id="site-menu" class="menu-dialog" aria-label="Menu navigasi" data-state="closed">
-  <div class="menu-panel">
+  <div class="menu-panel" data-deco="">
     <svg class="menu-curve" aria-hidden="true" focusable="false">
       <path id="menu-curve-path"></path>
     </svg>
 
-    <div class="flex items-center justify-between px-8 sm:px-14 pt-6 pb-4 menu-item" style="--i:0">
-      <span class="inline-flex items-center rounded-full border border-gray-300 text-gray-300 px-3 py-1 text-xs font-medium tracking-[0.02em]">
-        Navigasi
-      </span>
+    <!-- Dekorasi latar yang berganti sesuai item yang di-hover; murni hiasan, hanya warna palet -->
+    <div class="menu-decor" aria-hidden="true">
+      <svg viewBox="0 0 640 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+        <circle cx="470" cy="690" r="120" fill="currentColor" class="text-slate-700" opacity="0.5" />
+        <circle cx="150" cy="800" r="72" fill="currentColor" class="text-navy-800" />
+        <circle cx="330" cy="600" r="38" fill="currentColor" class="text-slate-700" opacity="0.35" />
+      </svg>
+      <svg viewBox="0 0 640 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+        <path d="M-20 560 C 120 500 220 640 360 590 S 580 520 680 600" fill="none" stroke="currentColor" stroke-width="48" class="text-slate-700" opacity="0.45" />
+        <path d="M-20 660 C 120 600 220 740 360 690 S 580 620 680 700" fill="none" stroke="currentColor" stroke-width="48" class="text-navy-800" />
+      </svg>
+      <svg viewBox="0 0 640 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+        <g transform="rotate(-45 320 560)" fill="currentColor" class="text-slate-700">
+          <rect x="-200" y="470" width="1200" height="34" opacity="0.45" />
+          <rect x="-200" y="560" width="1200" height="34" opacity="0.3" />
+          <rect x="-200" y="650" width="1200" height="34" opacity="0.2" />
+        </g>
+      </svg>
+      <svg viewBox="0 0 640 900" preserveAspectRatio="xMidYMax slice" focusable="false">
+        <g fill="currentColor" class="text-gray-300">
+          <circle cx="90" cy="560" r="9" opacity="0.25" />
+          <circle cx="260" cy="640" r="6" opacity="0.2" />
+          <circle cx="430" cy="580" r="12" opacity="0.2" />
+          <circle cx="540" cy="720" r="7" opacity="0.25" />
+          <circle cx="180" cy="770" r="12" opacity="0.15" />
+          <circle cx="380" cy="810" r="8" opacity="0.2" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="flex items-center justify-end px-8 sm:px-14 pt-6 pb-4 menu-item" style="--i:0">
       <button
         type="button"
         id="menu-close"
@@ -118,37 +104,30 @@ const isCurrent = (href: string) =>
       </button>
     </div>
 
-    <div class="menu-scroll px-8 sm:px-14">
+    <div class="menu-scroll">
       <ul role="list">
         {menuLinks.map(({ label, href }, idx) => (
-          <li class="menu-item border-b border-white/15" style={`--i:${idx + 1}`}>
+          <li class="menu-row" style={`--i:${idx}`}>
             <a
               href={href}
-              class="menu-link group flex items-baseline gap-4 py-3 sm:py-4 rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              class="menu-link menu-pad"
+              data-deco={idx % 4}
+              data-dir="bottom"
               aria-current={isCurrent(href) ? 'page' : undefined}
             >
-              <span class="font-mono text-xs text-gray-300 w-6 shrink-0" aria-hidden="true">
-                {String(idx + 1).padStart(2, '0')}
+              <span class="menu-clip">
+                <span class="menu-text type-menu text-white">{label}</span>
               </span>
-              <span class="sr-only">{label}</span>
-              <span class="font-heading text-2xl sm:text-3xl font-medium tracking-[-0.02em] text-white" aria-hidden="true">
-                {[...label].map((ch, i) => (
-                  <span class="menu-letter" style={`--i:${i}`}>{ch === ' ' ? '\u00A0' : ch}</span>
-                ))}
+              <span class="menu-hover menu-pad" aria-hidden="true">
+                <span class="type-menu text-navy-900">{label}</span>
               </span>
-              {isCurrent(href) && (
-                <span class="ml-auto self-center text-xs text-gray-300 inline-flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-white" aria-hidden="true"></span>
-                  Halaman ini
-                </span>
-              )}
             </a>
           </li>
         ))}
       </ul>
     </div>
 
-    <div class="px-8 sm:px-14 py-6 border-t border-white/10 menu-item flex items-center justify-between gap-4" style={`--i:${menuLinks.length + 1}`}>
+    <div class="px-8 sm:px-14 py-6 border-t border-white/10 menu-item flex items-center justify-between gap-4" style={`--i:${menuLinks.length}`}>
       <ul class="flex items-center gap-1" role="list">
         {contactLinks.map(({ name, label, href }) => (
           <li>
@@ -172,6 +151,14 @@ const isCurrent = (href: string) =>
   const closeBtn = document.getElementById('menu-close') as HTMLButtonElement | null;
   const dialog = document.getElementById('site-menu') as HTMLDialogElement | null;
   const curve = document.getElementById('menu-curve-path');
+
+  // Kilau liquid glass mengikuti kursor (CSS: --mx / --my pada .nav-pill)
+  const navPill = document.getElementById('site-nav');
+  navPill?.addEventListener('pointermove', (e) => {
+    const r = navPill.getBoundingClientRect();
+    navPill.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
+    navPill.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
+  });
 
   if (openBtn && closeBtn && dialog && curve) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -235,5 +222,33 @@ const isCurrent = (href: string) =>
 
     // Click outside the panel (on the transparent dialog area)
     dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+
+    // Menu rows: the light band sweeps in from the side the pointer entered and leaves toward the side
+    // it exits; the decoration behind the list follows the active row.
+    const panel = dialog.querySelector<HTMLElement>('.menu-panel');
+    dialog.querySelectorAll<HTMLAnchorElement>('.menu-link').forEach((link) => {
+      const band = link.querySelector<HTMLElement>('.menu-hover');
+      const side = (e: PointerEvent) => {
+        const r = link.getBoundingClientRect();
+        return e.clientY < r.top + r.height / 2 ? 'top' : 'bottom';
+      };
+      const setDeco = () => panel?.setAttribute('data-deco', link.dataset.deco ?? '');
+
+      link.addEventListener('pointerenter', (e) => {
+        if (band) band.style.transition = 'none';
+        link.dataset.dir = side(e);
+        if (band) { void band.offsetWidth; band.style.transition = ''; }
+        link.classList.add('is-on');
+        setDeco();
+      });
+      link.addEventListener('pointerleave', (e) => {
+        link.dataset.dir = side(e);
+        link.classList.remove('is-on');
+      });
+      link.addEventListener('focus', () => {
+        if (link.matches(':focus-visible')) { link.classList.add('is-on'); setDeco(); }
+      });
+      link.addEventListener('blur', () => link.classList.remove('is-on'));
+    });
   }
 </script>

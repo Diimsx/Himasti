@@ -1,0 +1,69 @@
+---
+/**
+ * TimelineItem - Satu langkah pada Timeline: titik di garis, waktu, judul, deskripsi.
+ * Desktop: bergantian kiri/kanan garis tengah; mobile: satu kolom dengan garis di kiri.
+ * Pusat titik berada 12 px dari atas item (sejajar baris waktu setinggi 24 px); Timeline.astro
+ * memakai angka yang sama untuk memulai dan mengakhiri garis tepat di pusat titik.
+ * Badge status hanya tampil untuk "berlangsung" dan "selesai"; "akan-datang" tidak ditampilkan.
+ */
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  judul: string;
+  slug: string;
+  ringkasan: string;
+  waktu: string;
+  status: 'akan-datang' | 'berlangsung' | 'selesai';
+  /** true: konten di kiri garis pada desktop (rata kanan) */
+  even: boolean;
+}
+
+const { judul, slug, ringkasan, waktu, status, even } = Astro.props;
+
+const statusLabel: Record<'berlangsung' | 'selesai', string> = {
+  berlangsung: 'Berlangsung',
+  selesai: 'Selesai',
+};
+---
+
+<div class="tl-item relative flex items-start group">
+  <!-- Titik pada garis -->
+  <div
+    class="tl-dot absolute left-3.5 md:left-1/2 -translate-x-1/2 top-1.5 size-3 rounded-full bg-white ring-4 ring-navy-900 z-10 motion-reduce:transition-none"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class:list={[
+      'tl-body w-full pl-10 md:pl-0 md:w-1/2',
+      even ? 'md:pr-12 md:text-right md:mr-auto' : 'md:pl-12 md:text-left md:ml-auto',
+    ]}
+  >
+    <!-- Baris waktu setinggi 24 px, tengahnya sejajar dengan pusat titik -->
+    <div
+      class:list={[
+        'flex min-h-6 flex-wrap items-center gap-2.5 mb-2',
+        even ? 'md:justify-end' : 'md:justify-start',
+      ]}
+    >
+      <span class="type-data text-gray-300">{waktu}</span>
+      {status !== 'akan-datang' && (
+        <Badge variant={status} on="dark">{statusLabel[status]}</Badge>
+      )}
+    </div>
+
+    <h3 class="tl-dim font-heading text-lg sm:text-xl font-medium tracking-tight mb-2 text-white">
+      <a
+        href={`/program-kerja/${slug}`}
+        class="hover:underline text-inherit transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+      >
+        {judul}
+      </a>
+    </h3>
+
+    <p class:list={['tl-dim text-sm leading-relaxed max-w-prose text-gray-300', even && 'md:ml-auto']}>
+      {ringkasan}
+    </p>
+  </div>
+</div>

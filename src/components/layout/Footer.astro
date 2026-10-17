@@ -1,11 +1,11 @@
 ---
 /**
- * Footer — navy-900 footer with giant wordmark marquee, 3-column sitemap, and contact
- * (design.md § 6, 8.5). Contact data comes from src/content/settings.json.
+ * Footer — navy-900 footer with giant wordmark marquee, hak cipta + ikon
+ * Instagram / LinkedIn / Email (kolom kiri), dan 2 kolom sitemap (design.md § 6, 8.5). Data kontak dari src/content/settings.json.
  */
 import Container from '../ui/Container.astro';
 import SocialIcon from '../ui/SocialIcon.astro';
-import { getContactLinks, contactEmail } from '../../lib/contact';
+import { getContactLinks } from '../../lib/contact';
 
 const currentYear = new Date().getFullYear();
 
@@ -23,24 +23,51 @@ const programLinks = [
   { label: 'Prestasi', href: '/prestasi' },
 ];
 
-const socialLinks = getContactLinks().filter((l) => l.name !== 'email');
+const contactLinks = getContactLinks(); // instagram, linkedin, email (yang terisi di settings.json)
 ---
 
 <footer class="bg-navy-900 text-white">
   <!-- Wordmark marquee (§ 8.5): decorative. Track is w-max and each copy carries its own right padding,
        so translateX(-50%) lands exactly on the start of the second half (seamless loop). -->
-  <div class="overflow-hidden py-12 lg:py-16 border-b border-white/10" aria-hidden="true">
-    <div class="wordmark">
-      <div class="marquee-track flex w-max whitespace-nowrap">
-        {Array.from({ length: 8 }).map(() => (
-          <span class="pr-[0.4em] text-[20vw] lg:text-[16vw] font-heading font-medium text-gray-300 select-none leading-none">HIMASTI</span>
-        ))}
+  <Container>
+    <div class="lg:w-[70%] lg:mx-auto overflow-hidden py-12 lg:py-16" aria-hidden="true">
+      <div class="wordmark">
+        <div class="marquee-track flex w-max whitespace-nowrap">
+          {Array.from({ length: 8 }).map(() => (
+            <span class="pr-[0.4em] text-[20vw] lg:text-[16vw] font-heading font-medium text-gray-300 select-none leading-none">HIMASTI</span>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
+  </Container>
 
   <Container>
+    <!-- Isi footer: di desktop selebar 70% Container (30% lebih pendek dari lebar konten seksi lain) -->
+    <div class="lg:w-[70%] lg:mx-auto">
     <div class="py-12 lg:py-16 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-8">
+      <!-- Hak cipta + ikon kontak: kolom kiri, di samping Navigasi (di HP turun ke akhir) -->
+      <div class="order-last md:order-first space-y-2 text-gray-300">
+        <p class="type-caption">
+          &copy; {currentYear} HIMASTI Cyber University. Seluruh hak dilindungi.
+        </p>
+        <!-- Ikon kontak: Instagram, LinkedIn, Email (di bawah hak cipta) -->
+        <ul class="flex items-center gap-1 -ml-3 pt-1" role="list" aria-label="Kontak dan media sosial">
+          {contactLinks.map(({ name, label, href }) => (
+            <li>
+              <a
+                href={href}
+                target={name === 'email' ? undefined : '_blank'}
+                rel={name === 'email' ? undefined : 'noopener noreferrer'}
+                class="inline-flex items-center justify-center w-11 h-11 rounded-full text-gray-300 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
+                aria-label={name === 'email' ? label : `${label} (tab baru)`}
+              >
+                <SocialIcon name={name} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       <nav aria-label="Navigasi footer">
         <h2 class="text-white text-sm font-medium mb-4">Navigasi</h2>
         <ul class="space-y-1" role="list">
@@ -66,55 +93,8 @@ const socialLinks = getContactLinks().filter((l) => l.name !== 'email');
           ))}
         </ul>
       </nav>
-
-      <div>
-        <h2 class="text-white text-sm font-medium mb-4">Kontak</h2>
-        <address class="not-italic text-sm text-gray-300 space-y-2">
-          <p>Cyber University</p>
-          {contactEmail && (
-            <p>
-              <a href={`mailto:${contactEmail}`} class="text-gray-300 hover:text-white underline underline-offset-4 transition-colors rounded focus-visible:outline-2 focus-visible:outline-white">
-                {contactEmail}
-              </a>
-            </p>
-          )}
-        </address>
-
-        {socialLinks.length > 0 && (
-          <ul class="flex items-center gap-1 mt-4 -ml-2" role="list">
-            {socialLinks.map(({ name, label, href }) => (
-              <li>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center justify-center w-11 h-11 rounded-full text-gray-300 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white"
-                  aria-label={`${label} (tab baru)`}
-                >
-                  <SocialIcon name={name} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <a
-          href="/kontak"
-          class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-white underline underline-offset-4 hover:text-gray-300 transition-colors rounded focus-visible:outline-2 focus-visible:outline-white"
-        >
-          Hubungi Kami
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </a>
-      </div>
     </div>
 
-    <div class="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-xs text-gray-300">
-        &copy; {currentYear} HIMASTI Cyber University. Seluruh hak dilindungi.
-      </p>
-      <p class="text-xs text-gray-300 font-mono">Periode 2026/2027</p>
     </div>
   </Container>
 </footer>

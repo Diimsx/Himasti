@@ -1,0 +1,74 @@
+---
+/**
+ * Hero — Homepage hero section in HIMASTI v3 "Layered Clean Tech" design.
+ * Rounded mist gradient card, two-tone heading, pill label.
+ */
+import { Image } from 'astro:assets';
+import logoHimasti from '../../assets/logo-himasti.png';
+import logoCyberUniversity from '../../assets/logo-cyber-university.png';
+import logoKabinetArthasena from '../../assets/logo-kabinet-arthasena.png';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<section class:list={['px-2 lg:px-3 pt-24 lg:pt-28 pb-4', className]}>
+  <div class="surface-mist rounded-[32px] lg:rounded-[40px] shadow-xl min-h-[calc(100svh-24px)] relative overflow-hidden flex flex-col items-center justify-start px-4 pt-14 sm:pt-16 lg:pt-20 pb-28">
+    <!-- Dot grid texture in top 45% zone (§ 4.1, 6) -->
+    <div class="absolute inset-x-0 top-0 h-[45%] bg-dots-light opacity-60 pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Content is top-aligned so every text line stays in the light zone (0-70% of the card; navy-900/slate-700 only, design.md § 2.3). Never place text in the 70-90% dead zone. -->
+    <div class="hero-content hero-entrance mx-auto max-w-4xl text-center relative z-10">
+      <!-- Main HIMASTI Logo -->
+      <div class="flex justify-center mb-6">
+        <Image
+          src={logoHimasti}
+          alt="Logo HIMASTI"
+          class="h-16 sm:h-20 w-auto"
+          loading="eager"
+        />
+      </div>
+
+      <!-- Pill Label -->
+      <div>
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">
+          HIMASTI 2026/2027
+        </span>
+      </div>
+
+      <!-- Two-tone Heading -->
+      <h1 class="type-display text-center mb-6">
+        Himpunan Mahasiswa<br />
+        <span class="text-slate-700">Sistem &amp; Teknologi Informasi</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="type-body-lead text-slate-700 max-w-xl mx-auto">
+        Cyber University · Periode 2026/2027
+      </p>
+
+      <!-- Affiliation logos -->
+      <div class="flex items-center justify-center gap-6 mt-6">
+        <div class="flex items-center gap-2">
+          <Image
+            src={logoCyberUniversity}
+            alt="Logo Cyber University"
+            class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
+          />
+        </div>
+        <span class="h-6 w-px bg-slate-700/30" aria-hidden="true"></span>
+        <div class="flex items-center gap-2">
+          <Image
+            src={logoKabinetArthasena}
+            alt="Logo Kabinet ArthaSena"
+            class="h-8 sm:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity"
+          />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

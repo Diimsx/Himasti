@@ -365,9 +365,8 @@ Saat masa bakti kepengurusan berakhir dan terjadi pergantian kabinet baru, ikuti
 1. **Pengarsipan Data Pengurus**:
    - Jangan menghapus atau menimpa berkas pengurus lama.
    - Tambahkan berkas pengurus baru untuk periode mendatang (contoh: `periode: "2027-2028"`).
-2. **Pembaruan Halaman Struktur & Statistik**:
+2. **Pembaruan Halaman Struktur**:
    - Sesuaikan visual bagan struktur organisasi di `src/pages/struktur.astro` jika terdapat pemekaran divisi.
-   - Perbarui angka statistik capaian pada beranda utama jika ada target baru.
 3. **Pembaruan Program Kerja**:
    - Ubah status proker periode lama menjadi `selesai`.
    - Masukkan daftar program kerja periode baru dengan status `akan-datang`.

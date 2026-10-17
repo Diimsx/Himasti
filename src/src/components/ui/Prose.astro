@@ -1,0 +1,17 @@
+---
+/**
+ * Prose — Styled container for rendered Markdown content.
+ * Gaya ada di src/styles/typography.css (.typeset): judul, paragraf 2em, daftar, tautan, tabel.
+ * Lebar baris 68ch. Plugin @tailwindcss/typography TIDAK dipakai.
+ */
+interface Props {
+  /** Additional CSS classes */
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['typeset', className]}>
+  <slot />
+</div>

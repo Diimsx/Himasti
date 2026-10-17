@@ -1,0 +1,158 @@
+# Sveltia CMS Configuration
+# Documentation: https://sveltiacms.app/
+# Synchronized with src/content.config.ts schemas
+
+backend:
+  name: github
+  repo: Diimsx/Himasti
+  branch: main
+
+media_folder: src/assets/uploads
+public_folder: /src/assets/uploads
+
+collections:
+  - name: pengurus
+    label: Pengurus
+    label_singular: Pengurus
+    folder: src/content/pengurus
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{nama}}"
+    identifier_field: nama
+    fields:
+      - { label: "Nama", name: "nama", widget: "string", required: true }
+      - { label: "Jabatan", name: "jabatan", widget: "string", required: true }
+      - { label: "Divisi", name: "divisi", widget: "string", required: false }
+      - { label: "Angkatan", name: "angkatan", widget: "string", required: false }
+      - { label: "Periode", name: "periode", widget: "string", default: "2026-2027", required: true }
+      - { label: "Foto", name: "foto", widget: "image", required: false }
+      - { label: "Urutan", name: "urutan", widget: "number", value_type: "int", default: 0, required: true }
+
+  - name: divisi
+    label: Divisi
+    label_singular: Divisi
+    folder: src/content/divisi
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    identifier_field: nama
+    fields:
+      - { label: "Nama", name: "nama", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
+      - { label: "Ringkasan", name: "ringkasan", widget: "text", required: false }
+      - label: "Tugas"
+        name: "tugas"
+        widget: "list"
+        required: false
+        field: { label: "Tugas", name: "item", widget: "string" }
+      - { label: "Kepala", name: "kepala", widget: "string", required: true }
+      - { label: "Urutan", name: "urutan", widget: "number", value_type: "int", default: 0, required: true }
+
+  - name: proker
+    label: Program Kerja
+    label_singular: Program Kerja
+    folder: src/content/proker
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    identifier_field: judul
+    fields:
+      - { label: "Judul", name: "judul", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
+      - { label: "Waktu", name: "waktu", widget: "string", required: true }
+      - label: "Kategori"
+        name: "kategori"
+        widget: "select"
+        required: true
+        options:
+          - { label: "Kunjungan", value: "kunjungan" }
+          - { label: "Pelatihan", value: "pelatihan" }
+          - { label: "Kebersamaan", value: "kebersamaan" }
+          - { label: "Seminar", value: "seminar" }
+      - { label: "Sasaran", name: "sasaran", widget: "string", required: false }
+      - { label: "Tujuan", name: "tujuan", widget: "string", required: false }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        default: "akan-datang"
+        required: true
+        options:
+          - { label: "Akan Datang", value: "akan-datang" }
+          - { label: "Berlangsung", value: "berlangsung" }
+          - { label: "Selesai", value: "selesai" }
+      - { label: "Sampul", name: "sampul", widget: "image", required: false }
+      - { label: "Ringkasan", name: "ringkasan", widget: "text", required: true }
+      - { label: "Periode", name: "periode", widget: "string", default: "2026-2027", required: false }
+      - { label: "Konten", name: "body", widget: "markdown", required: false }
+
+  - name: berita
+    label: Berita
+    label_singular: Berita
+    folder: src/content/berita
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{slug}}"
+    identifier_field: judul
+    fields:
+      - { label: "Judul", name: "judul", widget: "string", required: true }
+      - { label: "Slug", name: "slug", widget: "string", required: true }
+      - label: "Tanggal"
+        name: "tanggal"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        required: true
+      - { label: "Penulis", name: "penulis", widget: "string", required: true }
+      - { label: "Kategori", name: "kategori", widget: "string", required: false }
+      - { label: "Sampul", name: "sampul", widget: "image", required: false }
+      - { label: "Ringkasan", name: "ringkasan", widget: "text", required: true }
+      - { label: "Konten", name: "body", widget: "markdown", required: false }
+
+  - name: prestasi
+    label: Prestasi
+    label_singular: Prestasi
+    folder: src/content/prestasi
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{nama}}"
+    identifier_field: nama
+    fields:
+      - { label: "Nama", name: "nama", widget: "string", required: true }
+      - { label: "Penerima", name: "penerima", widget: "string", required: true }
+      - { label: "Tingkat", name: "tingkat", widget: "string", required: true }
+      - { label: "Tahun", name: "tahun", widget: "number", value_type: "int", required: true }
+      - { label: "Foto", name: "foto", widget: "image", required: false }
+
+  - name: galeri
+    label: Galeri
+    label_singular: Galeri
+    folder: src/content/galeri
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{keterangan}}"
+    identifier_field: keterangan
+    fields:
+      - { label: "Gambar", name: "gambar", widget: "image", required: true }
+      - { label: "Keterangan", name: "keterangan", widget: "string", required: true }
+      - { label: "Kategori", name: "kategori", widget: "string", required: false }
+      - { label: "Tahun", name: "tahun", widget: "number", value_type: "int", required: false }
+
+  - name: site-settings
+    label: Pengaturan Situs
+    files:
+      - name: settings
+        label: Pengaturan Umum
+        file: src/content/settings.json
+        format: json
+        fields:
+          - { label: "Email", name: "email", widget: "string", required: false }
+          - { label: "Alamat", name: "alamat", widget: "text", required: false }
+          - { label: "Instagram", name: "instagram", widget: "string", required: false }
+          - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }

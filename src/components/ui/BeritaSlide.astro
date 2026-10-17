@@ -1,0 +1,58 @@
+---
+/**
+ * BeritaSlide - Kartu berita ringkas untuk karusel beranda: gambar, tanggal, judul, deskripsi singkat.
+ * Seluruh kartu bisa diklik. Tanpa sampul, area gambar diisi blok `mist-100` agar tinggi kartu tetap seragam.
+ * Kartu lengkap (dengan penulis) tetap memakai BeritaCard di halaman Berita.
+ */
+import { Image } from 'astro:assets';
+
+interface Props {
+  judul: string;
+  slug: string;
+  tanggal: Date;
+  ringkasan: string;
+  sampul?: ImageMetadata;
+  class?: string;
+}
+
+const { judul, slug, tanggal, ringkasan, sampul, class: className = '' } = Astro.props;
+
+const formattedDate = tanggal.toLocaleDateString('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<a
+  href={`/berita/${slug}`}
+  class:list={[
+    'group flex h-full flex-col overflow-hidden rounded-[20px] border border-mist-100 bg-white shadow-sm',
+    'transition-[transform,box-shadow,border-color] duration-150',
+    'motion-safe:hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900',
+    className,
+  ]}
+>
+  <div class="aspect-video shrink-0 overflow-hidden bg-mist-100">
+    {sampul && (
+      <Image
+        src={sampul}
+        alt=""
+        width={720}
+        height={405}
+        class="size-full object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-105"
+        loading="lazy"
+      />
+    )}
+  </div>
+  <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <time class="type-data text-slate-500 mb-3" datetime={tanggal.toISOString()}>{formattedDate}</time>
+    <h3 class="font-heading text-lg font-medium text-navy-900 mb-2 group-hover:underline">
+      {judul}
+    </h3>
+    <p class="text-sm text-slate-700 leading-relaxed line-clamp-3">
+      {ringkasan}
+    </p>
+  </div>
+</a>

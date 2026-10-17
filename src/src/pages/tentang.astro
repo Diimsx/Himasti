@@ -1,0 +1,175 @@
+---
+/**
+ * Tentang Kami — Informasi profil, kerangka Mengapa/Bagaimana/Apa, serta Visi & Misi HIMASTI.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import logoHimasti from '../assets/logo-himasti.png';
+import logoCyberUniversity from '../assets/logo-cyber-university.png';
+import logoKabinetArthasena from '../assets/logo-kabinet-arthasena.png';
+---
+
+<BaseLayout
+  title="Tentang Kami"
+  description="Kenali lebih dekat Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University, visi, misi, dan pilar pergerakan organisasi."
+>
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
+    <Container>
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Tentang Kami</span>
+        <h1 class="type-heading-primary">Tentang HIMASTI</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+          Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University merupakan wadah kolaborasi, inovasi, dan pengembangan potensi bagi mahasiswa Sistem &amp; Teknologi Informasi periode 2026/2027.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Logos Section -->
+  <Section bg="white" class="py-16 lg:py-20 border-y border-mist-100">
+    <Container>
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 lg:gap-20">
+        <!-- Cyber University -->
+        <div class="flex flex-col items-center gap-2.5 order-2 md:order-1 text-center">
+          <Image
+            src={logoCyberUniversity}
+            alt="Logo Cyber University"
+            class="h-20 md:h-[88px] w-auto object-contain"
+          />
+          <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Cyber University</span>
+        </div>
+
+        <!-- HIMASTI (Main / Largest) -->
+        <div class="flex flex-col items-center gap-2.5 order-1 md:order-2 text-center">
+          <Image
+            src={logoHimasti}
+            alt="Logo HIMASTI"
+            class="h-24 md:h-[100px] w-auto object-contain"
+          />
+          <span class="text-xs font-mono font-semibold text-slate-700 uppercase tracking-wider">HIMASTI</span>
+        </div>
+
+        <!-- Kabinet ArthaSena -->
+        <div class="flex flex-col items-center gap-2.5 order-3 text-center">
+          <Image
+            src={logoKabinetArthasena}
+            alt="Logo Kabinet ArthaSena"
+            class="h-20 md:h-[88px] w-auto object-contain"
+          />
+          <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Kabinet ArthaSena</span>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section 1: Mengapa (Editorial layout, white bg) -->
+  <Section bg="white" class="py-20 lg:py-32">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-5">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Mengapa</span>
+          <h2 class="type-heading-secondary">
+            <span class="text-navy-900">Mengapa HIMASTI</span> <span class="text-slate-700">Hadir</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-7 space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section 2: Bagaimana (Editorial layout, mist bg) -->
+  <Section bg="mist" class="py-20 lg:py-32">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-5">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Bagaimana</span>
+          <h2 class="type-heading-secondary">
+            <span class="text-navy-900">Bagaimana Kami</span> <span class="text-slate-700">Bergerak</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-7 space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel sem vel sapien aliquam varius vel id nunc. Integer eget urna nec nulla gravida efficitur in quis est.
+          </p>
+          <p>
+            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section 3: Apa (Editorial layout, white bg) -->
+  <Section bg="white" class="py-20 lg:py-32">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-5">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Apa</span>
+          <h2 class="type-heading-secondary">
+            <span class="text-navy-900">Apa yang</span> <span class="text-slate-700">Kami Lakukan</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-7 space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede.
+          </p>
+          <p>
+            Mauris et orci eu purus condimentum pellentesque. Nam pellentesque pulvinar ante. Donec dictum libero et risus lacinia sagittis.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section 4: Visi & Misi (mist bg, v3 cards) -->
+  <Section bg="mist" class="py-20 lg:py-32">
+    <Container>
+      <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Visi &amp; Misi</span>
+        <h2 class="type-heading-secondary">
+          <span class="text-navy-900">Visi dan</span> <span class="text-slate-700">Misi</span>
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+          Arah tujuan dan langkah strategis HIMASTI dalam mewujudkan mahasiswa yang berdaya saing global.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Visi Card -->
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Visi</span>
+          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900 mb-4">
+            Visi Organisasi
+          </h3>
+          <p class="text-slate-700 leading-relaxed max-w-prose">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+        </div>
+
+        <!-- Misi Card -->
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Misi</span>
+          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900 mb-4">
+            Misi Organisasi
+          </h3>
+          <ul class="space-y-3 text-slate-700 leading-relaxed list-disc list-inside">
+            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+            <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</li>
+            <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</li>
+          </ul>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

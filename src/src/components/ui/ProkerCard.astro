@@ -1,0 +1,52 @@
+---
+/**
+ * ProkerCard — Card for program kerja with status badge.
+ * Whole card is clickable. Status badge uses text, not just color (a11y).
+ */
+import Badge from './Badge.astro';
+
+interface Props {
+  judul: string;
+  slug: string;
+  ringkasan: string;
+  waktu: string;
+  kategori: string;
+  status: 'akan-datang' | 'berlangsung' | 'selesai';
+  class?: string;
+}
+
+const { judul, slug, ringkasan, waktu, kategori, status, class: className = '' } = Astro.props;
+
+const statusLabel: Record<'akan-datang' | 'berlangsung' | 'selesai', string> = {
+  'akan-datang': 'Akan Datang',
+  'berlangsung': 'Berlangsung',
+  'selesai': 'Selesai',
+};
+---
+
+<a
+  href={`/program-kerja/${slug}`}
+  class:list={[
+    'group block rounded-[20px] border border-mist-100 bg-white p-6 shadow-sm transition-all duration-150',
+    'hover:-translate-y-[2px] hover:shadow-md hover:border-slate-500',
+    className,
+  ]}
+>
+  <div class="flex items-start justify-between gap-3 mb-3">
+    <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em]">
+      {kategori}
+    </span>
+    <Badge variant={status}>
+      {statusLabel[status]}
+    </Badge>
+  </div>
+  <h3 class="font-heading text-xl font-medium text-navy-900 mb-2 group-hover:underline">
+    {judul}
+  </h3>
+  <p class="text-sm text-slate-700 leading-relaxed mb-4 line-clamp-2">
+    {ringkasan}
+  </p>
+  <p class="type-data text-slate-500">
+    {waktu}
+  </p>
+</a>

@@ -23,12 +23,12 @@ const labelColor = dark ? 'text-gray-300' : 'text-slate-500';
 
 <div class:list={['text-center', className]}>
   <p class:list={[
-    'font-mono text-[40px] md:text-[64px] font-medium leading-none tracking-[-0.02em]',
+    'type-numeric-display',
     valueColor,
   ]}>
     {value}
   </p>
-  <p class:list={['mt-2 text-sm font-medium', labelColor]}>
+  <p class:list={['type-label mt-2', labelColor]}>
     {label}
   </p>
 </div>

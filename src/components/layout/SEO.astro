@@ -5,7 +5,7 @@
  * Every page must use this component for consistent metadata.
  */
 interface Props {
-  /** Page title — will be appended with " | HIMASTI" */
+  /** Page title — rendered as "{title} | HIMASTI". Pass an empty string on the homepage to get just "HIMASTI". */
   title: string;
   /** Meta description for search engines and social sharing */
   description: string;
@@ -28,7 +28,8 @@ const {
   noindex = false,
 } = Astro.props;
 
-const fullTitle = title ? `${title} | HIMASTI` : 'HIMASTI — Himpunan Mahasiswa Sistem & Teknologi Informasi';
+const SITE_NAME = 'HIMASTI';
+const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
 const resolvedOgImage = new URL(ogImage, Astro.site).href;
 ---
 

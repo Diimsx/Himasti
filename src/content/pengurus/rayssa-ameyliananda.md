@@ -1,5 +1,5 @@
 ---
-nama: Rayssa Ameyliananda
+nama: Ecaw
 jabatan: Kepala Divisi
 divisi: Humas
 angkatan: '2024'

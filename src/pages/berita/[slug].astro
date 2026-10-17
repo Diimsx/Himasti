@@ -30,7 +30,7 @@ const formattedDate = entry.data.tanggal.toLocaleDateString('id-ID', {
 ---
 
 <BaseLayout
-  title={`${entry.data.judul} — Berita HIMASTI`}
+  title={`${entry.data.judul} — Berita`}
   description={entry.data.ringkasan}
 >
   <!-- Page Hero Header -->
@@ -66,7 +66,7 @@ const formattedDate = entry.data.tanggal.toLocaleDateString('id-ID', {
       </div>
 
       <!-- Title -->
-      <h1 class="font-heading text-3xl sm:text-4xl lg:text-[44px] font-medium leading-[1.15] tracking-[-0.02em] text-navy-900 mb-4 max-w-4xl">
+      <h1 class="type-heading-secondary mb-4 max-w-4xl">
         {entry.data.judul}
       </h1>
 

@@ -3,8 +3,7 @@
  * AboutPreview — Preview section for Tentang Kami in editorial two-column layout on white background.
  */
 import Container from '../ui/Container.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
-import Button from '../ui/Button.astro';
+import VideoPlayer from '../ui/VideoPlayer.astro';
 
 interface Props {
   class?: string;
@@ -13,22 +12,19 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<section class:list={['bg-white py-20 lg:py-32', className]}>
+<section id="mengenal" class:list={['bg-white py-20 lg:py-32', className]}>
   <Container>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-      <!-- Left Column (col 1-6): pill label + two-tone heading -->
+      <!-- Left Column (col 1-6): two-tone heading -->
       <div class="lg:col-span-6">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
-          Tentang Kami
-        </span>
-        <h2 class="font-heading text-3xl sm:text-4xl lg:text-[44px] font-medium leading-[1.15] tracking-[-0.02em]">
+        <h2 class="type-heading-secondary">
           <span class="text-navy-900">Mengenal HIMASTI</span><br />
           <span class="text-slate-700">Cyber University</span>
         </h2>
       </div>
 
       <!-- Right Column (col 9-12): paragraph text aligned to bottom of heading -->
-      <div class="lg:col-span-4 lg:col-start-9 lg:self-end space-y-4 text-slate-700 text-sm lg:text-base leading-relaxed">
+      <div class="lg:col-span-4 lg:col-start-9 lg:self-end flow-paragraphs type-body-secondary text-slate-700">
         <p>
           Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University adalah wadah aspirasi, kolaborasi, dan akselerasi potensi bagi seluruh mahasiswa Program Studi Sistem &amp; Teknologi Informasi.
         </p>
@@ -38,11 +34,13 @@ const { class: className = '' } = Astro.props;
       </div>
     </div>
 
-    <!-- Button below the grid -->
-    <div class="mt-12 lg:mt-16">
-      <Button variant="primary" on="light" href="/tentang">
-        Selengkapnya tentang HIMASTI
-      </Button>
+    <!-- Video profil: pemutar kustom dengan fasad YouTube (iframe baru dimuat setelah diklik) -->
+    <div class="mt-12 lg:mt-20">
+      <VideoPlayer
+        videoId="RYm-RQKTeJo"
+        start={115}
+        title="Mengenal HIMASTI Cyber University"
+      />
     </div>
   </Container>
 </section>

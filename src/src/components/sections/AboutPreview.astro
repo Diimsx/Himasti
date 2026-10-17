@@ -1,0 +1,48 @@
+---
+/**
+ * AboutPreview — Preview section for Tentang Kami in editorial two-column layout on white background.
+ */
+import Container from '../ui/Container.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<section class:list={['bg-white py-20 lg:py-32', className]}>
+  <Container>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+      <!-- Left Column (col 1-6): pill label + two-tone heading -->
+      <div class="lg:col-span-6">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 type-label mb-4">
+          Tentang Kami
+        </span>
+        <h2 class="type-heading-secondary">
+          <span class="text-navy-900">Mengenal HIMASTI</span><br />
+          <span class="text-slate-700">Cyber University</span>
+        </h2>
+      </div>
+
+      <!-- Right Column (col 9-12): paragraph text aligned to bottom of heading -->
+      <div class="lg:col-span-4 lg:col-start-9 lg:self-end flow-paragraphs type-body-secondary text-slate-700">
+        <p>
+          Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University adalah wadah aspirasi, kolaborasi, dan akselerasi potensi bagi seluruh mahasiswa Program Studi Sistem &amp; Teknologi Informasi.
+        </p>
+        <p>
+          Melalui kepengurusan yang solid dan program kerja berkesinambungan, kami membangun lingkungan yang kondusif untuk berinovasi dan berkarya secara profesional.
+        </p>
+      </div>
+    </div>
+
+    <!-- Button below the grid -->
+    <div class="mt-12 lg:mt-16">
+      <Button variant="primary" on="light" href="/tentang">
+        Selengkapnya tentang HIMASTI
+      </Button>
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,164 @@
+---
+/**
+ * Kontak — Halaman kontak resmi HIMASTI.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+---
+
+<BaseLayout
+  title="Kontak"
+  description="Hubungi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University dan temukan kanal resmi kami."
+>
+  <!-- Page Hero Header -->
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
+    <Container>
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-6">Kontak</span>
+        <h1 class="type-heading-primary">Hubungi Kami</h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+          Punya pertanyaan seputar kegiatan atau kolaborasi dengan HIMASTI Cyber University? Jangan ragu untuk menghubungi kami.
+        </p>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Section 1: Informasi Kontak (white) -->
+  <Section bg="white" class="py-20 lg:py-32">
+    <Container>
+      <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Kontak</span>
+        <h2 class="type-heading-secondary">
+          <span class="text-navy-900">Saluran Komunikasi</span> <span class="text-slate-700">Resmi</span>
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+          Hubungi kami melalui kanal resmi HIMASTI Cyber University di bawah ini.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+        <!-- Email Card -->
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-lg bg-mist-100 text-slate-700 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </div>
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
+              Email
+            </span>
+            <h3 class="font-heading text-lg sm:text-xl font-medium text-navy-900 mb-2">
+              Email Resmi
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+              Kirimkan surat atau permohonan kemitraan melalui surat elektronik resmi.
+            </p>
+          </div>
+          <a
+            href="mailto:himasti@cyber.ac.id"
+            class="text-sm font-semibold text-navy-900 underline hover:text-navy-800 break-all"
+          >
+            himasti@cyber.ac.id
+          </a>
+        </div>
+
+        <!-- Alamat Card -->
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-lg bg-mist-100 text-slate-700 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
+            </div>
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
+              Sekretariat
+            </span>
+            <h3 class="font-heading text-lg sm:text-xl font-medium text-navy-900 mb-2">
+              Kampus &amp; Lokasi
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+              Cyber University<br />
+              Jl. TB Simatupang No. 6, RT.7/RW.5, Tanjung Barat, Jagakarsa, Jakarta Selatan
+            </p>
+          </div>
+          <a
+            href="https://maps.google.com/?q=Cyber+University+Jakarta"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-sm font-semibold text-navy-900 underline hover:text-navy-800"
+          >
+            Buka di Google Maps
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Media Sosial Card -->
+        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-lg bg-mist-100 text-slate-700 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
+              </svg>
+            </div>
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
+              Sosial Media
+            </span>
+            <h3 class="font-heading text-lg sm:text-xl font-medium text-navy-900 mb-2">
+              Kanal Sosial Media
+            </h3>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+              Ikuti kabar terbaru dan liputan kegiatan HIMASTI di jejaring sosial kami.
+            </p>
+          </div>
+          <ul class="space-y-2 text-sm">
+            <li>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-navy-900 underline hover:text-navy-800 inline-flex items-center gap-1"
+              >
+                Instagram
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-navy-900 underline hover:text-navy-800 inline-flex items-center gap-1"
+              >
+                LinkedIn
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-navy-900 underline hover:text-navy-800 inline-flex items-center gap-1"
+              >
+                GitHub
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+</BaseLayout>
