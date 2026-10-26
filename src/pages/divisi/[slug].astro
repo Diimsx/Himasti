@@ -35,12 +35,6 @@ const { divisi } = Astro.props;
 const { Content } = await render(divisi);
 const groupPhoto = divisionPhotos[divisi.data.slug];
 
-// Fetch members of this division
-const allPengurus = await getCollection('pengurus');
-const divisiMembers = allPengurus
-  .filter((p) => p.data.divisi?.toLowerCase() === divisi.data.nama.toLowerCase())
-  .sort((a, b) => a.data.urutan - b.data.urutan);
-
 const monogram = (nama: string) =>
   nama
     .split(' ')
@@ -172,53 +166,19 @@ const monogram = (nama: string) =>
           Rincian tugas pokok divisi akan diperbarui secara berkala.
         </p>
       )}
-    </Container>
-  </Section>
 
-  <!-- Row 3: Daftar Anggota Divisi -->
-  {divisiMembers.length > 0 && (
-    <Section bg="mist" class="py-10 sm:py-12 lg:py-16 border-t border-mist-100">
-      <Container>
-        <h2 class="type-heading-secondary text-navy-900 mb-6">
-          Anggota Divisi {divisi.data.nama}
-        </h2>
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-          {divisiMembers.map((m) => (
-            <div class="rounded-[18px] border border-mist-100 bg-white p-4 text-center shadow-sm">
-              <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-navy-900 text-white font-heading font-medium flex items-center justify-center text-sm">
-                {monogram(m.data.nama)}
-              </div>
-              <h3 class="font-heading text-sm font-medium text-navy-900 leading-snug">{m.data.nama}</h3>
-              <p class="text-xs text-slate-500 mt-1">{m.data.jabatan}</p>
-              {m.data.angkatan && (
-                <p class="text-[11px] font-mono text-slate-400 mt-0.5">Angkatan {m.data.angkatan}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  )}
-
-  <!-- Navigasi Balik -->
-  <section class="py-10 bg-mist-50 border-t border-mist-100">
-    <Container>
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          <h3 class="font-heading text-base sm:text-lg font-medium text-navy-900">Ingin melihat divisi lainnya?</h3>
-          <p class="text-xs sm:text-sm text-slate-500">Lihat susunan lengkap kepala divisi dan pengurus HIMASTI.</p>
-        </div>
+      <!-- Link Kembali ke Struktur Organisasi -->
+      <div class="mt-10 pt-6 border-t border-mist-100 flex items-center justify-between">
         <a
           href="/struktur"
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-navy-900 text-white text-xs sm:text-sm font-medium hover:bg-navy-800 transition-colors"
+          class="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-navy-900 hover:text-navy-800 transition-colors"
         >
-          Lihat Struktur Organisasi
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
+          Kembali ke Struktur Organisasi
         </a>
       </div>
     </Container>
-  </section>
+  </Section>
 </BaseLayout>
