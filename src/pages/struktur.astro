@@ -109,7 +109,7 @@ const monogram = (nama: string) =>
     </Container>
   </Section>
 
-  <!-- Section Pengurus Inti: Grid Rapi, Proporsional, & Mobile Responsif -->
+  <!-- Section Pengurus Inti: Accordion Image Cards -->
   <Section bg="white" class="py-10 sm:py-12 lg:py-16 border-t border-mist-100">
     <Container>
       <div class="text-center max-w-2xl mx-auto mb-10">
@@ -122,30 +122,48 @@ const monogram = (nama: string) =>
       </div>
 
       {pengurusInti.length > 0 ? (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 max-w-5xl mx-auto">
+        <div class="group flex max-md:flex-col justify-center gap-2 sm:gap-3 w-full mx-auto">
           {pengurusInti.map((p) => (
-            <div class="group relative overflow-hidden rounded-[20px] bg-mist-100 border border-mist-100 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md aspect-[3/4] flex flex-col justify-end">
+            <article
+              class="group/article relative w-full rounded-2xl overflow-hidden
+                md:not-[&:hover]:group-hover:w-[20%]
+                md:[&:not(:focus-within):not(:hover)]:group-focus-within:w-[20%]
+                transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.15)]
+                before:absolute before:inset-x-0 before:bottom-0 before:h-1/2
+                before:bg-gradient-to-t before:from-navy-900/90 before:via-navy-900/40 before:to-transparent
+                before:transition-opacity md:before:opacity-0 md:hover:before:opacity-100 focus-within:before:opacity-100
+                before:pointer-events-none
+                after:opacity-0 md:not-[&:hover]:group-hover:after:opacity-100
+                md:[&:not(:focus-within):not(:hover)]:group-focus-within:after:opacity-100
+                after:absolute after:inset-0 after:bg-white/20 after:backdrop-blur-[2px]
+                after:rounded-2xl after:transition-all after:pointer-events-none"
+              tabindex="0"
+            >
               {p.data.foto ? (
                 <Image
                   src={p.data.foto}
                   alt={`Foto ${p.data.nama}`}
                   width={480}
                   height={640}
-                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  class="object-cover h-72 md:h-[420px] w-full"
                   loading="lazy"
                 />
               ) : (
-                <div class="surface-ink absolute inset-0 flex h-full w-full items-center justify-center text-white font-mono text-3xl font-medium">
+                <div class="surface-ink flex h-72 md:h-[420px] w-full items-center justify-center text-white font-mono text-3xl font-medium">
                   {monogram(p.data.nama)}
                 </div>
               )}
-              <!-- Gradient overlay halus agar teks terbaca jelas -->
-              <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-navy-900/90 via-navy-900/50 to-transparent pointer-events-none"></div>
-              <div class="relative z-10 p-5 text-white">
-                <h3 class="font-heading text-base sm:text-lg font-medium leading-snug">{p.data.nama}</h3>
-                <p class="text-xs sm:text-sm text-mist-100 mt-1 font-medium">{p.data.jabatan}</p>
+              <div class="absolute inset-0 text-white z-10 p-4 flex flex-col justify-end">
+                <h3 class="font-heading text-base sm:text-lg font-medium leading-snug
+                  md:opacity-0 group-hover/article:opacity-100
+                  md:translate-y-2 md:group-hover/article:translate-y-0
+                  transition duration-200">{p.data.nama}</h3>
+                <p class="text-xs sm:text-sm text-white/80 mt-0.5
+                  md:opacity-0 group-hover/article:opacity-100
+                  md:translate-y-2 md:group-hover/article:translate-y-0
+                  transition duration-200 delay-75">{p.data.jabatan}</p>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       ) : (
@@ -156,8 +174,8 @@ const monogram = (nama: string) =>
     </Container>
   </Section>
 
-  <!-- Section Kepala Divisi: Jejerin Menyamping, Layout Rapih, Klik menuju Detail Divisi -->
-  <Section bg="white" class="py-10 sm:py-12 lg:py-18 border-t border-mist-100">
+  <!-- Section Kepala Divisi: Accordion Image Cards with Links -->
+  <Section bg="white" class="py-10 sm:py-12 lg:py-16 border-t border-mist-100">
     <Container>
       <div class="text-center max-w-2xl mx-auto mb-10">
         <h2 class="type-heading-secondary">
@@ -168,68 +186,51 @@ const monogram = (nama: string) =>
         </p>
       </div>
 
-      <!-- Grid 4 Kolom Menyamping Responsif -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+      <div class="group flex max-md:flex-col justify-center gap-2 sm:gap-3 w-full mx-auto">
         {kepalaDivisiList.map((k) => (
           <a
             href={`/divisi/${k.slug}`}
-            class="group flex flex-col justify-between rounded-[20px] border border-mist-100 bg-white p-4 sm:p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-slate-400 focus-visible:outline-2 focus-visible:outline-navy-900"
+            class="group/article relative w-full rounded-2xl overflow-hidden
+              md:not-[&:hover]:group-hover:w-[20%]
+              md:[&:not(:focus-within):not(:hover)]:group-focus-within:w-[20%]
+              transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.15)]
+              before:absolute before:inset-x-0 before:bottom-0 before:h-1/2
+              before:bg-gradient-to-t before:from-navy-900/90 before:via-navy-900/40 before:to-transparent
+              before:transition-opacity md:before:opacity-0 md:hover:before:opacity-100 focus-within:before:opacity-100
+              before:pointer-events-none
+              after:opacity-0 md:not-[&:hover]:group-hover:after:opacity-100
+              md:[&:not(:focus-within):not(:hover)]:group-focus-within:after:opacity-100
+              after:absolute after:inset-0 after:bg-white/20 after:backdrop-blur-[2px]
+              after:rounded-2xl after:transition-all after:pointer-events-none
+              focus-visible:outline-2 focus-visible:outline-navy-900"
           >
-            <div>
-              <!-- Foto Kepala Divisi -->
-              <div class="relative aspect-[4/5] rounded-[16px] overflow-hidden bg-mist-100 mb-3.5">
-                {k.foto ? (
-                  <Image
-                    src={k.foto}
-                    alt={`Foto ${k.nama}`}
-                    width={480}
-                    height={600}
-                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="surface-ink flex h-full w-full items-center justify-center text-white font-mono text-3xl font-medium">
-                    {monogram(k.nama)}
-                  </div>
-                )}
-                <!-- Gradient overlay halus di bawah foto -->
-                <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-900/60 to-transparent pointer-events-none"></div>
-                <div class="absolute bottom-2.5 left-3 right-3 text-white">
-                  <span class="text-[11px] font-mono tracking-wider uppercase opacity-90 drop-shadow-sm">
-                    {k.jabatan}
-                  </span>
-                </div>
+            {k.foto ? (
+              <Image
+                src={k.foto}
+                alt={`Foto ${k.nama}`}
+                width={480}
+                height={600}
+                class="object-cover h-72 md:h-[420px] w-full"
+                loading="lazy"
+              />
+            ) : (
+              <div class="surface-ink flex h-72 md:h-[420px] w-full items-center justify-center text-white font-mono text-3xl font-medium">
+                {monogram(k.nama)}
               </div>
-
-              <!-- Nama Divisi sebagai label bersih -->
-              <p class="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">
-                {k.divisiNama}
-              </p>
-
-              <!-- Nama Kepala Divisi -->
-              <h3 class="font-heading text-base sm:text-lg font-medium text-navy-900 group-hover:text-slate-800 transition-colors">
-                {k.nama}
-              </h3>
-
-              {k.angkatan && (
-                <p class="text-xs font-mono text-slate-500 mt-0.5">
-                  Angkatan {k.angkatan}
-                </p>
-              )}
-            </div>
-
-            <!-- Bottom CTA Link -->
-            <div class="mt-4 pt-3 border-t border-mist-100 flex items-center justify-between text-xs font-medium text-navy-900 group-hover:text-navy-800">
-              <span>Detail Divisi</span>
-              <svg
-                class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
+            )}
+            <div class="absolute inset-0 text-white z-10 p-4 flex flex-col justify-end">
+              <span class="text-[11px] font-mono tracking-wider uppercase opacity-80 mb-0.5
+                md:opacity-0 group-hover/article:opacity-100
+                md:translate-y-2 md:group-hover/article:translate-y-0
+                transition duration-200">{k.divisiNama}</span>
+              <h3 class="font-heading text-base sm:text-lg font-medium leading-snug
+                md:opacity-0 group-hover/article:opacity-100
+                md:translate-y-2 md:group-hover/article:translate-y-0
+                transition duration-200 delay-75">{k.nama}</h3>
+              <p class="text-xs text-white/80 mt-0.5
+                md:opacity-0 group-hover/article:opacity-100
+                md:translate-y-2 md:group-hover/article:translate-y-0
+                transition duration-200 delay-100">{k.jabatan}</p>
             </div>
           </a>
         ))}

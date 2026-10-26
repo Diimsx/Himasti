@@ -17,6 +17,9 @@ import Pernyataan from '../components/sections/Pernyataan.astro';
 import BeritaPreview from '../components/sections/BeritaPreview.astro';
 import SectionHeader from '../components/ui/SectionHeader.astro';
 import Container from '../components/ui/Container.astro';
+import WarpHeading from '../components/ui/WarpHeading.astro';
+import { Image } from 'astro:assets';
+import logoHimasti from '../assets/logo-himasti.png';
 ---
 
 <BaseLayout
@@ -26,6 +29,43 @@ import Container from '../components/ui/Container.astro';
   <Hero />
   <StatsStrip />
   <AboutPreview />
+
+  <!-- Filosofi Logo HIMASTI -->
+  <section class="bg-white py-10 sm:py-12 lg:py-16">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-5 flex flex-col items-start gap-6">
+          <WarpHeading
+            class="type-heading-secondary"
+            parts={[{ text: 'Filosofi', tone: 'primary' }, { text: 'Logo', tone: 'secondary' }]}
+          />
+          <div class="w-28 sm:w-36 h-28 sm:h-36 rounded-2xl bg-mist-50 border border-mist-100 flex items-center justify-center p-4 shadow-sm">
+            <Image src={logoHimasti} alt="Logo HIMASTI" class="w-full h-full object-contain" />
+          </div>
+        </div>
+        <div class="lg:col-span-7 space-y-6 text-slate-700 leading-relaxed text-base sm:text-lg">
+          <p>
+            Logo HIMASTI merepresentasikan semangat kolaborasi, inovasi, dan profesionalisme mahasiswa Sistem &amp; Teknologi Informasi Cyber University. Setiap elemen visual memiliki makna mendalam yang mencerminkan identitas dan aspirasi himpunan.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="rounded-[16px] border border-mist-100 bg-mist-50 p-4 sm:p-5">
+              <h3 class="font-heading text-sm sm:text-base font-medium text-navy-900 mb-2">Bentuk &amp; Simbol</h3>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                Elemen geometris pada logo melambangkan struktur sistematis dan pendekatan teknologis yang menjadi fondasi keilmuan Sistem &amp; Teknologi Informasi.
+              </p>
+            </div>
+            <div class="rounded-[16px] border border-mist-100 bg-mist-50 p-4 sm:p-5">
+              <h3 class="font-heading text-sm sm:text-base font-medium text-navy-900 mb-2">Warna &amp; Identitas</h3>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                Palet warna navy dan mist merefleksikan profesionalisme, kepercayaan, serta keterbukaan terhadap inovasi dan kolaborasi lintas bidang.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
   <DivisiPreview />
 
   <Pernyataan
@@ -35,18 +75,20 @@ import Container from '../components/ui/Container.astro';
   <ProkerPreview />
 
   <!-- Pulau gelap Timeline -->
-  <section class="px-2 lg:px-3 py-4">
-    <div class="surface-ink rounded-[28px] lg:rounded-[36px] shadow-xl relative overflow-hidden py-12 lg:py-20">
-      <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
-      <Container>
-        <SectionHeader
-          title="Roadmap 2026/2027"
-          description="Jadwal pelaksanaan program kerja HIMASTI sepanjang periode kepengurusan 2026/2027."
-          dark={true}
-        />
-        <Timeline />
-      </Container>
-    </div>
+  <section class="py-4">
+    <Container>
+      <div class="surface-ink rounded-[28px] lg:rounded-[36px] shadow-xl relative overflow-hidden py-12 lg:py-20">
+        <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
+        <Container>
+          <SectionHeader
+            title="Roadmap 2026/2027"
+            description="Jadwal pelaksanaan program kerja HIMASTI sepanjang periode kepengurusan 2026/2027."
+            dark={true}
+          />
+          <Timeline />
+        </Container>
+      </div>
+    </Container>
   </section>
 
   <!-- Berita on a light background separates the Timeline island from the CTA island -->

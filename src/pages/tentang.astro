@@ -122,31 +122,29 @@ const identitas = [
   <!-- 02 Bagaimana: pulau gelap, kata-kata menyala saat dibaca -->
   <section class="py-4">
     <Container>
-      <div class="surface-ink rounded-[28px] lg:rounded-[36px] shadow-xl relative overflow-hidden py-10 sm:py-12 lg:py-16">
+      <div class="surface-ink rounded-[28px] lg:rounded-[36px] shadow-xl relative overflow-hidden py-10 sm:py-12 lg:py-16 px-6 sm:px-10 lg:px-12">
         <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
         <div class="absolute -top-32 -right-32 w-72 h-72 ink-glow pointer-events-none opacity-70" aria-hidden="true"></div>
-        <Container>
-          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-            <div class="lg:col-span-5 lg:sticky lg:top-32">
-              <span data-warp aria-hidden="true" class="warp-skew block type-numeric-display text-white/15 select-none mb-4">02</span>
-              <WarpHeading
-                class="type-heading-secondary"
-                parts={[{ text: 'Bagaimana Kami', tone: 'inverse' }, { text: 'Bergerak', tone: 'inverse-dim' }]}
-              />
-            </div>
-            <div class="lg:col-span-7 space-y-6">
-              {bagaimana.map((text) => (
-                <p data-lit class="type-body-lead text-white leading-relaxed">
-                  {words(text).map((w, i, arr) => (
-                    <>
-                      <span class="lit-word">{w}</span>{i < arr.length - 1 ? ' ' : ''}
-                    </>
-                  ))}
-                </p>
-              ))}
-            </div>
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          <div class="lg:col-span-5">
+            <span data-warp aria-hidden="true" class="warp-skew block type-numeric-display text-white/15 select-none mb-4">02</span>
+            <WarpHeading
+              class="type-heading-secondary"
+              parts={[{ text: 'Bagaimana Kami', tone: 'inverse' }, { text: 'Bergerak', tone: 'inverse-dim' }]}
+            />
           </div>
-        </Container>
+          <div class="lg:col-span-7 space-y-4 text-base sm:text-lg text-white leading-relaxed">
+            {bagaimana.map((text) => (
+              <p data-lit class="leading-relaxed">
+                {words(text).map((w, i, arr) => (
+                  <>
+                    <span class="lit-word">{w}</span>{i < arr.length - 1 ? ' ' : ''}
+                  </>
+                ))}
+              </p>
+            ))}
+          </div>
+        </div>
       </div>
     </Container>
   </section>
