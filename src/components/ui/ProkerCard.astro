@@ -1,7 +1,7 @@
 ---
 /**
- * ProkerCard — Card for program kerja with status badge.
- * Whole card is clickable. Status badge uses text, not just color (a11y).
+ * ProkerCard — Kartu representatif program kerja dengan tipografi bersih,
+ * indikator status, waktu pelaksanaan, dan navigasi detail.
  */
 import Badge from './Badge.astro';
 
@@ -27,26 +27,48 @@ const statusLabel: Record<'akan-datang' | 'berlangsung' | 'selesai', string> = {
 <a
   href={`/program-kerja/${slug}`}
   class:list={[
-    'group block rounded-[20px] border border-mist-100 bg-white p-6 shadow-sm transition-all duration-150',
-    'hover:-translate-y-[2px] hover:shadow-md hover:border-slate-500',
+    'group flex flex-col justify-between rounded-[22px] border border-mist-100 bg-white p-6 sm:p-7 shadow-sm',
+    'transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-slate-400',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900',
     className,
   ]}
 >
-  <div class="flex items-start justify-between gap-3 mb-3">
-    <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em]">
-      {kategori}
-    </span>
-    <Badge variant={status}>
-      {statusLabel[status]}
-    </Badge>
+  <div>
+    <!-- Top Meta: Kategori & Status -->
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] capitalize">
+        {kategori}
+      </span>
+      <Badge variant={status}>
+        {statusLabel[status]}
+      </Badge>
+    </div>
+
+    <!-- Judul -->
+    <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900 leading-snug group-hover:text-slate-800 transition-colors mb-3">
+      {judul}
+    </h3>
+
+    <!-- Ringkasan -->
+    <p class="text-sm sm:text-base text-slate-700 leading-relaxed line-clamp-3">
+      {ringkasan}
+    </p>
   </div>
-  <h3 class="font-heading text-xl font-medium text-navy-900 mb-2 group-hover:underline">
-    {judul}
-  </h3>
-  <p class="text-sm text-slate-700 leading-relaxed mb-4 line-clamp-2">
-    {ringkasan}
-  </p>
-  <p class="type-data text-slate-500">
-    {waktu}
-  </p>
+
+  <!-- Footer Info: Waktu & Arrow -->
+  <div class="mt-6 pt-4 border-t border-mist-100 flex items-center justify-between text-xs sm:text-sm">
+    <div class="flex items-center gap-1.5 text-slate-500 font-mono">
+      <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 3v2.25M17.25 3v2.253M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 9v7.5" />
+      </svg>
+      <span>{waktu}</span>
+    </div>
+
+    <span class="inline-flex items-center gap-1 font-medium text-navy-900 group-hover:translate-x-0.5 transition-transform">
+      <span>Detail</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </span>
+  </div>
 </a>

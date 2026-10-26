@@ -1,170 +1,248 @@
 ---
 /**
- * Tentang Kami — Informasi profil, kerangka Mengapa/Bagaimana/Apa, serta Visi & Misi HIMASTI.
+ * Tentang Kami — profil HIMASTI, kerangka Mengapa / Bagaimana / Apa, serta Visi & Misi.
+ *
+ * Gerak (hanya bila motion diizinkan; tanpa JS atau reduced motion semuanya tampil statis):
+ *  - judul bergelombang mengikuti kecepatan scroll (WarpHeading + src/lib/warp.ts)
+ *  - logo dan angka bab miring tipis saat scroll cepat, lalu kembali rata
+ *  - paragraf naik berurutan saat masuk layar (.card-enter, CSS scroll-driven)
+ *  - kata-kata menyala saat dibaca di pulau gelap dan kartu Visi (data-lit, src/lib/motion.ts)
  */
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
+import InfiniteSlider from '../components/ui/InfiniteSlider.astro';
+import WarpHeading from '../components/ui/WarpHeading.astro';
 import logoHimasti from '../assets/logo-himasti.png';
 import logoCyberUniversity from '../assets/logo-cyber-university.png';
 import logoKabinetArthasena from '../assets/logo-kabinet-arthasena.png';
+import logoHimadira from '../assets/logo-himadira.png';
+import logoDataon from '../assets/logo-dataon.png';
+import logoBssn from '../assets/logo-bssn.png';
+
+// Teks sementara (Lorem ipsum) dipertahankan apa adanya sampai data resmi tersedia.
+const mengapa = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."];
+const bagaimana = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel sem vel sapien aliquam varius vel id nunc. Integer eget urna nec nulla gravida efficitur in quis est.", "Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor."];
+const apa = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede.", "Mauris et orci eu purus condimentum pellentesque. Nam pellentesque pulvinar ante. Donec dictum libero et risus lacinia sagittis."];
+const visi = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+const misi = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.", "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore."];
+
+const words = (text: string) => text.split(/\s+/).filter(Boolean);
+
+// Daftar proker nyata untuk bagian "Apa yang Kami Lakukan" (urutan sama dengan roadmap di beranda).
+const waktuOrder: Record<string, number> = { 'Q2 2026': 1, 'Q3 2026': 2, 'Q4 2026': 3, 'Sepanjang periode': 4 };
+const proker = [...(await getCollection('proker'))].sort(
+  (a, b) => (waktuOrder[a.data.waktu] ?? 99) - (waktuOrder[b.data.waktu] ?? 99)
+);
+
+const identitas = [
+  { src: logoCyberUniversity, alt: 'Logo Cyber University', label: 'Cyber University', size: 'h-20 md:h-[88px]', order: 'order-2 md:order-1', strong: false, dir: -1 },
+  { src: logoHimasti, alt: 'Logo HIMASTI', label: 'HIMASTI', size: 'h-24 md:h-[100px]', order: 'order-1 md:order-2', strong: true, dir: 1 },
+  { src: logoKabinetArthasena, alt: 'Logo Kabinet ArthaSena', label: 'Kabinet ArthaSena', size: 'h-20 md:h-[88px]', order: 'order-3', strong: false, dir: -1 },
+];
 ---
 
 <BaseLayout
   title="Tentang Kami"
   description="Kenali lebih dekat Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University, visi, misi, dan pilar pergerakan organisasi."
 >
-  <!-- Page Hero Header -->
+  <!-- Hero -->
   <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
     <Container>
       <div class="max-w-3xl">
-        <h1 class="type-heading-primary">Tentang HIMASTI</h1>
-        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+        <WarpHeading
+          as="h1"
+          class="type-heading-primary"
+          parts={[{ text: 'Tentang', tone: 'primary' }, { text: 'HIMASTI', tone: 'secondary' }]}
+        />
+        <p class="card-enter mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed" style="--i:1">
           Himpunan Mahasiswa Sistem &amp; Teknologi Informasi (HIMASTI) Cyber University merupakan wadah kolaborasi, inovasi, dan pengembangan potensi bagi mahasiswa Sistem &amp; Teknologi Informasi periode 2026/2027.
         </p>
       </div>
     </Container>
   </section>
 
-  <!-- Logos Section -->
-  <Section bg="white" class="py-16 lg:py-20 border-y border-mist-100">
+  <!-- Logo: identitas (miring tipis saat scroll cepat) + organisasi terkait (slider), tanpa garis pembatas -->
+  <Section bg="white" class="py-16 lg:py-20">
     <Container>
-      <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 lg:gap-20">
-        <!-- Cyber University -->
-        <div class="flex flex-col items-center gap-2.5 order-2 md:order-1 text-center">
-          <Image
-            src={logoCyberUniversity}
-            alt="Logo Cyber University"
-            class="h-20 md:h-[88px] w-auto object-contain"
-          />
-          <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Cyber University</span>
-        </div>
+      <div data-warp class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 lg:gap-20">
+        {identitas.map((logo, i) => (
+          <div class:list={['card-enter flex flex-col items-center gap-2.5 text-center', logo.order]} style={`--i:${i}`}>
+            <span class="warp-tilt block" style={`--dir:${logo.dir}; --k:${i % 2 === 0 ? 1 : 0.6}`}>
+              <Image src={logo.src} alt={logo.alt} class:list={[logo.size, 'w-auto object-contain']} />
+            </span>
+            <span class:list={['text-xs font-mono uppercase tracking-wider', logo.strong ? 'font-semibold text-slate-700' : 'text-slate-500']}>
+              {logo.label}
+            </span>
+          </div>
+        ))}
+      </div>
 
-        <!-- HIMASTI (Main / Largest) -->
-        <div class="flex flex-col items-center gap-2.5 order-1 md:order-2 text-center">
-          <Image
-            src={logoHimasti}
-            alt="Logo HIMASTI"
-            class="h-24 md:h-[100px] w-auto object-contain"
-          />
-          <span class="text-xs font-mono font-semibold text-slate-700 uppercase tracking-wider">HIMASTI</span>
-        </div>
-
-        <!-- Kabinet ArthaSena -->
-        <div class="flex flex-col items-center gap-2.5 order-3 text-center">
-          <Image
-            src={logoKabinetArthasena}
-            alt="Logo Kabinet ArthaSena"
-            class="h-20 md:h-[88px] w-auto object-contain"
-          />
-          <span class="text-xs font-mono text-slate-500 uppercase tracking-wider">Kabinet ArthaSena</span>
-        </div>
+      <div class="mt-12 lg:mt-16">
+        <InfiniteSlider label="Logo organisasi terkait" gap={72} duration={45}>
+          <figure class="m-0 flex shrink-0 flex-col items-center gap-2.5 text-center">
+            <Image src={logoHimadira} alt="Logo HIMADIRA Universitas Telkom" class="h-14 md:h-16 w-auto object-contain" />
+            <figcaption class="text-xs font-mono text-slate-500 uppercase tracking-wider">HIMADIRA</figcaption>
+          </figure>
+          <figure class="m-0 flex shrink-0 flex-col items-center gap-2.5 text-center">
+            <Image src={logoDataon} alt="Logo DataOn" class="h-14 md:h-16 w-auto object-contain" />
+            <figcaption class="text-xs font-mono text-slate-500 uppercase tracking-wider">DataOn</figcaption>
+          </figure>
+          <figure class="m-0 flex shrink-0 flex-col items-center gap-2.5 text-center">
+            <Image src={logoBssn} alt="Logo Badan Siber dan Sandi Negara (BSSN)" class="h-14 md:h-16 w-auto object-contain" />
+            <figcaption class="text-xs font-mono text-slate-500 uppercase tracking-wider">BSSN</figcaption>
+          </figure>
+        </InfiniteSlider>
       </div>
     </Container>
   </Section>
 
-  <!-- Section 1: Mengapa (Editorial layout, white bg) -->
+  <!-- 01 Mengapa: judul menempel di kiri selagi paragraf bergulir (desktop) -->
   <Section bg="white" class="py-20 lg:py-32">
     <Container>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-        <div class="lg:col-span-5">
-          <h2 class="type-heading-secondary">
-            <span class="text-navy-900">Mengapa HIMASTI</span> <span class="text-slate-700">Hadir</span>
-          </h2>
+        <div class="lg:col-span-5 lg:sticky lg:top-32">
+          <span data-warp aria-hidden="true" class="warp-skew block type-numeric-display text-gray-300 select-none mb-4">01</span>
+          <WarpHeading
+            class="type-heading-secondary"
+            parts={[{ text: 'Mengapa HIMASTI', tone: 'primary' }, { text: 'Hadir', tone: 'secondary' }]}
+          />
         </div>
         <div class="lg:col-span-7 space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </p>
+          {mengapa.map((text, i) => (
+            <p class="card-enter" style={`--i:${i}`}>{text}</p>
+          ))}
         </div>
       </div>
     </Container>
   </Section>
 
-  <!-- Section 2: Bagaimana (Editorial layout, mist bg) -->
+  <!-- 02 Bagaimana: pulau gelap, kata-kata menyala saat dibaca -->
+  <section class="py-4">
+    <Container>
+      <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden py-20 lg:py-32">
+        <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute -top-32 -right-32 w-72 h-72 ink-glow pointer-events-none opacity-70" aria-hidden="true"></div>
+        <Container>
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+            <div class="lg:col-span-5 lg:sticky lg:top-32">
+              <span data-warp aria-hidden="true" class="warp-skew block type-numeric-display text-white/15 select-none mb-4">02</span>
+              <WarpHeading
+                class="type-heading-secondary"
+                parts={[{ text: 'Bagaimana Kami', tone: 'inverse' }, { text: 'Bergerak', tone: 'inverse-dim' }]}
+              />
+            </div>
+            <div class="lg:col-span-7 space-y-6">
+              {bagaimana.map((text) => (
+                <p data-lit class="type-body-lead text-white leading-relaxed">
+                  {words(text).map((w, i, arr) => (
+                    <>
+                      <span class="lit-word">{w}</span>{i < arr.length - 1 ? ' ' : ''}
+                    </>
+                  ))}
+                </p>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </div>
+    </Container>
+  </section>
+
+  <!-- 03 Apa: paragraf + daftar proker nyata -->
   <Section bg="white" class="py-20 lg:py-32">
     <Container>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-        <div class="lg:col-span-5">
-          <h2 class="type-heading-secondary">
-            <span class="text-navy-900">Bagaimana Kami</span> <span class="text-slate-700">Bergerak</span>
-          </h2>
+        <div class="lg:col-span-5 lg:sticky lg:top-32">
+          <span data-warp aria-hidden="true" class="warp-skew block type-numeric-display text-gray-300 select-none mb-4">03</span>
+          <WarpHeading
+            class="type-heading-secondary"
+            parts={[{ text: 'Apa yang', tone: 'primary' }, { text: 'Kami Lakukan', tone: 'secondary' }]}
+          />
         </div>
-        <div class="lg:col-span-7 space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel sem vel sapien aliquam varius vel id nunc. Integer eget urna nec nulla gravida efficitur in quis est.
-          </p>
-          <p>
-            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </p>
+        <div class="lg:col-span-7">
+          <div class="space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
+            {apa.map((text, i) => (
+              <p class="card-enter" style={`--i:${i}`}>{text}</p>
+            ))}
+          </div>
+
+          {proker.length > 0 && (
+            <ol class="mt-10 border-t border-mist-100" aria-label="Program kerja periode 2026/2027">
+              {proker.map((p, i) => (
+                <li class="card-enter" style={`--i:${i}`}>
+                  <a
+                    href={`/program-kerja/${p.data.slug}`}
+                    class="group flex items-center justify-between gap-6 py-5 border-b border-mist-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
+                  >
+                    <span class="flex items-baseline gap-5 min-w-0">
+                      <span class="type-data text-slate-500 shrink-0" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                      <span class="type-heading-tertiary text-navy-900 transition-colors duration-150 group-hover:text-slate-700">{p.data.judul}</span>
+                    </span>
+                    <span class="flex items-center gap-3 shrink-0">
+                      <span class="type-data text-slate-500 hidden sm:inline">{p.data.waktu}</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-4 w-4 text-slate-700 transition-transform duration-200 motion-safe:group-hover:translate-x-1">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
       </div>
     </Container>
   </Section>
 
-  <!-- Section 3: Apa (Editorial layout, white bg) -->
-  <Section bg="white" class="py-20 lg:py-32">
-    <Container>
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-        <div class="lg:col-span-5">
-          <h2 class="type-heading-secondary">
-            <span class="text-navy-900">Apa yang</span> <span class="text-slate-700">Kami Lakukan</span>
-          </h2>
-        </div>
-        <div class="lg:col-span-7 space-y-4 text-slate-700 leading-relaxed text-base sm:text-lg">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede.
-          </p>
-          <p>
-            Mauris et orci eu purus condimentum pellentesque. Nam pellentesque pulvinar ante. Donec dictum libero et risus lacinia sagittis.
-          </p>
-        </div>
-      </div>
-    </Container>
-  </Section>
-
-  <!-- Section 4: Visi & Misi (mist bg, v3 cards) -->
-  <Section bg="white" class="py-20 lg:py-32">
+  <!-- Visi & Misi -->
+  <Section bg="mist" class="py-20 lg:py-32">
     <Container>
       <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
-        <h2 class="type-heading-secondary">
-          <span class="text-navy-900">Visi dan</span> <span class="text-slate-700">Misi</span>
-        </h2>
-        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+        <WarpHeading
+          class="type-heading-secondary"
+          parts={[{ text: 'Visi dan', tone: 'primary' }, { text: 'Misi', tone: 'secondary' }]}
+        />
+        <p class="card-enter mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
           Arah tujuan dan langkah strategis HIMASTI dalam mewujudkan mahasiswa yang berdaya saing global.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <!-- Visi Card -->
-        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
-          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Visi</span>
-          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900 mb-4">
-            Visi Organisasi
-          </h3>
-          <p class="text-slate-700 leading-relaxed max-w-prose">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+        <!-- Visi: kartu gelap, kata menyala -->
+        <div class="card-enter surface-ink relative overflow-hidden rounded-[20px] p-6 sm:p-8 shadow-sm" style="--i:0">
+          <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
+          <div class="relative">
+            <h3 class="font-heading text-xl sm:text-2xl font-medium text-white mb-4">Visi Organisasi</h3>
+            <p data-lit class="type-body-lead text-white leading-relaxed max-w-prose">
+              {words(visi).map((w, i, arr) => (
+                <>
+                  <span class="lit-word">{w}</span>{i < arr.length - 1 ? ' ' : ''}
+                </>
+              ))}
+            </p>
+          </div>
         </div>
 
-        <!-- Misi Card -->
-        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500">
-          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">Misi</span>
-          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900 mb-4">
-            Misi Organisasi
-          </h3>
-          <ul class="space-y-3 text-slate-700 leading-relaxed list-disc list-inside">
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            <li>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-            <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</li>
-            <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</li>
-          </ul>
+        <!-- Misi: daftar bernomor -->
+        <div class="card-enter rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm" style="--i:1">
+          <h3 class="font-heading text-xl sm:text-2xl font-medium text-navy-900 mb-2">Misi Organisasi</h3>
+          <ol class="text-slate-700 leading-relaxed">
+            {misi.map((text, i) => (
+              <li class:list={['card-enter flex gap-4 py-4', i > 0 && 'border-t border-mist-100']} style={`--i:${i + 2}`}>
+                <span class="type-data text-slate-500 shrink-0 pt-0.5" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </Container>
   </Section>
 </BaseLayout>
+
+<script>
+  import '../lib/warp';
+</script>

@@ -259,6 +259,33 @@ html {
 .tl-item .tl-body { transition: translate 500ms var(--ease-out-soft); }
 .tl-item .tl-dot { transition: background-color 300ms linear, scale 300ms var(--ease-out-soft); }
 
+/* ========== Gerak berbasis kecepatan scroll (halaman Tentang) ==========
+ * `--v` (−1…1) ditulis oleh src/lib/warp.ts pada elemen [data-warp] yang terlihat; saat diam bernilai 0.
+ * Hanya transform (tanpa layout), hanya saat motion diizinkan DAN JS berjalan. Amplitudo bisa diubah lewat
+ * --warp-amp (huruf), --warp-tilt (derajat ubin), --warp-skew (derajat angka). */
+.warp-char { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (transform: translateY(calc(sin(1) * 1px))) {
+    .js-motion .warp-char {
+      transform:
+        translate3d(0, calc(sin(var(--i, 0) * 0.9) * var(--v, 0) * var(--warp-amp, 0.16em) * -1), 0)
+        rotate(calc(sin(var(--i, 0) * 0.9) * var(--v, 0) * 6deg));
+    }
+  }
+  .js-motion .warp-tilt {
+    transform:
+      translate3d(0, calc(var(--v, 0) * var(--k, 1) * -12px), 0)
+      rotate(calc(var(--v, 0) * var(--dir, 1) * var(--warp-tilt, 8deg)));
+  }
+  .js-motion .warp-skew {
+    transform: skewY(calc(var(--v, 0) * var(--warp-skew, -6deg)));
+  }
+  [data-warping] .warp-char,
+  [data-warping].warp-skew,
+  [data-warping] .warp-tilt { will-change: transform; }
+}
+
 /* ========== Navbar: shrink on scroll (§ 8.4) ========== */
 #site-nav {
   --nav-elev: var(--shadow-lg);

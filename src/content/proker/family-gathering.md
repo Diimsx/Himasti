@@ -4,9 +4,11 @@ slug: "family-gathering"
 waktu: "Q4 2026"
 kategori: "kebersamaan"
 sasaran: "Mahasiswa Sistem & Teknologi Informasi"
-ringkasan: "Kebersamaan dan solidaritas mahasiswa STI."
+ringkasan: "Agenda keakraban tahunan untuk mempererat kekeluargaan, kolaborasi, dan rasa memiliki antarangkatan mahasiswa STI."
 status: "akan-datang"
 periode: "2026-2027"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Family Gathering menjadi momen silaturahmi akbar bagi seluruh keluarga besar mahasiswa Sistem & Teknologi Informasi Cyber University.
+
+Diisi dengan rangkaian aktivitas interaktif, permainan kelompok, diskusi santai lintas angkatan, dan ramah tamah, kegiatan ini dirancang untuk merekatkan tali persaudaraan, membangun ikatan emosional yang solid, serta menumbuhkan rasa memiliki (sense of belonging) terhadap himpunan.

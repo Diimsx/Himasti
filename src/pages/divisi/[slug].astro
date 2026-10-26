@@ -1,0 +1,265 @@
+---
+/**
+ * Detail Divisi — Menampilkan foto bersama per divisi, penjelasan divisi,
+ * tugas pokok, dan susunan pengurus divisi terkait.
+ */
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+
+import kreasiInovasiImg from '../../assets/divisi/kreasi-inovasi.png';
+import humasImg from '../../assets/divisi/humas.png';
+import sarprasImg from '../../assets/divisi/sarpras.png';
+import medinfoImg from '../../assets/divisi/medinfo.png';
+
+const divisionPhotos: Record<string, ImageMetadata> = {
+  'kreasi-inovasi': kreasiInovasiImg,
+  'humas': humasImg,
+  'sarpras': sarprasImg,
+  'medinfo': medinfoImg,
+};
+
+export const getStaticPaths = (async () => {
+  const allDivisi = await getCollection('divisi');
+  const allPengurus = await getCollection('pengurus');
+
+  return allDivisi.map((divisi) => {
+    // Cari anggota divisi ini dari koleksi pengurus
+    const members = allPengurus
+      .filter((p) => p.data.divisi?.toLowerCase() === divisi.data.nama.toLowerCase())
+      .sort((a, b) => a.data.urutan - b.data.urutan);
+
+    return {
+      params: { slug: divisi.data.slug },
+      props: { divisi, members },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const { divisi, members } = Astro.props;
+const { Content } = await render(divisi);
+const groupPhoto = divisionPhotos[divisi.data.slug];
+
+const monogram = (nama: string) =>
+  nama
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
+---
+
+<BaseLayout
+  title={`Divisi ${divisi.data.nama}`}
+  description={divisi.data.ringkasan ?? `Profil lengkap dan susunan Divisi ${divisi.data.nama} HIMASTI Cyber University.`}
+>
+  <!-- Page Header -->
+  <section class="pt-32 lg:pt-40 pb-12 lg:pb-16 bg-white border-b border-mist-100">
+    <Container>
+      <!-- Back to Struktur -->
+      <a
+        href="/struktur"
+        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-navy-900"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Kembali ke Struktur Organisasi
+      </a>
+
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em]">
+          Divisi HIMASTI
+        </span>
+        <span class="inline-flex items-center rounded-full bg-mist-50 text-slate-700 px-3 py-1 text-xs font-mono">
+          Periode 2026/2027
+        </span>
+      </div>
+
+      <h1 class="type-heading-primary text-navy-900 mb-4 max-w-4xl">
+        Divisi {divisi.data.nama}
+      </h1>
+
+      {divisi.data.ringkasan && (
+        <p class="type-body-lead text-slate-700 max-w-3xl">
+          {divisi.data.ringkasan}
+        </p>
+      )}
+    </Container>
+  </section>
+
+  <!-- Section Foto Bersama Per Divisi -->
+  <Section bg="white" class="py-12 lg:py-16">
+    <Container>
+      <div class="rounded-[24px] lg:rounded-[32px] overflow-hidden border border-mist-100 bg-mist-50 shadow-sm">
+        <div class="relative aspect-video max-h-[520px] w-full flex items-center justify-center overflow-hidden bg-navy-900/5">
+          {groupPhoto ? (
+            <Image
+              src={groupPhoto}
+              alt={`Foto Bersama Divisi ${divisi.data.nama}`}
+              width={1280}
+              height={720}
+              class="w-full h-full object-contain md:object-cover"
+              loading="eager"
+            />
+          ) : (
+            <div class="flex flex-col items-center justify-center p-12 text-slate-500 text-center">
+              <svg class="w-16 h-16 mb-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+              </svg>
+              <p class="font-medium">Foto bersama Divisi {divisi.data.nama}</p>
+            </div>
+          )}
+        </div>
+        <div class="p-4 sm:p-6 bg-white border-t border-mist-100 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2 text-sm text-slate-700">
+            <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="font-medium">Dokumentasi Pengurus Divisi {divisi.data.nama}</span>
+          </div>
+          <span class="text-xs font-mono text-slate-500">Kabinet Arthasena 2026/2027</span>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section Penjelasan & Tugas Pokok -->
+  <Section bg="white" class="py-12 lg:py-20 border-t border-mist-100">
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <!-- Kolom Kiri: Penjelasan Per Divisi -->
+        <div class="lg:col-span-7 space-y-6">
+          <div>
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+              Peran Strategis
+            </span>
+            <h2 class="type-heading-secondary text-navy-900 mb-4">
+              Penjelasan Divisi
+            </h2>
+          </div>
+
+          <div class="prose max-w-none text-slate-700 text-base sm:text-lg leading-relaxed space-y-4">
+            <Content />
+          </div>
+
+          <!-- Highlight Kepala Divisi -->
+          <div class="mt-8 pt-6 border-t border-mist-100">
+            <h3 class="type-label uppercase text-slate-500 mb-3">Kepala Divisi</h3>
+            <div class="inline-flex items-center gap-4 p-4 rounded-[16px] bg-mist-50 border border-mist-100">
+              <div class="w-12 h-12 rounded-full bg-navy-900 text-white font-heading font-medium flex items-center justify-center shrink-0">
+                {monogram(divisi.data.kepala)}
+              </div>
+              <div>
+                <p class="font-heading font-medium text-navy-900 text-base sm:text-lg">{divisi.data.kepala}</p>
+                <p class="text-xs sm:text-sm text-slate-500">Kepala Divisi {divisi.data.nama}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Tugas Pokok & Fungsi -->
+        <div class="lg:col-span-5">
+          <div class="rounded-[24px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm">
+            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
+              Tupoksi
+            </span>
+            <h3 class="font-heading text-xl font-medium text-navy-900 mb-4">
+              Tugas Pokok &amp; Fungsi
+            </h3>
+
+            {divisi.data.tugas && divisi.data.tugas.length > 0 ? (
+              <ul class="space-y-4 text-sm sm:text-base text-slate-700">
+                {divisi.data.tugas.map((tugasItem, idx) => (
+                  <li class="flex items-start gap-3">
+                    <span class="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-mist-100 text-xs font-mono font-medium text-navy-900 mt-0.5">
+                      {idx + 1}
+                    </span>
+                    <span class="leading-relaxed">{tugasItem}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="text-sm text-slate-500 italic">
+                Rincian tugas pokok divisi akan diperbarui secara berkala.
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Section Pengurus Divisi -->
+  {members.length > 0 && (
+    <Section bg="white" class="py-16 lg:py-24 border-t border-mist-100">
+      <Container>
+        <div class="mb-10 text-center max-w-2xl mx-auto">
+          <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+            Susunan Personalia
+          </span>
+          <h2 class="type-heading-secondary text-navy-900">
+            Pengurus Divisi {divisi.data.nama}
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {members.map((m) => (
+            <div class="rounded-[20px] border border-mist-100 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col">
+              <div class="aspect-[4/5] bg-mist-100 relative overflow-hidden">
+                {m.data.foto ? (
+                  <Image
+                    src={m.data.foto}
+                    alt={`Foto ${m.data.nama}`}
+                    width={480}
+                    height={600}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="surface-ink flex h-full w-full items-center justify-center text-white font-mono text-3xl font-medium">
+                    {monogram(m.data.nama)}
+                  </div>
+                )}
+              </div>
+              <div class="p-5 text-center">
+                <h3 class="font-heading text-lg font-medium text-navy-900">{m.data.nama}</h3>
+                <p class="text-sm text-slate-500 mt-0.5">{m.data.jabatan}</p>
+                {m.data.angkatan && (
+                  <span class="inline-block mt-2 text-xs font-mono text-slate-700 bg-mist-50 px-2.5 py-0.5 rounded-full border border-mist-100">
+                    Angkatan {m.data.angkatan}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  )}
+
+  <!-- Navigasi Balik -->
+  <section class="py-12 bg-mist-50 border-t border-mist-100">
+    <Container>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="font-heading text-lg font-medium text-navy-900">Ingin tahu divisi lainnya?</h3>
+          <p class="text-sm text-slate-500">Lihat seluruh susunan pengurus dan kepala divisi HIMASTI.</p>
+        </div>
+        <a
+          href="/struktur"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-navy-900 text-white text-sm font-medium hover:bg-navy-800 transition-colors"
+        >
+          Lihat Struktur Organisasi
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

@@ -21,7 +21,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== COLORS ======================== -->
   <Section bg="white">
     <Container>
-      <SectionHeader eyebrow="warna" title="Palet Warna v3" description="Token warna HIMASTI — tanpa accent, hanya navy-mist-slate" />
+      <SectionHeader title="Palet Warna v3" description="Token warna HIMASTI — tanpa accent, hanya navy-mist-slate" />
       <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
         <div>
           <div class="h-20 rounded-[20px] bg-navy-900"></div>
@@ -70,7 +70,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== TYPOGRAPHY ======================== -->
   <Section bg="mist">
     <Container>
-      <SectionHeader eyebrow="tipografi" title="Skala Tipografi v3" description="Heading ringan (500), editorial, dua nada" />
+      <SectionHeader title="Skala Tipografi v3" description="Heading ringan (500), editorial, dua nada" />
       <div class="space-y-6 max-w-3xl">
         <div>
           <p class="text-xs font-mono text-slate-500 mb-1">Display (hero) — Plus Jakarta Sans 500</p>
@@ -111,7 +111,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== BUTTONS ======================== -->
   <Section bg="white">
     <Container>
-      <SectionHeader eyebrow="komponen" title="Tombol" description="Primer dan sekunder, untuk latar terang" />
+      <SectionHeader title="Tombol" description="Primer dan sekunder, untuk latar terang" />
       <div class="flex flex-wrap gap-4 mb-8">
         <Button variant="primary" on="light">Primer Terang</Button>
         <Button variant="secondary" on="light">Sekunder Terang</Button>
@@ -123,7 +123,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
 
   <Section bg="navy-900">
     <Container>
-      <SectionHeader eyebrow="komponen" title="Tombol di Latar Gelap" dark />
+      <SectionHeader title="Tombol di Latar Gelap" dark />
       <div class="flex flex-wrap gap-4">
         <Button variant="primary" on="dark">Primer Gelap</Button>
         <Button variant="secondary" on="dark">Sekunder Gelap</Button>
@@ -136,7 +136,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== BADGES ======================== -->
   <Section bg="white">
     <Container>
-      <SectionHeader eyebrow="komponen" title="Badge Status" description="Palet HIMASTI, tanpa warna eksternal" />
+      <SectionHeader title="Badge Status" description="Palet HIMASTI, tanpa warna eksternal" />
       <div class="flex flex-wrap gap-3">
         <Badge variant="default">Default</Badge>
         <Badge variant="akan-datang">Akan Datang</Badge>
@@ -151,7 +151,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
     <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl py-20 lg:py-32 relative overflow-hidden">
       <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
       <Container>
-        <SectionHeader eyebrow="komponen" title="Statistik" dark />
+        <SectionHeader title="Statistik" dark />
         <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8">
           <Stat value="4" label="Divisi" dark />
           <Stat value="6" label="Program Kerja" dark />
@@ -165,7 +165,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <!-- ======================== CARDS ======================== -->
   <Section bg="mist">
     <Container>
-      <SectionHeader eyebrow="kartu" title="DivisiCard" />
+      <SectionHeader title="DivisiCard" />
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <DivisiCard
           nama="Kreasi & Inovasi"
@@ -198,7 +198,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
 
   <Section bg="white">
     <Container>
-      <SectionHeader eyebrow="kartu" title="ProkerCard" />
+      <SectionHeader title="ProkerCard" />
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <ProkerCard
           judul="Company Visit"
@@ -230,7 +230,7 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
 
   <Section bg="mist">
     <Container>
-      <SectionHeader eyebrow="kartu" title="PengurusCard" />
+      <SectionHeader title="PengurusCard" />
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         <PengurusCard
           nama="Adnan Syukur"
@@ -261,13 +261,11 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
   <Section bg="white">
     <Container>
       <SectionHeader
-        eyebrow="contoh"
         title="Section Header Center"
         description="Deskripsi opsional di bawah heading. Teks tetap terbaca dan proporsional."
         align="center"
       />
       <SectionHeader
-        eyebrow="contoh"
         title="Section Header Left"
         description="Varian rata kiri untuk halaman detail."
         align="left"
@@ -279,7 +277,6 @@ import PengurusCard from '../../components/ui/PengurusCard.astro';
     <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl py-20 lg:py-32 relative overflow-hidden">
       <Container>
         <SectionHeader
-          eyebrow="contoh"
           title="Section Header Dark (Island)"
           description="Tampilan header di atas pulau gelap."
           dark

@@ -39,7 +39,7 @@ const statusLabel: Record<string, string> = {
       <!-- Back Link -->
       <a
         href="/program-kerja"
-        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900"
+        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-navy-900"
       >
         <svg
           class="w-4 h-4"
@@ -60,7 +60,7 @@ const statusLabel: Record<string, string> = {
 
       <!-- Category and Status Badge -->
       <div class="flex flex-wrap items-center gap-3 mb-4">
-        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] capitalize">
+        <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] capitalize">
           {entry.data.kategori}
         </span>
         <Badge variant={entry.data.status}>
@@ -69,39 +69,49 @@ const statusLabel: Record<string, string> = {
       </div>
 
       <!-- Title -->
-      <h1 class="type-heading-secondary mb-4 max-w-4xl">
+      <h1 class="type-heading-secondary text-navy-900 mb-4 max-w-4xl">
         {entry.data.judul}
       </h1>
 
       <!-- Summary -->
-      <p class="text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
+      <p class="type-body-lead text-slate-700 max-w-3xl leading-relaxed">
         {entry.data.ringkasan}
       </p>
     </Container>
   </section>
 
-  <!-- Content & Metadata Section (white) -->
+  <!-- Content & Metadata Section -->
   <Section bg="white" class="py-16 lg:py-24">
     <Container>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         <!-- Main Content -->
-        <div class="lg:col-span-2">
-          <Prose>
-            <Content />
-          </Prose>
+        <div class="lg:col-span-8">
+          <div class="rounded-[24px] border border-mist-100 bg-white p-6 sm:p-10 shadow-sm">
+            <h2 class="type-heading-tertiary text-navy-900 mb-6">
+              Gambaran &amp; Pelaksanaan Kegiatan
+            </h2>
+            <Prose class="text-base sm:text-lg leading-relaxed text-slate-700">
+              <Content />
+            </Prose>
+          </div>
         </div>
 
         <!-- Sidebar Metadata -->
-        <aside class="w-full">
-          <div class="rounded-[20px] border border-mist-100 bg-white p-6 shadow-sm sticky top-28">
-            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
-              Informasi Proker
-            </span>
+        <aside class="w-full lg:col-span-4">
+          <div class="rounded-[24px] border border-mist-100 bg-mist-50 p-6 sm:p-7 shadow-sm sticky top-28 space-y-6">
+            <div>
+              <span class="inline-flex items-center rounded-full bg-white border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-2">
+                Rincian Program
+              </span>
+              <h3 class="font-heading text-lg font-medium text-navy-900">
+                Informasi Pelaksanaan
+              </h3>
+            </div>
 
             <dl class="space-y-4 text-sm divide-y divide-mist-100">
               <div class="pt-2">
-                <dt class="font-mono text-xs uppercase text-slate-500">Status</dt>
-                <dd class="mt-1">
+                <dt class="font-mono text-xs uppercase tracking-wider text-slate-500">Status</dt>
+                <dd class="mt-1.5">
                   <Badge variant={entry.data.status}>
                     {statusLabel[entry.data.status]}
                   </Badge>
@@ -109,22 +119,22 @@ const statusLabel: Record<string, string> = {
               </div>
 
               <div class="pt-4">
-                <dt class="font-mono text-xs uppercase text-slate-500">Kategori</dt>
+                <dt class="font-mono text-xs uppercase tracking-wider text-slate-500">Kategori</dt>
                 <dd class="mt-1 font-medium text-navy-900 capitalize">
                   {entry.data.kategori}
                 </dd>
               </div>
 
               <div class="pt-4">
-                <dt class="font-mono text-xs uppercase text-slate-500">Waktu</dt>
-                <dd class="mt-1 font-mono text-navy-900">
+                <dt class="font-mono text-xs uppercase tracking-wider text-slate-500">Waktu Pelaksanaan</dt>
+                <dd class="mt-1 font-mono text-navy-900 font-medium">
                   {entry.data.waktu}
                 </dd>
               </div>
 
               {entry.data.sasaran && (
                 <div class="pt-4">
-                  <dt class="font-mono text-xs uppercase text-slate-500">Sasaran</dt>
+                  <dt class="font-mono text-xs uppercase tracking-wider text-slate-500">Sasaran Peserta</dt>
                   <dd class="mt-1 text-slate-700 leading-relaxed">
                     {entry.data.sasaran}
                   </dd>
@@ -133,7 +143,7 @@ const statusLabel: Record<string, string> = {
 
               {entry.data.tujuan && (
                 <div class="pt-4">
-                  <dt class="font-mono text-xs uppercase text-slate-500">Tujuan</dt>
+                  <dt class="font-mono text-xs uppercase tracking-wider text-slate-500">Tujuan</dt>
                   <dd class="mt-1 text-slate-700 leading-relaxed">
                     {entry.data.tujuan}
                   </dd>
@@ -141,7 +151,7 @@ const statusLabel: Record<string, string> = {
               )}
 
               <div class="pt-4">
-                <dt class="font-mono text-xs uppercase text-slate-500">Periode</dt>
+                <dt class="font-mono text-xs uppercase tracking-wider text-slate-500">Periode</dt>
                 <dd class="mt-1 text-slate-700 font-mono">
                   {entry.data.periode}
                 </dd>

@@ -2,11 +2,12 @@
 /**
  * Beranda — HIMASTI Cyber University Homepage
  * Assembles all homepage sections in prescribed order:
- * Hero -> AboutPreview -> DivisiPreview -> [island] Pernyataan -> ProkerPreview -> [island] Timeline -> BeritaPreview -> [island] CTABand
+ * Hero -> StatsStrip -> AboutPreview -> DivisiPreview -> [island] Pernyataan -> ProkerPreview -> [island] Timeline -> BeritaPreview -> [island] CTABand
  * Never two dark islands back-to-back (design.md § 3.2).
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/sections/Hero.astro';
+import StatsStrip from '../components/sections/StatsStrip.astro';
 import AboutPreview from '../components/sections/AboutPreview.astro';
 import DivisiPreview from '../components/sections/DivisiPreview.astro';
 import ProkerPreview from '../components/sections/ProkerPreview.astro';
@@ -19,10 +20,11 @@ import Container from '../components/ui/Container.astro';
 ---
 
 <BaseLayout
-  title=""
-  description="Website resmi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University."
+  title="Beranda"
+  description="Website resmi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027."
 >
   <Hero />
+  <StatsStrip />
   <AboutPreview />
   <DivisiPreview />
 
@@ -33,12 +35,12 @@ import Container from '../components/ui/Container.astro';
   <ProkerPreview />
 
   <!-- Pulau gelap Timeline -->
-  <section class="py-4">
-    <Container>
+  <section class="px-2 lg:px-3 py-4">
     <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden py-20 lg:py-32">
       <div class="absolute inset-0 bg-dots-dark pointer-events-none" aria-hidden="true"></div>
       <Container>
         <SectionHeader
+          eyebrow="timeline"
           title="Roadmap 2026/2027"
           description="Jadwal pelaksanaan program kerja HIMASTI sepanjang periode kepengurusan 2026/2027."
           dark={true}
@@ -46,7 +48,6 @@ import Container from '../components/ui/Container.astro';
         <Timeline />
       </Container>
     </div>
-    </Container>
   </section>
 
   <!-- Berita on a light background separates the Timeline island from the CTA island -->

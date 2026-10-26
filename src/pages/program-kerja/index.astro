@@ -10,13 +10,12 @@ import Section from '../../components/ui/Section.astro';
 import ProkerCard from '../../components/ui/ProkerCard.astro';
 
 const allProker = await getCollection('proker');
-// Urutkan secara alfabet atau status
 const prokerList = allProker.sort((a, b) =>
   a.data.judul.localeCompare(b.data.judul)
 );
 
 const filterOptions = [
-  { label: 'Semua', value: 'all' },
+  { label: 'Semua Program', value: 'all' },
   { label: 'Kunjungan', value: 'kunjungan' },
   { label: 'Pelatihan', value: 'pelatihan' },
   { label: 'Kebersamaan', value: 'kebersamaan' },
@@ -29,42 +28,47 @@ const filterOptions = [
   description="Daftar program kerja Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University Periode 2026/2027."
 >
   <!-- Page Hero Header -->
-  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
+  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white border-b border-mist-100">
     <Container>
       <div class="max-w-3xl">
-        <h1 class="type-heading-primary">Program Kerja</h1>
-        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
-          Rangkaian inisiatif dan kegiatan strategis HIMASTI Cyber University Periode 2026/2027 untuk pengembangan wawasan, keahlian, dan jejaring mahasiswa.
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
+          Inisiatif Strategis 2026/2027
+        </span>
+        <h1 class="type-heading-primary text-navy-900">Program Kerja</h1>
+        <p class="mt-4 type-body-lead text-slate-700 max-w-2xl leading-relaxed">
+          Rangkaian inisiatif dan kegiatan strategis HIMASTI Cyber University untuk mengakselerasi wawasan industri, kompetensi teknis, serta jejaring kolaborasi mahasiswa.
         </p>
       </div>
     </Container>
   </section>
 
-  <!-- Section Program Kerja (white) -->
-  <Section bg="white" class="py-20 lg:py-32">
+  <!-- Section Program Kerja -->
+  <Section bg="white" class="py-16 lg:py-24">
     <Container>
-      <!-- Filter Buttons -->
-      <div class="flex flex-wrap items-center gap-2 mb-8" role="group" aria-label="Filter kategori program kerja">
-        {filterOptions.map((opt, idx) => (
-          <button
-            type="button"
-            data-filter={opt.value}
-            aria-pressed={idx === 0 ? 'true' : 'false'}
-            class:list={[
-              'filter-btn inline-flex items-center justify-center min-h-[44px] px-5 py-2 rounded-full text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 cursor-pointer',
-              idx === 0
-                ? 'bg-navy-900 text-white font-medium'
-                : 'bg-mist-50 text-slate-700 hover:bg-mist-100',
-            ]}
-          >
-            {opt.label}
-          </button>
-        ))}
+      <!-- Filter Bar -->
+      <div class="mb-10 sm:mb-12">
+        <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-full bg-mist-50 border border-mist-100 max-w-fit" role="group" aria-label="Filter kategori program kerja">
+          {filterOptions.map((opt, idx) => (
+            <button
+              type="button"
+              data-filter={opt.value}
+              aria-pressed={idx === 0 ? 'true' : 'false'}
+              class:list={[
+                'filter-btn inline-flex items-center justify-center min-h-[40px] px-5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-navy-900',
+                idx === 0
+                  ? 'bg-navy-900 text-white shadow-sm font-medium'
+                  : 'text-slate-700 hover:text-navy-900 hover:bg-white',
+              ]}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <!-- Proker Grid -->
       {prokerList.length > 0 ? (
-        <div id="proker-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="proker-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {prokerList.map((proker) => (
             <div
               class="proker-item transition-all duration-150"
@@ -82,18 +86,19 @@ const filterOptions = [
           ))}
         </div>
       ) : (
-        <p class="text-center text-slate-700 italic py-8">
+        <p class="text-center text-slate-700 italic py-12">
           Belum ada program kerja yang terdaftar.
         </p>
       )}
 
       <!-- Empty State Filter Notice -->
-      <p
+      <div
         id="empty-filter-message"
-        class="hidden text-center text-slate-700 italic py-12"
+        class="hidden text-center py-16 px-4 rounded-[20px] border border-mist-100 bg-mist-50 max-w-md mx-auto"
       >
-        Tidak ada program kerja dalam kategori ini.
-      </p>
+        <p class="text-slate-700 font-medium">Tidak ada program kerja dalam kategori ini.</p>
+        <p class="text-xs text-slate-500 mt-1">Silakan pilih kategori program lainnya di atas.</p>
+      </div>
     </Container>
   </Section>
 </BaseLayout>
@@ -115,11 +120,11 @@ const filterOptions = [
           const isActive = b === btn;
           b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
           if (isActive) {
-            b.classList.add('bg-navy-900', 'text-white', 'font-medium');
-            b.classList.remove('bg-mist-50', 'text-slate-700');
+            b.classList.add('bg-navy-900', 'text-white', 'shadow-sm');
+            b.classList.remove('text-slate-700', 'hover:bg-white');
           } else {
-            b.classList.remove('bg-navy-900', 'text-white', 'font-medium');
-            b.classList.add('bg-mist-50', 'text-slate-700');
+            b.classList.remove('bg-navy-900', 'text-white', 'shadow-sm');
+            b.classList.add('text-slate-700', 'hover:bg-white');
           }
         });
 

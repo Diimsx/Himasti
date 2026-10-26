@@ -1,162 +1,302 @@
 ---
 /**
  * Kontak — Halaman kontak resmi HIMASTI.
+ * Menyediakan form pengiriman pesan, tautan media sosial resmi (Instagram, LinkedIn),
+ * serta peta interaktif lokasi Cyber University.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import Section from '../components/ui/Section.astro';
+import SocialIcon from '../components/ui/SocialIcon.astro';
+import settings from '../content/settings.json';
+
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.alamat)}`;
 ---
 
 <BaseLayout
   title="Kontak"
-  description="Hubungi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University dan temukan kanal resmi kami."
+  description="Hubungi Himpunan Mahasiswa Sistem & Teknologi Informasi (HIMASTI) Cyber University melalui formulir pesan, kanal sosial resmi, dan peta lokasi kampus."
 >
   <!-- Page Hero Header -->
-  <section class="pt-32 lg:pt-40 pb-16 lg:pb-20 bg-white">
+  <section class="pt-32 lg:pt-40 pb-12 lg:pb-16 bg-white border-b border-mist-100">
     <Container>
       <div class="max-w-3xl">
-        <h1 class="type-heading-primary">Hubungi Kami</h1>
-        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl leading-relaxed">
-          Punya pertanyaan seputar kegiatan atau kolaborasi dengan HIMASTI Cyber University? Jangan ragu untuk menghubungi kami.
+        <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
+          Hubungi Kami
+        </span>
+        <h1 class="type-heading-primary text-navy-900">Kontak &amp; Lokasi</h1>
+        <p class="mt-4 type-body-lead text-slate-700 max-w-2xl leading-relaxed">
+          Punya pertanyaan seputar kegiatan, inisiatif kemitraan, atau kolaborasi dengan HIMASTI Cyber University? Silakan kirimkan pesan melalui formulir atau kanal resmi kami di bawah ini.
         </p>
       </div>
     </Container>
   </section>
 
-  <!-- Section 1: Informasi Kontak (white) -->
-  <Section bg="white" class="py-20 lg:py-32">
+  <!-- Section Utama: Form Kontak + Maps & Kontak HIMASTI -->
+  <Section bg="white" class="py-14 lg:py-24">
     <Container>
-      <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
-        <h2 class="type-heading-secondary">
-          <span class="text-navy-900">Saluran Komunikasi</span> <span class="text-slate-700">Resmi</span>
-        </h2>
-        <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
-          Hubungi kami melalui kanal resmi HIMASTI Cyber University di bawah ini.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-        <!-- Email Card -->
-        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-lg bg-mist-100 text-slate-700 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-              </svg>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <!-- Kolom Kiri (lg:col-span-7): Form Kontak Saja -->
+        <div class="lg:col-span-7">
+          <div class="rounded-[24px] border border-mist-100 bg-white p-6 sm:p-10 shadow-sm">
+            <div class="mb-8">
+              <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-3">
+                Formulir Komunikasi
+              </span>
+              <h2 class="type-heading-secondary text-navy-900">
+                Kirimkan Pesan
+              </h2>
+              <p class="mt-2 text-sm sm:text-base text-slate-700 leading-relaxed">
+                Isi formulir di bawah ini. Pesan Anda akan terkirim langsung ke kotak surat resmi kepengurusan HIMASTI.
+              </p>
             </div>
-            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
-              Email
-            </span>
-            <h3 class="font-heading text-lg sm:text-xl font-medium text-navy-900 mb-2">
-              Email Resmi
-            </h3>
-            <p class="text-sm text-slate-700 leading-relaxed mb-4">
-              Kirimkan surat atau permohonan kemitraan melalui surat elektronik resmi.
-            </p>
+
+            <form id="contact-form" class="space-y-5">
+              <div>
+                <label for="name" class="block text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">
+                  Nama Lengkap <span class="text-rose-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="Contoh: Budi Pratama"
+                  class="w-full rounded-[14px] border border-mist-100 bg-white px-4 py-3 text-sm text-navy-900 placeholder:text-slate-400 focus:border-navy-900 focus:outline-none focus:ring-1 focus:ring-navy-900 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label for="email" class="block text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">
+                  Alamat Email <span class="text-rose-600">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="nama@email.com"
+                  class="w-full rounded-[14px] border border-mist-100 bg-white px-4 py-3 text-sm text-navy-900 placeholder:text-slate-400 focus:border-navy-900 focus:outline-none focus:ring-1 focus:ring-navy-900 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label for="subject" class="block text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">
+                  Subjek / Keperluan <span class="text-rose-600">*</span>
+                </label>
+                <select
+                  id="subject"
+                  name="subject"
+                  required
+                  class="w-full rounded-[14px] border border-mist-100 bg-white px-4 py-3 text-sm text-navy-900 focus:border-navy-900 focus:outline-none focus:ring-1 focus:ring-navy-900 transition-colors"
+                >
+                  <option value="" disabled selected>Pilih keperluan komunikasi...</option>
+                  <option value="Kolaborasi / Kemitraan">Kolaborasi / Kemitraan Kegiatan</option>
+                  <option value="Program Kerja">Pertanyaan Seputar Program Kerja</option>
+                  <option value="Mahasiswa STI">Pertanyaan Mahasiswa STI</option>
+                  <option value="Lainnya">Keperluan Lainnya</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="message" class="block text-xs font-mono uppercase tracking-wider text-slate-500 mb-2">
+                  Isi Pesan <span class="text-rose-600">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  required
+                  placeholder="Tuliskan pesan, rincian pertanyaan, atau usulan kolaborasi Anda secara jelas..."
+                  class="w-full rounded-[14px] border border-mist-100 bg-white px-4 py-3 text-sm text-navy-900 placeholder:text-slate-400 focus:border-navy-900 focus:outline-none focus:ring-1 focus:ring-navy-900 transition-colors resize-y"
+                ></textarea>
+              </div>
+
+              <div class="pt-2">
+                <button
+                  type="submit"
+                  id="submit-btn"
+                  class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-navy-900 text-white text-sm font-medium hover:bg-navy-800 active:scale-[0.98] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 cursor-pointer shadow-sm"
+                >
+                  <span>Kirim Pesan Sekarang</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Feedback Notice -->
+              <div id="form-feedback" class="hidden mt-4 p-4 rounded-[14px] bg-mist-50 border border-mist-100 text-sm text-navy-900">
+                <p class="font-medium">Membuka aplikasi surel Anda...</p>
+                <p class="text-xs text-slate-500 mt-1">Jika klien surel tidak terbuka secara otomatis, Anda dapat mengirim pesan langsung ke <a href={`mailto:${settings.email}`} class="underline font-mono">{settings.email}</a>.</p>
+              </div>
+            </form>
           </div>
-          <a
-            href="mailto:himasti@cyber.ac.id"
-            class="text-sm font-semibold text-navy-900 underline hover:text-navy-800 break-all"
-          >
-            himasti@cyber.ac.id
-          </a>
         </div>
 
-        <!-- Alamat Card -->
-        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-lg bg-mist-100 text-slate-700 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-              </svg>
-            </div>
-            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
-              Sekretariat
+        <!-- Kolom Kanan (lg:col-span-5): Kontak HIMASTI (IG, LinkedIn) & Maps Lokasi -->
+        <div class="lg:col-span-5 space-y-6">
+          <!-- Card Kontak HIMASTI (Instagram, LinkedIn, Email) -->
+          <div class="rounded-[24px] border border-mist-100 bg-white p-6 sm:p-7 shadow-sm">
+            <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-4">
+              Kanal Resmi
             </span>
-            <h3 class="font-heading text-lg sm:text-xl font-medium text-navy-900 mb-2">
-              Kampus &amp; Lokasi
+            <h3 class="font-heading text-xl font-medium text-navy-900 mb-2">
+              Kontak HIMASTI
             </h3>
-            <p class="text-sm text-slate-700 leading-relaxed mb-4">
-              Cyber University<br />
-              Jl. TB Simatupang No. 6, RT.7/RW.5, Tanjung Barat, Jagakarsa, Jakarta Selatan
+            <p class="text-sm text-slate-700 leading-relaxed mb-6">
+              Ikuti kabar terbaru dan jalin komunikasi dengan kami melalui kanal jejaring sosial resmi:
             </p>
-          </div>
-          <a
-            href="https://maps.google.com/?q=Cyber+University+Jakarta"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 text-sm font-semibold text-navy-900 underline hover:text-navy-800"
-          >
-            Buka di Google Maps
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-        </div>
 
-        <!-- Media Sosial Card -->
-        <div class="rounded-[20px] border border-mist-100 bg-white p-6 sm:p-8 shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md hover:border-slate-500 flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-lg bg-mist-100 text-slate-700 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
-              </svg>
+            <div class="space-y-3">
+              <!-- Instagram -->
+              {settings.instagram && (
+                <a
+                  href={settings.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group flex items-center justify-between p-3.5 rounded-[16px] bg-mist-50 border border-mist-100 hover:border-slate-400 hover:bg-white transition-all"
+                  aria-label="Instagram HIMASTI Cyber University"
+                >
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
+                      <SocialIcon name="instagram" class="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p class="text-xs font-mono uppercase tracking-wider text-slate-500">Instagram</p>
+                      <p class="text-sm font-medium text-navy-900 group-hover:underline">@himasticyberuniv</p>
+                    </div>
+                  </div>
+                  <svg class="w-4 h-4 text-slate-500 group-hover:translate-x-1 group-hover:text-navy-900 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+
+              <!-- LinkedIn -->
+              {settings.linkedin && (
+                <a
+                  href={settings.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group flex items-center justify-between p-3.5 rounded-[16px] bg-mist-50 border border-mist-100 hover:border-slate-400 hover:bg-white transition-all"
+                  aria-label="LinkedIn HIMASTI Cyber University"
+                >
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
+                      <SocialIcon name="linkedin" class="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p class="text-xs font-mono uppercase tracking-wider text-slate-500">LinkedIn</p>
+                      <p class="text-sm font-medium text-navy-900 group-hover:underline">HIMASTI Cyber University</p>
+                    </div>
+                  </div>
+                  <svg class="w-4 h-4 text-slate-500 group-hover:translate-x-1 group-hover:text-navy-900 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+
+              <!-- Email -->
+              {settings.email && (
+                <a
+                  href={`mailto:${settings.email}`}
+                  class="group flex items-center justify-between p-3.5 rounded-[16px] bg-mist-50 border border-mist-100 hover:border-slate-400 hover:bg-white transition-all"
+                  aria-label="Email Resmi HIMASTI"
+                >
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center shrink-0">
+                      <SocialIcon name="email" class="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p class="text-xs font-mono uppercase tracking-wider text-slate-500">Email Resmi</p>
+                      <p class="text-sm font-medium text-navy-900 group-hover:underline">{settings.email}</p>
+                    </div>
+                  </div>
+                  <svg class="w-4 h-4 text-slate-500 group-hover:translate-x-1 group-hover:text-navy-900 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              )}
             </div>
-            <span class="inline-flex items-center rounded-full border border-gray-300 text-slate-700 px-2.5 py-0.5 text-xs font-medium tracking-[0.02em] mb-3">
-              Sosial Media
-            </span>
-            <h3 class="font-heading text-lg sm:text-xl font-medium text-navy-900 mb-2">
-              Kanal Sosial Media
-            </h3>
-            <p class="text-sm text-slate-700 leading-relaxed mb-4">
-              Ikuti kabar terbaru dan liputan kegiatan HIMASTI di jejaring sosial kami.
-            </p>
           </div>
-          <ul class="space-y-2 text-sm">
-            <li>
+
+          <!-- Card Maps Lokasi Cyber University -->
+          <div class="rounded-[24px] border border-mist-100 bg-white p-6 sm:p-7 shadow-sm">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em]">
+                Lokasi Kampus
+              </span>
               <a
-                href="https://instagram.com"
+                href={mapsHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-navy-900 underline hover:text-navy-800 inline-flex items-center gap-1"
+                class="text-xs font-medium text-navy-900 hover:underline inline-flex items-center gap-1"
               >
-                Instagram
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                Buka di Maps
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
-            </li>
-            <li>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-navy-900 underline hover:text-navy-800 inline-flex items-center gap-1"
-              >
-                LinkedIn
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-navy-900 underline hover:text-navy-800 inline-flex items-center gap-1"
-              >
-                GitHub
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-            </li>
-          </ul>
+            </div>
+
+            <h3 class="font-heading text-lg font-medium text-navy-900 mb-2">
+              Cyber University
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-4">
+              {settings.alamat}
+            </p>
+
+            <!-- Iframe Google Maps -->
+            <div class="w-full h-64 rounded-[16px] overflow-hidden border border-mist-100 bg-mist-100">
+              <iframe
+                title="Peta Lokasi Kampus Cyber University"
+                src="https://maps.google.com/maps?q=Cyber+University+Jl+TB+Simatupang+No+6+Jakarta+Selatan&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </Container>
   </Section>
-
 </BaseLayout>
+
+<script>
+  function setupContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const feedback = document.getElementById('form-feedback');
+
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = (document.getElementById('name') as HTMLInputElement)?.value.trim() ?? '';
+      const email = (document.getElementById('email') as HTMLInputElement)?.value.trim() ?? '';
+      const subject = (document.getElementById('subject') as HTMLSelectElement)?.value ?? '';
+      const message = (document.getElementById('message') as HTMLTextAreaElement)?.value.trim() ?? '';
+
+      const recipient = 'himasti@cyber-univ.ac.id';
+      const mailtoSubject = encodeURIComponent(`[Website HIMASTI] ${subject} - ${name}`);
+      const mailtoBody = encodeURIComponent(
+        `Nama: ${name}\nEmail: ${email}\nKeperluan: ${subject}\n\nPesan:\n${message}`
+      );
+
+      if (feedback) {
+        feedback.classList.remove('hidden');
+      }
+
+      // Open user's email client with pre-filled content
+      window.location.href = `mailto:${recipient}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    });
+  }
+
+  setupContactForm();
+  document.addEventListener('astro:page-load', setupContactForm);
+</script>

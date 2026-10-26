@@ -1,0 +1,56 @@
+---
+/**
+ * WarpHeading — judul yang hurufnya "bergelombang" mengikuti kecepatan scroll, lalu kembali rata saat diam.
+ * Teks dipecah per huruf saat build (tanpa JS). Gerakannya dikendalikan CSS lewat variabel `--v`
+ * (−1…1) yang ditulis oleh src/lib/warp.ts; lihat blok "Gerak berbasis kecepatan scroll" di global.css.
+ *
+ * Aksesibilitas: pembaca layar membaca `aria-label` (satu kali, utuh); potongan huruf `aria-hidden`.
+ * Tanpa JS atau dengan reduced motion judul tampil sebagai teks biasa.
+ */
+type Tone = 'primary' | 'secondary' | 'inverse' | 'inverse-dim';
+
+interface Part {
+  text: string;
+  tone?: Tone;
+}
+
+interface Props {
+  parts: Part[];
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { parts, as: Tag = 'h2', class: className = '' } = Astro.props;
+
+const tones: Record<Tone, string> = {
+  primary: 'text-navy-900',
+  secondary: 'text-slate-700',
+  inverse: 'text-white',
+  'inverse-dim': 'text-gray-300',
+};
+
+const label = parts.map((p) => p.text).join(' ');
+
+let index = 0;
+const words = parts.flatMap((part) =>
+  part.text
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => ({
+      tone: tones[part.tone ?? 'primary'],
+      chars: [...word].map((ch) => ({ ch, i: index++ })),
+    }))
+);
+---
+
+<Tag class={className} aria-label={label} data-warp>
+  <span aria-hidden="true">
+    {words.map((word, wi) => (
+      <>
+        <span class:list={['inline-block whitespace-nowrap', word.tone]}>
+          {word.chars.map((c) => <span class="warp-char" style={`--i:${c.i}`}>{c.ch}</span>)}
+        </span>{wi < words.length - 1 ? ' ' : ''}
+      </>
+    ))}
+  </span>
+</Tag>
