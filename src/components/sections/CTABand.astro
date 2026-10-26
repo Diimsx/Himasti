@@ -16,13 +16,13 @@ const { class: className = '' } = Astro.props;
 <section class:list={['py-4', className]}>
   <!-- Lebar pulau = lebar penuh Container, sama dengan Program Kerja dan Divisi -->
   <Container>
-  <div class="surface-ink rounded-[32px] lg:rounded-[40px] shadow-xl relative overflow-hidden">
+  <div class="surface-ink rounded-[28px] lg:rounded-[36px] shadow-xl relative overflow-hidden">
     <!-- Sheen overlay (§ 3.3, 8.6) -->
     <div class="absolute inset-0 bg-sheen pointer-events-none" aria-hidden="true"></div>
     <!-- Ink glow corner highlight (§ 3.3) -->
     <div class="absolute inset-0 ink-glow pointer-events-none" aria-hidden="true"></div>
 
-    <Container class="relative z-10 py-20 lg:py-32">
+    <Container class="relative z-10 py-12 lg:py-20">
       <div class="max-w-2xl mx-auto text-center">
         <h2 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-medium text-white text-center leading-tight">
           Ada Pertanyaan atau Ingin Berkolaborasi?

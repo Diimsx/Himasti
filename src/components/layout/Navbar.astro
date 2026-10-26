@@ -21,8 +21,6 @@ const menuLinks: NavLink[] = [
   { label: 'Struktur', href: '/struktur' },
   { label: 'Program Kerja', href: '/program-kerja' },
   { label: 'Berita', href: '/berita' },
-  { label: 'Galeri', href: '/galeri' },
-  { label: 'Prestasi', href: '/prestasi' },
   { label: 'Kontak', href: '/kontak' },
 ];
 
@@ -90,7 +88,7 @@ const isCurrent = (href: string) =>
       </svg>
     </div>
 
-    <div class="flex items-center justify-end px-8 sm:px-14 pt-6 pb-4 menu-item" style="--i:0">
+    <div class="flex items-center justify-end px-6 sm:px-7 pt-5 pb-3 menu-item" style="--i:0">
       <button
         type="button"
         id="menu-close"
@@ -126,7 +124,7 @@ const isCurrent = (href: string) =>
       </ul>
     </div>
 
-    <div class="px-8 sm:px-14 py-6 border-t border-white/10 menu-item flex items-center justify-between gap-4" style={`--i:${menuLinks.length}`}>
+    <div class="px-6 sm:px-7 py-5 border-t border-white/10 menu-item flex items-center justify-between gap-4" style={`--i:${menuLinks.length}`}>
       <ul class="flex items-center gap-1" role="list">
         {contactLinks.map(({ name, label, href }) => (
           <li>

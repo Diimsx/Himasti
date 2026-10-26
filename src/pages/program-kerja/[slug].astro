@@ -34,12 +34,12 @@ const statusLabel: Record<string, string> = {
   description={entry.data.ringkasan}
 >
   <!-- Page Hero Header -->
-  <section class="pt-32 lg:pt-40 pb-12 lg:pb-16 bg-white border-b border-mist-100">
+  <section class="pt-24 sm:pt-28 lg:pt-32 pb-8 sm:pb-10 lg:pb-12 bg-white border-b border-mist-100">
     <Container>
       <!-- Back Link -->
       <a
         href="/program-kerja"
-        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-6 focus-visible:outline-2 focus-visible:outline-navy-900"
+        class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-slate-500 hover:text-navy-900 transition-colors mb-5 focus-visible:outline-2 focus-visible:outline-navy-900"
       >
         <svg
           class="w-4 h-4"
@@ -59,8 +59,8 @@ const statusLabel: Record<string, string> = {
       </a>
 
       <!-- Category and Status Badge -->
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] capitalize">
+      <div class="flex flex-wrap items-center gap-2.5 mb-3">
+        <span class="inline-flex items-center rounded-full bg-mist-50 border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium capitalize">
           {entry.data.kategori}
         </span>
         <Badge variant={entry.data.status}>
@@ -69,7 +69,7 @@ const statusLabel: Record<string, string> = {
       </div>
 
       <!-- Title -->
-      <h1 class="type-heading-secondary text-navy-900 mb-4 max-w-4xl">
+      <h1 class="type-heading-secondary text-navy-900 mb-3 max-w-4xl">
         {entry.data.judul}
       </h1>
 
@@ -81,16 +81,16 @@ const statusLabel: Record<string, string> = {
   </section>
 
   <!-- Content & Metadata Section -->
-  <Section bg="white" class="py-16 lg:py-24">
+  <Section bg="white" class="py-10 sm:py-12 lg:py-16">
     <Container>
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         <!-- Main Content -->
         <div class="lg:col-span-8">
-          <div class="rounded-[24px] border border-mist-100 bg-white p-6 sm:p-10 shadow-sm">
-            <h2 class="type-heading-tertiary text-navy-900 mb-6">
+          <div class="rounded-[22px] border border-mist-100 bg-white p-5 sm:p-8 shadow-sm">
+            <h2 class="type-heading-tertiary text-navy-900 mb-5">
               Gambaran &amp; Pelaksanaan Kegiatan
             </h2>
-            <Prose class="text-base sm:text-lg leading-relaxed text-slate-700">
+            <Prose class="text-sm sm:text-base leading-relaxed text-slate-700">
               <Content />
             </Prose>
           </div>
@@ -98,12 +98,9 @@ const statusLabel: Record<string, string> = {
 
         <!-- Sidebar Metadata -->
         <aside class="w-full lg:col-span-4">
-          <div class="rounded-[24px] border border-mist-100 bg-mist-50 p-6 sm:p-7 shadow-sm sticky top-28 space-y-6">
+          <div class="rounded-[22px] border border-mist-100 bg-mist-50 p-5 sm:p-6 shadow-sm sticky top-28 space-y-5">
             <div>
-              <span class="inline-flex items-center rounded-full bg-white border border-mist-100 text-slate-700 px-3 py-1 text-xs font-medium tracking-[0.02em] mb-2">
-                Rincian Program
-              </span>
-              <h3 class="font-heading text-lg font-medium text-navy-900">
+              <h3 class="font-heading text-base sm:text-lg font-medium text-navy-900">
                 Informasi Pelaksanaan
               </h3>
             </div>
